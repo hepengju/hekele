@@ -1,8 +1,10 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+
+#20191219 hepengju 由于web项目也放在此git中, 所以以下三行注释
+#!.mvn/wrapper/maven-wrapper.jar
+#!**/src/main/**
+#!**/src/test/**
 
 ### STS ###
 .apt_generated

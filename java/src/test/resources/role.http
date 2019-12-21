@@ -1,0 +1,17 @@
+### 查询所有
+GET {{host}}/admin/role/list?pageNum=1&pageSize=5&roleCodeOrName=管理
+Accept: application/json
+
+### 新增角色
+POST {{host}}/admin/role/add
+Content-Type: application/x-www-form-urlencoded
+
+roleCode=admin&roleName=超级管理员&roleType=N&roleDesc=超级管理员角色
+
+### 编辑角色
+POST {{host}}/admin/role/edit
+Content-Type: application/x-www-form-urlencoded
+
+roleId=47663d074f8347ea03d4948daf012367&roleCode=admin&roleName=超级管理员&roleType=N&roleDesc=超级管理员角色,编辑修改测试
+
+###

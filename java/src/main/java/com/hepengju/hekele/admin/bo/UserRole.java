@@ -1,9 +1,9 @@
 package com.hepengju.hekele.admin.bo;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hepengju.hekele.base.constant.HeConst;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Auto Created By ExcelVBA
  *
- * @author 何鹏举 2019-12-21
+ * @author 何鹏举 2019-12-22
  */
 @Data
 @ApiModel("用户角色表")
@@ -32,7 +32,7 @@ public class UserRole {
     private String roleId;
 
     @ApiModelProperty("创建时间")
-    @JSONField(format = HeConst.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = HeConst.DATE_TIME_FORMAT, timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty("创建人员账号")

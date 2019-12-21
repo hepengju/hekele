@@ -1,10 +1,8 @@
 package com.hepengju.hekele.admin.bo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hepengju.hekele.base.annotation.Code;
 import com.hepengju.hekele.base.constant.HeConst;
 import io.swagger.annotations.ApiModel;
@@ -16,7 +14,7 @@ import java.util.Date;
 /**
  * Auto Created By ExcelVBA
  *
- * @author 何鹏举 2019-12-21
+ * @author 何鹏举 2019-12-22
  */
 @Data
 @ApiModel("菜单表")
@@ -54,7 +52,7 @@ public class Menu {
     private Integer menuSort;
 
     @ApiModelProperty("创建时间")
-    @JSONField(format = HeConst.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = HeConst.DATE_TIME_FORMAT, timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty("创建人员账号")
@@ -64,7 +62,7 @@ public class Menu {
     private String createUserName;
 
     @ApiModelProperty("更新时间")
-    @JSONField(format = HeConst.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = HeConst.DATE_TIME_FORMAT, timezone = "GMT+8")
     private Date updateTime;
 
     @ApiModelProperty("更新人员账号")
@@ -77,7 +75,7 @@ public class Menu {
     @ApiModelProperty("启用状态(0-停用, 1-启用)")
     private String enableFlag;
 
-    @TableLogic  @JSONField(serialize=false)
+    @TableLogic  @JsonIgnore
     @ApiModelProperty("删除标志(0-已删除,1-未删除)")
     private String deleteFlag;
 

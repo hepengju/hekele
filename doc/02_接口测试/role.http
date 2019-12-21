@@ -1,6 +1,0 @@
-GET {{host}}/admin/role/list
-Accept: application/json
-
-### GET request with environment variables
-GET {{host}}/get?show_env={{show_env}}
-Accept: application/json

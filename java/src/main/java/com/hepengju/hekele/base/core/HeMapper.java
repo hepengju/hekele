@@ -15,10 +15,11 @@ import java.util.Date;
 public interface HeMapper<T> extends BaseMapper<T> {
 
     // 扩展MybatisPlus的方法: 启用,禁用
-    int enableById(Serializable id);
-    int enableBatchByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
-    int disableById(Serializable id);
-    int disableBatchByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
+    long enableById(Serializable id);
+    long enableBatchByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
+    long disableById(Serializable id);
+    long disableBatchByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
+    long countByColumnValue(@Param("columnName") String columnName, @Param("columnValue") String columnValue, @Param("id") Serializable id);
 
     // 新增: 带创建时间和用户
     default Integer addWithCreate(T entity) {

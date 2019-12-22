@@ -24,20 +24,11 @@ public class RoleService extends HeService<RoleMapper, Role> {
     @Autowired private UserRoleMapper userRoleMapper;
     @Autowired private RoleMenuMapper roleMenuMapper;
 
-    // 新增, 编辑需要保证角色代码的唯一性
-    public R addRole(Role role) {
-        return this.addR(role);
-    }
-
-    public R editRole(Role role) {
-        return this.editR(role);
-    }
-
     /**
      * 删除角色, 同时删除角色菜单表记录
      */
     @Transactional
-    public R deleteRole(List<Integer> idList) {
+    public R deleteRole(List<String> idList) {
         boolean success = this.removeByIds(idList);
         if (success) {
             roleMenuMapper.delete(new UpdateWrapper<RoleMenu>().lambda().in(RoleMenu::getRoleId, idList));

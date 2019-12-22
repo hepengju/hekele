@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "角色管理")
@@ -37,23 +38,39 @@ public class RoleController {
 
     @ApiOperation("新增角色")
     @PostMapping("add")
-    public R add(Role role) { return roleService.addRole(role); }
+    public R add(@Valid Role role) {
+        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
+        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
+        return roleService.addR(role);
+    }
+
+    @ApiOperation("新增角色")
+    @PostMapping("add2")
+    public R add2(@Valid @RequestBody Role role) {
+        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
+        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
+        return roleService.addR(role);
+    }
 
     @ApiOperation("编辑角色")
     @PostMapping("edit")
-    public R edit(Role role) { return roleService.editRole(role); }
+    public R edit(Role role) {
+        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
+        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
+        return roleService.editR(role);
+    }
 
     @ApiOperation("删除角色")
     @PostMapping("delete")
-    public R delete(@RequestParam("id") List<Integer> idList) { return roleService.deleteRole(idList); }
+    public R delete(@RequestParam("roleId") List<String> idList) { return roleService.deleteRole(idList); }
 
     @ApiOperation("启用角色")
     @PostMapping("enable")
-    public R enable(@RequestParam("id") List<Integer> idList) { return roleService.enableBatchByIds(idList); }
+    public R enable(@RequestParam("roleId") List<String> idList) { return roleService.enableBatchByIds(idList); }
 
     @ApiOperation("禁用角色")
     @PostMapping("disable")
-    public R disable(@RequestParam("id") List<Integer> idList) { return roleService.deleteRole(idList); }
+    public R disable(@RequestParam("roleId") List<String> idList) { return roleService.deleteRole(idList); }
 
     @ApiOperation("根据主键查询")
     @GetMapping("getById")

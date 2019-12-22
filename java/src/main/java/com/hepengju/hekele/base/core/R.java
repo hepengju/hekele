@@ -32,7 +32,7 @@ import static java.util.Arrays.asList;
 @Data @Accessors(chain = true)
 public class R<T> {
 
-    private String code;     // 代码
+    private int    code;     // 代码
     private String message;  // 消息
     private Object data;     // 数据
     private Page   page;     // 分页
@@ -48,8 +48,8 @@ public class R<T> {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // 提供静态的"返回成功"和"返回错误"方法 (由于微服务的内部调用, 需要json的反序列化, 所以不能私有化构造函数)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static R ok()               { return new R().setCode("0" ).setMessage("")      ; }
-    public static R err(String message){ return new R().setCode("-1").setMessage(message) ; }
+    public static R ok()               { return new R().setCode(0 ).setMessage("")      ; }
+    public static R err(String message){ return new R().setCode(-1).setMessage(message) ; }
 
     public T    getData(){ return (T) data; }
     public R<T> setData(T data){this.data = data; return this;}

@@ -1,4 +1,4 @@
-package com.hepengju.hekele.base.core;
+package com.hepengju.hekele.base.core.exception;
 
 import lombok.Data;
 

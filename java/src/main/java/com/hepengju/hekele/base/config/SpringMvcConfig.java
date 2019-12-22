@@ -1,6 +1,7 @@
 package com.hepengju.hekele.base.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
@@ -8,6 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  */
 @Configuration
 public class SpringMvcConfig extends WebMvcConfigurationSupport {
+
+    /**
+     * SpringBoot中访问doc.html报404的解决办法
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
     /**
      * fastjson提高 @RestController @ResponseBody @RequestBody 注解的 JSON序列化速度

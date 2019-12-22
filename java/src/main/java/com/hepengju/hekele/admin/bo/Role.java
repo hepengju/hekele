@@ -8,7 +8,9 @@ import com.hepengju.hekele.base.constant.HeConst;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -17,27 +19,23 @@ import java.util.Date;
  * @author 何鹏举 2019-12-21
  */
 @Data
-@ApiModel("角色表")
+@ApiModel("角色")
 @TableName("Z10_ROLE")
 public class Role {
 
-    // 查询条件
-    @TableField(exist = false)
-    @ApiModelProperty("角色代码或名称")
-    private String roleCodeOrName;
-
-    // ---------------------------------------
     @TableId(type = IdType.ASSIGN_UUID)
     @ApiModelProperty("角色主键")
     private String roleId;
 
+    @NotBlank @Length(max = 64)
     @ApiModelProperty("角色代码")
     private String roleCode;
 
+    @NotBlank @Length(max = 64)
     @ApiModelProperty("角色名称")
     private String roleName;
 
-    @Code
+    @Code @Length(min = 1, max = 1)
     @ApiModelProperty("角色类型(N-正常, P-职位)")
     private String roleType;
 
@@ -72,4 +70,9 @@ public class Role {
     @ApiModelProperty("删除标志(0-已删除,1-未删除)")
     private String deleteFlag;
 
+
+    // 查询条件
+    @TableField(exist = false)
+    @ApiModelProperty("角色代码或名称")
+    private String roleCodeOrName;
 }

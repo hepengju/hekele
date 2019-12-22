@@ -4,6 +4,8 @@ import lombok.Data;
 
 /**
  * 自定义异常
+ *
+ * @author he_pe 2019-12-23
  */
 @Data
 public class HeException extends RuntimeException {

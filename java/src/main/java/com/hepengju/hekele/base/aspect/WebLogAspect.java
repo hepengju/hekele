@@ -40,7 +40,7 @@ public class WebLogAspect {
 
     // 切入点: Controller的所有public方法
     @Pointcut("(  execution(public * com.hepengju.hekele..controller.*.*(..)) ) " +
-            " && !@annotation(com.chengtay.common.log.NoWebLog)                 ")
+            " && !@annotation(com.hepengju.hekele.base.annotation.WebLogNull)   ")
     public void logPointCut(){}
 
     // 环绕通知: 整个方法try..catch..起来, 不允许抛出异常

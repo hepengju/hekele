@@ -8,6 +8,13 @@ spring:
     username: hekele
     password: hekele123
 
+    druid:
+      stat-view-servlet:  # 监控页面, 访问路径为 /druid
+        enabled: true
+      web-stat-filter:    # 菜单: web应用, URI监控
+        enabled: true
+      filters: stat       # 开启统计过滤
+
 mybatis-plus:
   global-config:
     db-config:

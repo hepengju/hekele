@@ -1,6 +1,6 @@
 package com.hepengju.hekele.admin.web;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hepengju.hekele.admin.bo.Menu;
 import com.hepengju.hekele.admin.bo.Role;
 import com.hepengju.hekele.admin.bo.User;
@@ -27,11 +27,13 @@ public class RoleController {
     @ApiOperation("查询所有")
     @GetMapping("list")
     public R list(Long pageNum, Long pageSize, Role role){
-        QueryWrapper<Role> wrapper = new QueryWrapper<Role>();
-        wrapper.lambda()
-                .like(StringUtils.hasText(role.getRoleCodeOrName()), Role::getRoleCode, role.getRoleCodeOrName())
-                .or()
-                .like(StringUtils.hasText(role.getRoleCodeOrName()), Role::getRoleName, role.getRoleCodeOrName())
+        LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
+        wrapper .eq(StringUtils.hasText(role.getRoleType()), Role::getRoleType, role.getRoleType())
+                .eq(StringUtils.hasText(role.getEnableFlag()), Role::getEnableFlag, role.getEnableFlag())
+                .and(w -> w.like(StringUtils.hasText(role.getRoleCodeOrName()), Role::getRoleCode, role.getRoleCodeOrName())
+                           .or()
+                           .like(StringUtils.hasText(role.getRoleCodeOrName()), Role::getRoleName, role.getRoleCodeOrName())
+                )
                 .orderByDesc(Role::getCreateTime);
         return roleService.listR(pageNum, pageSize, wrapper);
     }
@@ -39,22 +41,14 @@ public class RoleController {
     @ApiOperation("新增角色")
     @PostMapping("add")
     public R add(@Valid Role role) {
-        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
-        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
-        return roleService.addR(role);
-    }
-
-    @ApiOperation("新增角色")
-    @PostMapping("add2")
-    public R add2(@Valid @RequestBody Role role) {
-        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
-        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
+        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.exist");
+        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.exist");
         return roleService.addR(role);
     }
 
     @ApiOperation("编辑角色")
     @PostMapping("edit")
-    public R edit(Role role) {
+    public R edit(@Valid Role role) {
         roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
         roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
         return roleService.editR(role);

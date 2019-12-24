@@ -14,7 +14,7 @@ public interface HeConst {
     interface ErrorCode {
         int SUCCESS                    = 0;
         int UNKOWN_ERROR               = -1;
-        int NO_LOGIN_ERROR             = 10000;
+        int NO_LOGIN                   = 10000;
         int SPRINGMVC_FORM_BIND_ERROR  = 10001;
         int SPRINGMVC_JSON_BIND_ERROR  = 10002;
         int HIBERNATE_BEAN_VALID_ERROR = 10003;

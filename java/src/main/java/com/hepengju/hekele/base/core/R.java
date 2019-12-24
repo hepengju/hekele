@@ -16,33 +16,37 @@ import static java.util.Arrays.asList;
  * 目标: 规范Controller返回的JSON结构
  * 格式:
  * {
- *     code: "0"             // 代码 [必须, "0"表示成功, "-1"代码未知错误, 未来其他预定义的已知异常可从配置文件中读取]
- *   , message: ""           // 信息 [必选, 默认为空字符串]
- *   , data: {} 或 []        // 数据 [可选, 内容为对象或数组, 依赖返回值的类型, 如果是分页会自动拆开处理]
- *   , page: {page: 1
- *          , rows: 10
- *          , pages: 5
- *          , total: 45}     // 分页 [可选], 20190826 --> 和layUI的rows和page名称保持一致, current --> page, size --> rows
+ *   code: 0,           // 代码 [必须, 0表示成功, -1代码未知错误, 未来预定义的异常可从配置文件message.json中读取]
+ *   message: "",       // 信息 [必选, 默认为空字符串]
+ *   data: "{} 或 []",  // 数据 [可选, 内容为对象或数组, 依赖返回值的类型, 如果是分页会自动拆开处理]
+ *   page: {            // 分页 [可选], 20190826 --> 与pageHelper的一致
+ *     pageNum: 1,
+ *     pageSize: 10,
+ *     pages: 5,
+ *     total: 45
+ *   },
+ *   extra: "Object"   // 额外 [可选], 20191223 --> 在特殊情况下, 需要追加一些扩展信息, 可添加在此处
  * }
- *
  * </pre>
  *
+ * @see com.hepengju.hekele.base.constant.HeConst.ErrorCode
  * @author he_pe 2019-12-21
  */
 @Data @Accessors(chain = true)
 public class R<T> {
 
-    private int    code;     // 代码
-    private String message;  // 消息
-    private Object data;     // 数据
-    private Page   page;     // 分页
+    private int    code    ;  // 代码
+    private String message ;  // 消息
+    private Object data    ;  // 数据
+    private Page   page    ;  // 分页
+    private Object extra   ;  // 扩展信息: 错误详细或其他需要临时添加的内容
 
     @Data @Accessors(chain = true)
     private class Page{
-        private long pageNum;   // 当前页
-        private long pageSize;   // 每页大小
-        private long pages;  // 总页数
-        private long total;  // 总记录数
+        private long pageNum  ; // 当前页
+        private long pageSize ; // 每页大小
+        private long pages    ; // 总页数
+        private long total    ; // 总记录数
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

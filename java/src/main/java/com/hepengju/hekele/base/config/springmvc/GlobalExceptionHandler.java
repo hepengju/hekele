@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * SpringMVC数据绑定异常(application/x-www-form-urlencoded)
+     * SpringMVC数据绑定异常(application/json)
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleBindException(MethodArgumentNotValidException e) {

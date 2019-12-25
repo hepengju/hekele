@@ -30,7 +30,7 @@ import static java.util.Arrays.asList;
  * }
  * </pre>
  *
- * @see HeConst.Code
+ * @see HeConst.MCode
  * @author he_pe 2019-12-21
  */
 @Data @Accessors(chain = true)
@@ -53,8 +53,8 @@ public class R<T> {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // 提供静态的"返回成功"和"返回错误"方法 (由于微服务的内部调用, 需要json的反序列化, 所以不能私有化构造函数)
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static R ok()               { return new R().setCode(HeConst.Code.SUCCESS).setMessage("")      ; }
-    public static R err(String message){ return new R().setCode(HeConst.Code.UNKNOWN_ERROR).setMessage(message) ; }
+    public static R ok()               { return new R().setCode(HeConst.MCode.SUCCESS).setMessage("")      ; }
+    public static R err(String message){ return new R().setCode(HeConst.MCode.UNKNOWN_ERROR).setMessage(message) ; }
 
     public T    getData(){ return (T) data; }
     public R<T> setData(T data){this.data = data; return this;}

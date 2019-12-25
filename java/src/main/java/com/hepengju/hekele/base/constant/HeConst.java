@@ -13,7 +13,7 @@ public interface HeConst {
      *
      * @see com.hepengju.hekele.base.core.M
      */
-    interface Code {
+    interface MCode {
         int SUCCESS                    = 0;
         int UNKNOWN_ERROR              = -1;
         int NO_LOGIN                   = 10000;

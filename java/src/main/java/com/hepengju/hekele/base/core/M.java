@@ -86,7 +86,7 @@ public class M {
 
     public static R getErrR(String key, Object... args) {
         String value = get(key, args);
-        Integer code = Optional.ofNullable(keyHeMessageMap.get(key)).map(HeMessage::getCode).orElse(HeConst.Code.UNKNOWN_ERROR);
+        Integer code = Optional.ofNullable(keyHeMessageMap.get(key)).map(HeMessage::getCode).orElse(HeConst.MCode.UNKNOWN_ERROR);
         return R.err(value).setCode(code);
     }
 

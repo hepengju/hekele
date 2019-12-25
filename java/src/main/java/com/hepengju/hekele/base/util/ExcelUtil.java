@@ -299,10 +299,10 @@ public class ExcelUtil {
                         || sheetNo !=null && sheetNo.equals(snum)    // sheetNo不为空时必须相等
                         || sheetName == null && sheetNo == null) {
                     excelReader.read(sheet);
-                    List<List<String>> datas = excelListener.getDatas();
+                    List<List<String>> datas = excelListener.getDataList();
                     dataMap.put(sname, datas);
                     if(sheetNo != null) dataMap.put(String.valueOf(sheetNo), datas); // 工作表序号不为空, 则也put进去
-                    excelListener.resetDatas();
+                    excelListener.resetDataList();
                 }
             }
             return dataMap;

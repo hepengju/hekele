@@ -1,5 +1,8 @@
 package com.hepengju.hekele.base.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 常量类
  */
@@ -7,6 +10,8 @@ public interface HeConst {
 
     String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     String DATE_FORMAT      = "yyyy-MM-dd";
+
+    List<String> EXCEL_EXT_NAME_LIST = Arrays.asList("xls", "xlsx", "xlsm");
 
     /**
      * 内置返回代码

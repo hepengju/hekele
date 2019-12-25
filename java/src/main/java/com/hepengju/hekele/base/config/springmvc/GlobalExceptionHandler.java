@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public R handleBindException(BindException e) {
         ObjectError objectError = e.getAllErrors().get(0);
-        return R.err(getObjectErrorMessage(objectError)).setCode(HeConst.MCode.SPRINGMVC_FORM_BIND_ERROR);
+        return R.err(getObjectErrorMessage(objectError)).setErrcode(HeConst.MCode.SPRINGMVC_FORM_BIND_ERROR);
     }
 
     /**
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleBindException(MethodArgumentNotValidException e) {
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
-        return R.err(getObjectErrorMessage(objectError)).setCode(HeConst.MCode.SPRINGMVC_JSON_BIND_ERROR);
+        return R.err(getObjectErrorMessage(objectError)).setErrcode(HeConst.MCode.SPRINGMVC_JSON_BIND_ERROR);
     }
 
     private String getObjectErrorMessage(ObjectError objectError) {
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BeanValidException.class)
     public R handleBeanValidException(BeanValidException e) {
         log.error(e.getMessage(), e);
-        return R.err(e.getMessage()).setCode(HeConst.MCode.HIBERNATE_BEAN_VALID_ERROR);
+        return R.err(e.getMessage()).setErrcode(HeConst.MCode.HIBERNATE_BEAN_VALID_ERROR);
     }
 
     /**
@@ -79,7 +79,7 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         R result = M.getErrR(e.getMessage(), e.getErrFormatArr());
         // TODO 是否返回堆栈信息
-        return true ? result.setExtra(StackUtil.getStackTrace(e)) : result;
+        return true ? result.setErrdetail(StackUtil.getStackTrace(e)) : result;
     }
 
     /**
@@ -88,6 +88,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return R.err(e.getMessage()).setCode(HeConst.MCode.UNKNOWN_ERROR);
+        return R.err(e.getMessage()).setErrcode(HeConst.MCode.UNKNOWN_ERROR);
     }
 }

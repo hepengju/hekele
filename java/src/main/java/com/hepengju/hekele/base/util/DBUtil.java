@@ -1,7 +1,6 @@
 package com.hepengju.hekele.base.util;
 
 import com.hepengju.hekele.base.core.exception.HeException;
-import com.hepengju.hekele.base.core.sqlhandle.SelectResult;
 import com.hepengju.hekele.base.core.sqlhandle.SqlResult;
 import com.p6spy.engine.spy.P6DataSource;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -398,8 +397,8 @@ public class DBUtil {
 		return "other";
 	}
 	
-	public static SelectResult handleSelect(Connection conn, String sql, int maxRows) {
-		SelectResult selectResult = new SelectResult();
+	public static SqlResult.SelectResult handleSelect(Connection conn, String sql, int maxRows) {
+		SqlResult.SelectResult selectResult = new SqlResult.SelectResult();
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			//设置最大行数 
 			pstmt.setMaxRows(maxRows);
@@ -435,7 +434,7 @@ public class DBUtil {
 	/**
 	 * SQL语句中Select执行
 	 */
-	public static SelectResult handleSelect(Connection conn, String sql) {
+	public static SqlResult.SelectResult handleSelect(Connection conn, String sql) {
 		return handleSelect(conn, sql, 0);
 	}
 	
@@ -444,7 +443,7 @@ public class DBUtil {
 	 * 注意: MySQL返回的为Long类型,Oracle返回的为BigDecimal类型
 	 */
 	public static Number handleSelectCount(Connection conn,String countSql) {
-		SelectResult handleSelect = handleSelect(conn, countSql, 1);
+		SqlResult.SelectResult handleSelect = handleSelect(conn, countSql, 1);
 		return  (Number) handleSelect.getRecordList().get(0).get(0);
 	}
 	/**
@@ -468,7 +467,7 @@ public class DBUtil {
 			boolean execute = pstmt.execute();
 			if(execute) {
 				try(ResultSet rst = pstmt.getResultSet()){
-					SelectResult selectResult = resultSetToSelectResult(rst);
+					SqlResult.SelectResult selectResult = resultSetToSelectResult(rst);
 					sqlResult.setSelectResult(selectResult);
 				}
 			}else {
@@ -490,7 +489,7 @@ public class DBUtil {
 			boolean execute = pstmt.execute();
 			if(execute) {
 				try(ResultSet rst = pstmt.getResultSet()){
-					SelectResult selectResult = resultSetToSelectResult(rst);
+					SqlResult.SelectResult selectResult = resultSetToSelectResult(rst);
 					sqlResult.setSelectResult(selectResult);
 				}
 			}else {
@@ -503,8 +502,8 @@ public class DBUtil {
 		}
 	}
 
-	public static SelectResult resultSetToSelectResult(ResultSet rst) throws SQLException {
-		SelectResult selectResult = new SelectResult();
+	public static SqlResult.SelectResult resultSetToSelectResult(ResultSet rst) throws SQLException {
+		SqlResult.SelectResult selectResult = new SqlResult.SelectResult();
 		// 标题区
 		ResultSetMetaData metaData = rst.getMetaData();
 		int count = metaData.getColumnCount();

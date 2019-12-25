@@ -69,8 +69,6 @@ import java.util.*;
 public class ExcelUtil {
 
 	private static final DecimalFormat decimalFormat = new DecimalFormat("####################.###########"); // 整数20位, 小数11位
-	//private static final String RANGE_REG = "[a-zA-Z]{1,3}\\d+";  //单元格正则, eg: D5, F6
-	//public static final String REPLACE_REG = "\\$\\{(.*)\\}";     //变量替换正则, eg: ${name}, ${age}
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// 输出Excel

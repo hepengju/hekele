@@ -1,5 +1,6 @@
 package com.hepengju.hekele.base.core;
 
+import com.hepengju.hekele.base.constant.HeConst;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;
@@ -81,6 +82,12 @@ public class M {
             }
         }
         return value;
+    }
+
+    public static R getErrR(String key, Object... args) {
+        String value = get(key, args);
+        Integer code = Optional.ofNullable(keyHeMessageMap.get(key)).map(HeMessage::getCode).orElse(HeConst.Code.UNKNOWN_ERROR);
+        return R.err(value).setCode(code);
     }
 
     /**

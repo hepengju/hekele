@@ -9,11 +9,13 @@ public interface HeConst {
     String DATE_FORMAT      = "yyyy-MM-dd";
 
     /**
-     * 错误代码, 其他的错误代码, 参看 he.message.json
+     * 内置返回代码
+     *
+     * @see com.hepengju.hekele.base.core.M
      */
-    interface ErrorCode {
+    interface Code {
         int SUCCESS                    = 0;
-        int UNKOWN_ERROR               = -1;
+        int UNKNOWN_ERROR              = -1;
         int NO_LOGIN                   = 10000;
         int SPRINGMVC_FORM_BIND_ERROR  = 10001;
         int SPRINGMVC_JSON_BIND_ERROR  = 10002;

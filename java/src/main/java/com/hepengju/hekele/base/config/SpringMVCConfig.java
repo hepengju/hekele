@@ -5,10 +5,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
- * SpringMvc的配置
+ * SpringMVC的配置
  */
 @Configuration
-public class SpringMvcConfig extends WebMvcConfigurationSupport {
+public class SpringMVCConfig extends WebMvcConfigurationSupport {
 
     /**
      * SpringBoot中访问doc.html报404的解决办法

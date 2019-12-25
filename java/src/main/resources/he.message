@@ -23,7 +23,7 @@
 
 ######################### 系统预定义 #########################
     0 : success                   : 成功
-   -1 : unkown_error              : 系统异常, 请联系管理员
+   -1 : unknown_error             : 系统异常, 请联系管理员
 10000 : no_login                  : 登录会话失效，请重新登录
 10001 : springmvc_form_bind_error : SpringMVC数据绑定异常(application/x-www-form-urlencoded)
 10002 : springmvc_json_bind_error : SpringMVC数据绑定异常(application-json)

@@ -2,6 +2,7 @@ package com.hepengju.hekele.base.core;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hepengju.hekele.base.constant.HeConst;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -41,11 +42,12 @@ public class R<T> {
 
     private int    errcode                       ;  // 错误代码
     private String errmsg                        ;  // 错误信息
-    private String errdetail                     ;  // 错误详细
     private Object data                          ;  // 数据
-    private Map<String, Map<String,String>> code ;  // 数据中的枚举值含义
-    private Page   page                          ;  // 分页
-    private Object extra                         ;  // 扩展信息: 其他需要临时添加的内容
+
+    @JsonInclude(JsonInclude.Include.NON_NULL) private String errdetail                     ;  // 错误详细
+    @JsonInclude(JsonInclude.Include.NON_NULL) private Map<String, Map<String,String>> code ;  // 数据中的枚举值含义
+    @JsonInclude(JsonInclude.Include.NON_NULL) private Page   page                          ;  // 分页
+    @JsonInclude(JsonInclude.Include.NON_NULL) private Object extra                         ;  // 扩展信息: 其他需要临时添加的内容
 
     @Data @Accessors(chain = true)
     private class Page{

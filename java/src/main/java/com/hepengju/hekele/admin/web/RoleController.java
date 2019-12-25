@@ -64,7 +64,7 @@ public class RoleController {
 
     @ApiOperation("禁用角色")
     @PostMapping("disable")
-    public R disable(@RequestParam("roleId") List<String> idList) { return roleService.deleteRole(idList); }
+    public R disable(@RequestParam("roleId") List<String> idList) { return roleService.disableBatchByIds(idList); }
 
     @ApiOperation("根据主键查询")
     @GetMapping("getById")

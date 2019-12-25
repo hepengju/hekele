@@ -26,7 +26,7 @@ public class RoleController {
 
     @ApiOperation("查询所有")
     @GetMapping("list")
-    public R list(Long pageNum, Long pageSize, Role role){
+    public R<Role> list(Long pageNum, Long pageSize, Role role){
         LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
         wrapper .eq(StringUtils.hasText(role.getRoleType()), Role::getRoleType, role.getRoleType())
                 .eq(StringUtils.hasText(role.getEnableFlag()), Role::getEnableFlag, role.getEnableFlag())
@@ -49,8 +49,8 @@ public class RoleController {
     @ApiOperation("编辑角色")
     @PostMapping("edit")
     public R edit(@Valid Role role) {
-        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.unique");
-        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.unique");
+        roleService.validUnique("role_code", role.getRoleCode(), role.getRoleId(), "role.roleCode.unique");
+        roleService.validUnique("role_name", role.getRoleCode(), role.getRoleId(), "role.roleName.unique");
         return roleService.editR(role);
     }
 
@@ -68,19 +68,19 @@ public class RoleController {
 
     @ApiOperation("根据主键查询")
     @GetMapping("getById")
-    public R getById(String roleId){ return roleService.getRById(roleId);}
+    public R<Role> getById(String roleId){ return roleService.getRById(roleId);}
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @ApiOperation("根据主键查询关联用户")
     @GetMapping("listUser")
-    public R listUser(String roleId) {
+    public R<User> listUser(String roleId) {
         List<User> userList = roleMapper.listUser(roleId);
         return R.ok().addData(userList);
     }
 
     @ApiOperation("根据主键查询关联菜单")
     @GetMapping("listMenu")
-    public R listMenu(String roleId) {
+    public R<Menu> listMenu(String roleId) {
         List<Menu> menuList = roleMapper.listMenu(roleId);
         return R.ok().addData(menuList);
     }

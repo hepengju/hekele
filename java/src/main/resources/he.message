@@ -22,12 +22,13 @@
 # 6. 数字代号和英文代码不能重复, 否则启动抛出异常
 
 ######################### 系统预定义 #########################
-     0 : success                   : 成功
-    -1 : unknown_error             : 系统异常, 请联系管理员
- 10000 : no_login                  : 登录会话失效，请重新登录
- 10001 : springmvc_form_bind_error : SpringMVC数据绑定异常(application/x-www-form-urlencoded)
- 10002 : springmvc_json_bind_error : SpringMVC数据绑定异常(application-json)
- 10003 : hibernate_bean_valid_error: Hibernate Bean Validation验证异常
+     0 : success                    : 成功
+    -1 : unknown_error              : 系统异常, 请联系管理员
+ 10000 : no_login                   : 登录会话失效，请重新登录
+ 10001 : springmvc_form_bind_error  : SpringMVC数据绑定异常(application/x-www-form-urlencoded)
+ 10002 : springmvc_json_bind_error  : SpringMVC数据绑定异常(application-json)
+ 10003 : hibernate_bean_valid_error : Hibernate Bean Validation验证异常
+ 10004 : missing_parameter_exception: 类型为[%s]的参数[%s]为必传项
 ######################### admin #########################
 # 登录模块 10100
  10101 : login.usernamePasswordNonBlank      : 账号和密码不能为空
@@ -81,6 +82,7 @@
  10901 : sql.sqlContentBlank             : SQL语句为空
  10902 : sql.successAndEffectRows        : 运行成功，影响行数: %d
  10903 : util.compress.format.notSupport : 【%s】压缩格式暂不支持
+ 10904 : seq.realSizeGtFormatLength      : 序列值【%d】的长度大于需要格式化的长度【%d】
 
 # 通用验证
  11010 : phoneNo.formatError    : 手机号码格式错误

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -36,6 +37,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     public R handleBindException(BindException e) {
+        log.error(e.getMessage(), e);
         ObjectError objectError = e.getAllErrors().get(0);
         return R.err(getObjectErrorMessage(objectError)).setErrcode(HeConst.MCode.SPRINGMVC_FORM_BIND_ERROR);
     }
@@ -45,6 +47,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R handleBindException(MethodArgumentNotValidException e) {
+        log.error(e.getMessage(), e);
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         return R.err(getObjectErrorMessage(objectError)).setErrcode(HeConst.MCode.SPRINGMVC_JSON_BIND_ERROR);
     }
@@ -82,6 +85,15 @@ public class GlobalExceptionHandler {
         return true ? result.setErrdetail(StackUtil.getStackTrace(e)) : result;
     }
 
+    /**
+     * 请求参数为必传项
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public R handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+        log.error(e.getMessage(), e);
+        String errmsg = M.get("missing_parameter_exception", e.getParameterType(), e.getParameterName());
+        return R.err(errmsg).setErrcode(HeConst.MCode.MISSING_PARAMETER_EXCEPTION);
+    }
     /**
      * 其他所有异常
      */

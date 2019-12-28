@@ -41,17 +41,24 @@ public class RoleController {
     @ApiOperation("新增角色")
     @PostMapping("add")
     public R add(@Valid Role role) {
-        roleService.validUnique("role_code", role.getRoleCode(), null, "role.roleCode.exist");
-        roleService.validUnique("role_name", role.getRoleCode(), null, "role.roleName.exist");
+        role.setRoleId(null);
+        validRole(role);
         return roleService.addR(role);
     }
 
     @ApiOperation("编辑角色")
     @PostMapping("edit")
     public R edit(@Valid Role role) {
+        validRole(role);
+        return roleService.editR(role);
+    }
+
+    /**
+     * 验证角色代码和名称的唯一性
+     */
+    private void validRole(Role role){
         roleService.validUnique("role_code", role.getRoleCode(), role.getRoleId(), "role.roleCode.unique");
         roleService.validUnique("role_name", role.getRoleCode(), role.getRoleId(), "role.roleName.unique");
-        return roleService.editR(role);
     }
 
     @ApiOperation("删除角色")
@@ -66,21 +73,22 @@ public class RoleController {
     @PostMapping("disable")
     public R disable(@RequestParam("roleId") List<String> idList) { return roleService.disableBatchByIds(idList); }
 
+    // 追加 RequestParam 注解, 目的是请求参数为必传项
     @ApiOperation("根据主键查询")
     @GetMapping("getById")
-    public R<Role> getById(String roleId){ return roleService.getRById(roleId);}
+    public R<Role> getById(@RequestParam String roleId) { return roleService.getRById(roleId);}
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @ApiOperation("根据主键查询关联用户")
     @GetMapping("listUser")
-    public R<User> listUser(String roleId) {
+    public R<User> listUser(@RequestParam String roleId) {
         List<User> userList = roleMapper.listUser(roleId);
         return R.ok().addData(userList);
     }
 
     @ApiOperation("根据主键查询关联菜单")
     @GetMapping("listMenu")
-    public R<Menu> listMenu(String roleId) {
+    public R<Menu> listMenu(@RequestParam String roleId) {
         List<Menu> menuList = roleMapper.listMenu(roleId);
         return R.ok().addData(menuList);
     }
@@ -93,7 +101,7 @@ public class RoleController {
 
     @ApiOperation("角色分配菜单")
     @PostMapping("assignMenu")
-    public R assignMenu(String roleId, @RequestParam("menuId")List<String> menuIdList) {
+    public R assignMenu(@RequestParam String roleId, @RequestParam("menuId")List<String> menuIdList) {
         return roleService.assignMenu(roleId, menuIdList);
     }
 }

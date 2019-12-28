@@ -19,11 +19,12 @@ public interface HeConst {
      * @see com.hepengju.hekele.base.core.M
      */
     interface MCode {
-        int SUCCESS                    = 0;
-        int UNKNOWN_ERROR              = -1;
-        int NO_LOGIN                   = 10000;
-        int SPRINGMVC_FORM_BIND_ERROR  = 10001;
-        int SPRINGMVC_JSON_BIND_ERROR  = 10002;
-        int HIBERNATE_BEAN_VALID_ERROR = 10003;
+        int SUCCESS                     = 0;
+        int UNKNOWN_ERROR               = -1;
+        int NO_LOGIN                    = 10000;
+        int SPRINGMVC_FORM_BIND_ERROR   = 10001;
+        int SPRINGMVC_JSON_BIND_ERROR   = 10002;
+        int HIBERNATE_BEAN_VALID_ERROR  = 10003;
+        int MISSING_PARAMETER_EXCEPTION = 10004;
     }
 }

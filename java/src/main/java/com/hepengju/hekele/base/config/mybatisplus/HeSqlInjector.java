@@ -12,9 +12,7 @@ public class HeSqlInjector extends DefaultSqlInjector {
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass);
-        methodList.add(new EnableById());
         methodList.add(new EnableBatchByIds());
-        methodList.add(new DisableById());
         methodList.add(new DisableBatchByIds());
         methodList.add(new CountByColumnValue());
         return methodList;

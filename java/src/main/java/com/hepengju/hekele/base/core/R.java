@@ -40,15 +40,18 @@ import static java.util.Arrays.asList;
 @Data @Accessors(chain = true)
 public class R<T> {
 
-    private int    errcode                       ;  // 错误代码
-    private String errmsg                        ;  // 错误信息
-    private Object data                          ;  // 数据
+    // 必选
+    private int    errcode ;  // 错误代码
+    private String errmsg  ;  // 错误信息
 
+    // 可选
+    @JsonInclude(JsonInclude.Include.NON_NULL) private Object data                          ;  // 数据
     @JsonInclude(JsonInclude.Include.NON_NULL) private String errdetail                     ;  // 错误详细
     @JsonInclude(JsonInclude.Include.NON_NULL) private Map<String, Map<String,String>> code ;  // 数据中的枚举值含义
     @JsonInclude(JsonInclude.Include.NON_NULL) private Page   page                          ;  // 分页
     @JsonInclude(JsonInclude.Include.NON_NULL) private Object extra                         ;  // 扩展信息: 其他需要临时添加的内容
 
+    // 分页信息
     @Data @Accessors(chain = true)
     private class Page{
         private long pageNum  ; // 当前页
@@ -62,12 +65,13 @@ public class R<T> {
     public static R err(String message) { return new R().setErrcode(HeConst.MCode.UNKNOWN_ERROR).setErrmsg(message) ; }
     public static boolean isOk(R result){ return null != result && "0".equals(result.getErrcode()); }
 
-    // 手动编写, 保持泛型; 使用添加数据后, 再使用添加枚举值代码更加合理一些; 添加数据需要对各种类型的数据进行规范化处理
+    // 手动编写, 保持泛型; 使用添加数据后, 再使用添加枚举值代码更加合理一些
     public T    getData(){ return (T) data; }
     public R<T> setData(T data){this.data = data; return this;}
     public R<T> addCode(Map<String, Map<String,String>> code) {this.code = code; return this;}
     public R<T> addData(Object data){this.data = data; return this;}
 
+    // 添加数据的规范化处理
     public R addData(R data) {
         return data;
     }
@@ -120,15 +124,6 @@ public class R<T> {
         return this;
     }
 
-    /**
-     * 判断jsonObject中是否包含所有keys
-     */
-    private boolean containAllKeys(JSONObject json, List<String> keys){
-        for (String key : keys) {
-            if (!json.containsKey(key)) return false;
-        }
-        return true;
-    }
 
     /**
      * 抽取page信息
@@ -140,5 +135,15 @@ public class R<T> {
         if(pagesKey    != null) page.setPages(json.getLongValue(pagesKey));
         if(totalKey    != null) page.setTotal(json.getLongValue(totalKey));
         return page;
+    }
+
+    /**
+     * 判断jsonObject中是否包含所有keys
+     */
+    private boolean containAllKeys(JSONObject json, List<String> keys){
+        for (String key : keys) {
+            if (!json.containsKey(key)) return false;
+        }
+        return true;
     }
 }

@@ -11,6 +11,7 @@ spring:
     druid:
       stat-view-servlet:  # 监控页面, 访问路径为 /druid
         enabled: true
+        allow: 0.0.0.0/0
       web-stat-filter:    # 菜单: web应用, URI监控
         enabled: true
       filters: stat       # 开启统计过滤

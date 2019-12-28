@@ -67,6 +67,10 @@ public class Code {
     @ApiModelProperty("扩展属性5")
     private String attr5;
 
+    @ApiModelProperty("创建时间")
+    @JsonFormat(pattern = HeConst.DATE_TIME_FORMAT, timezone = "GMT+8")
+    private Date createTime;
+
     @ApiModelProperty("创建人员账号")
     private String createUserCode;
 

@@ -21,6 +21,6 @@ public class CountByTwoColumnValue extends AbstractMethod {
                 , tableInfo.getKeyColumn()
         );
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
-        return this.addSelectMappedStatementForOther(mapperClass, "countByColumnValue", sqlSource, Long.class);
+        return this.addSelectMappedStatementForOther(mapperClass, "countByTwoColumnValue", sqlSource, Long.class);
     }
 }

@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
      * SpringMVC数据绑定异常(application/json)
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public R handleBindException(MethodArgumentNotValidException e) {
+    public R handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error(e.getMessage(), e);
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         return R.err(getObjectErrorMessage(objectError)).setErrcode(HeConst.MCode.SPRINGMVC_JSON_BIND_ERROR);

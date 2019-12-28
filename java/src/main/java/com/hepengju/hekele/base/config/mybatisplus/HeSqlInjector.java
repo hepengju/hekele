@@ -15,6 +15,7 @@ public class HeSqlInjector extends DefaultSqlInjector {
         methodList.add(new EnableBatchByIds());
         methodList.add(new DisableBatchByIds());
         methodList.add(new CountByColumnValue());
+        methodList.add(new CountByTwoColumnValue());
         return methodList;
     }
 }

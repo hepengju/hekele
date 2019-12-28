@@ -1,5 +1,8 @@
-### 查询
+### 查询所有
 GET {{host}}/admin/role/list?pageNum=1&pageSize=5&roleCodeOrName=管理
+
+### 根据主键查询
+GET {{host}}/admin/role/getById?roleId=21f1630a569f9d8daa359f3aa96709bf
 
 ### 新增
 POST {{host}}/admin/role/add
@@ -41,9 +44,6 @@ POST {{host}}/admin/role/disable
 Content-Type: application/x-www-form-urlencoded
 
 roleId=47663d074f8347ea03d4948daf012367
-
-### 根据主键查询
-GET {{host}}/admin/role/getById?roleId=21f1630a569f9d8daa359f3aa96709bf
 
 ############################################################
 ### 根据主键查询关联用户

@@ -10,12 +10,17 @@ import com.hepengju.hekele.base.core.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * 角色管理: 本项目的示例规范CRUD
+ *
+ * @author he_pe 2019-12-25
+ */
 @Api(tags = "角色管理")
 @RestController
 @RequestMapping("/admin/role/")
@@ -28,15 +33,20 @@ public class RoleController {
     @GetMapping("list")
     public R<Role> list(Long pageNum, Long pageSize, Role role){
         LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
-        wrapper .eq(StringUtils.hasText(role.getRoleType()), Role::getRoleType, role.getRoleType())
-                .eq(StringUtils.hasText(role.getEnableFlag()), Role::getEnableFlag, role.getEnableFlag())
-                .and(w -> w.like(StringUtils.hasText(role.getRoleCodeOrName()), Role::getRoleCode, role.getRoleCodeOrName())
+        wrapper .eq(StringUtils.isNotBlank(role.getRoleType()), Role::getRoleType, role.getRoleType())
+                .eq(StringUtils.isNotBlank(role.getEnableFlag()), Role::getEnableFlag, role.getEnableFlag())
+                .and(w -> w.like(StringUtils.isNotBlank(role.getRoleCodeOrName()), Role::getRoleCode, role.getRoleCodeOrName())
                            .or()
-                           .like(StringUtils.hasText(role.getRoleCodeOrName()), Role::getRoleName, role.getRoleCodeOrName())
+                           .like(StringUtils.isNotBlank(role.getRoleCodeOrName()), Role::getRoleName, role.getRoleCodeOrName())
                 )
                 .orderByDesc(Role::getCreateTime);
         return roleService.listR(pageNum, pageSize, wrapper);
     }
+
+    // 追加 RequestParam 注解, 目的是请求参数为必传项
+    @ApiOperation("根据主键查询")
+    @GetMapping("getById")
+    public R<Role> getById(@RequestParam String roleId) { return roleService.getRById(roleId);}
 
     @ApiOperation("新增角色")
     @PostMapping("add")
@@ -73,12 +83,8 @@ public class RoleController {
     @PostMapping("disable")
     public R disable(@RequestParam("roleId") List<String> idList) { return roleService.disableBatchByIds(idList); }
 
-    // 追加 RequestParam 注解, 目的是请求参数为必传项
-    @ApiOperation("根据主键查询")
-    @GetMapping("getById")
-    public R<Role> getById(@RequestParam String roleId) { return roleService.getRById(roleId);}
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @ApiOperation("根据主键查询关联用户")
     @GetMapping("listUser")
     public R<User> listUser(@RequestParam String roleId) {

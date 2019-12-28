@@ -64,6 +64,12 @@
 
 # 日志模块 10600
 
+# 代码, 序列等基础模块 10700
+ 10701: code.typeAndItem.noneNull    : 类型代码和名称, 条目代码和名称不能为空
+ 10702: code.typeCodeItemCode.exist  : 类型代码[%s],条目代码[%s]已经存在
+ 10703: code.typeCodeItemCode.repeat : 类型代码[%s],条目代码[%s]重复
+
+
 # Word, Excel, PDF等处理 10800
  10801 : excel.suffixError               : Excel的后缀名错误，只能是xls或xlsx
  10802 : excel.fileReadException         : Excel文件读取异常

@@ -1,6 +1,44 @@
+use hekele;
 
 -- Create By HeTools
--- 共计[ 7 ]个表
+-- 共计[ 9 ]个表
+
+DROP TABLE IF EXISTS `Z00_SEQ`;
+CREATE TABLE `Z00_SEQ` (
+                           `SEQ_ID`      VARCHAR(32)                                      COMMENT '主键'
+    ,`SEQ_NAME`    VARCHAR(64)  NOT NULL                            COMMENT '序列名称'
+    ,`SEQ_DATE`    VARCHAR(8)                                       COMMENT '序列日期'
+    ,`SEQ_VALUE`   INT                                              COMMENT '序列值'
+    ,`SEQ_DESC`    VARCHAR(512)                                     COMMENT '序列描述'
+    ,`CREATE_TIME` DATETIME     NOT NULL  DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+    ,`UPDATE_TIME` DATETIME                                         COMMENT '修改时间'
+    ,PRIMARY KEY(`SEQ_ID`)
+) COMMENT ='序列表';
+
+DROP TABLE IF EXISTS `Z00_CODE`;
+CREATE TABLE `Z00_CODE` (
+                            `CODE_ID`          VARCHAR(32)                                      COMMENT '主键'
+    ,`SYS_CODE`         VARCHAR(64)  NOT NULL                            COMMENT '系统代码(ADMIN/FILE…, 展示用)'
+    ,`TYPE_CODE`        VARCHAR(64)  NOT NULL                            COMMENT '类型代码'
+    ,`TYPE_NAME`        VARCHAR(64)  NOT NULL                            COMMENT '类型名称'
+    ,`ITEM_CODE`        VARCHAR(64)  NOT NULL                            COMMENT '条目代码'
+    ,`ITEM_NAME`        VARCHAR(64)  NOT NULL                            COMMENT '条目名称'
+    ,`ITEM_SORT`        INT          NOT NULL  DEFAULT 0                 COMMENT '条目排序'
+    ,`ATTR1`            VARCHAR(512)                                     COMMENT '扩展属性1'
+    ,`ATTR2`            VARCHAR(512)                                     COMMENT '扩展属性2'
+    ,`ATTR3`            VARCHAR(512)                                     COMMENT '扩展属性3'
+    ,`ATTR4`            VARCHAR(512)                                     COMMENT '扩展属性4'
+    ,`ATTR5`            VARCHAR(512)                                     COMMENT '扩展属性5'
+    ,`CREATE_TIME`      DATETIME     NOT NULL  DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+    ,`CREATE_USER_CODE` VARCHAR(64)  NOT NULL                            COMMENT '创建人员账号'
+    ,`CREATE_USER_NAME` VARCHAR(64)  NOT NULL                            COMMENT '创建人员名称'
+    ,`UPDATE_TIME`      DATETIME                                         COMMENT '更新时间'
+    ,`UPDATE_USER_CODE` VARCHAR(64)                                      COMMENT '更新人员账号'
+    ,`UPDATE_USER_NAME` VARCHAR(64)                                      COMMENT '更新人员名称'
+    ,`ENABLE_FLAG`      VARCHAR(2)   NOT NULL  DEFAULT '1'               COMMENT '启用状态(0-停用, 1-启用)'
+    ,`DELETE_FLAG`      VARCHAR(1)   NOT NULL  DEFAULT '1'               COMMENT '删除标志(0-已删除,1-未删除)'
+    ,PRIMARY KEY(`CODE_ID`)
+) COMMENT ='代码表';
 
 DROP TABLE IF EXISTS `Z10_MENU`;
 CREATE TABLE `Z10_MENU` (
@@ -10,7 +48,7 @@ CREATE TABLE `Z10_MENU` (
     ,`MENU_NAME`        VARCHAR(64)  NOT NULL                            COMMENT '菜单名称'
     ,`MENU_URI`         VARCHAR(512)                                     COMMENT '菜单URI'
     ,`MENU_TYPE`        VARCHAR(1)   NOT NULL                            COMMENT '菜单类型(G-菜单组, M-菜单, B-按钮)'
-    ,`TERMINAL_TYPE`    VARCHAR(1)   NOT NULL  DEFAULT 'B'               COMMENT '设备类型(B-浏览器, M-手机, P-PAD)'
+    ,`DEVICE_TYPE`      VARCHAR(1)   NOT NULL  DEFAULT 'B'               COMMENT '设备类型(B-浏览器, M-手机)'
     ,`MENU_ICON`        VARCHAR(64)                                      COMMENT '菜单图标'
     ,`MENU_SORT`        INT          NOT NULL  DEFAULT 0                 COMMENT '菜单顺序'
     ,`CREATE_TIME`      DATETIME     NOT NULL  DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'

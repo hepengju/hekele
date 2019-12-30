@@ -3,6 +3,7 @@ package com.hepengju.hekele.admin.web;
 
 import com.hepengju.hekele.base.core.Now;
 import com.hepengju.hekele.base.core.R;
+import com.hepengju.hekele.base.util.ExecUtil;
 import com.hepengju.hekele.base.util.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,13 +35,7 @@ public class AdminController {
     @GetMapping("gitPullThenRestart")
     public R gitPullThenRestart() {
         // 必须开启一个新线程, 从而返回给浏览器, 否则浏览器得不到响应, 还会再次发送
-        new Thread(() -> {
-            try {
-                Runtime.getRuntime().exec(restartShell);
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-            }
-        }).start();
+        new Thread(() -> ExecUtil.execCommand(restartShell)).start();
         return R.ok().setErrmsg("正在重新启动, 请稍等");
     }
 

@@ -30,14 +30,14 @@ public class AdminController {
     @Value("${hekele.restart.shell}")
     private String restartShell;
 
-    @ApiOperation("Git拉取最新版本, 然后重启")
+    @ApiOperation("拉取最新代码然后重启应用")
     @GetMapping("gitPullThenRestart")
     public R gitPullThenRestart() throws IOException {
         Runtime.getRuntime().exec(restartShell);
         return R.ok().setErrmsg("正在重新启动, 请稍等");
     }
 
-    @ApiOperation("下载hekele数据库设计")
+    @ApiOperation("下载hekele最新数据库设计")
     @GetMapping("downloadHekeleXlsm")
     public void downloadHekeleXlsm(HttpServletResponse res) throws IOException {
         try(InputStream is = this.getClass().getClassLoader().getResourceAsStream("public/db/hekele.xlsm")){

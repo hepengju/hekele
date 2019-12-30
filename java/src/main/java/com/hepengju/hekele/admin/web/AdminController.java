@@ -32,8 +32,15 @@ public class AdminController {
 
     @ApiOperation("拉取最新代码然后重启应用")
     @GetMapping("gitPullThenRestart")
-    public R gitPullThenRestart() throws IOException {
-        Runtime.getRuntime().exec(restartShell);
+    public R gitPullThenRestart() {
+        // 必须开启一个新线程, 从而返回给浏览器, 否则浏览器得不到响应, 还会再次发送
+        new Thread(() -> {
+            try {
+                Runtime.getRuntime().exec(restartShell);
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+            }
+        }).start();
         return R.ok().setErrmsg("正在重新启动, 请稍等");
     }
 

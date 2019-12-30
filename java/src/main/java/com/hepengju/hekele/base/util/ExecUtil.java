@@ -42,7 +42,7 @@ public class ExecUtil {
 				log.info("exec os command success: " + command);
 			}
 		} catch (Exception e) {
-			log.error("exec os command exception: " + command);
+			log.error(e.getMessage(), e);
 		}
 	}
 

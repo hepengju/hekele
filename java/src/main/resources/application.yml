@@ -15,12 +15,33 @@ spring:
       web-stat-filter:    # 菜单: web应用, URI监控
         enabled: true
       filters: stat       # 开启统计过滤
+  mvc:
+    view:
+      prefix: "/"
+      suffix: ".html"
 
 mybatis-plus:
   global-config:
     db-config:
       logic-delete-value: 0
       logic-not-delete-value: 1
+
+# 开始actuator监控, 开启远程关闭, 关闭健康检查
+management:
+  endpoints:
+    enabled-by-default: true
+  endpoint:
+    shutdown:
+      enabled: true
+  health:
+    defaults:
+      enabled: false
+
+# hekele的自定义配置
+
+hekele:
+  restart:
+    shell: "sh /root/app/gitPullThenRestart.sh"
 ---
 spring:
   profiles: prod

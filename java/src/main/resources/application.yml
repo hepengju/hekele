@@ -15,10 +15,10 @@ spring:
       web-stat-filter:    # 菜单: web应用, URI监控
         enabled: true
       filters: stat       # 开启统计过滤
-  mvc:
-    view:
-      prefix: "/"
-      suffix: ".html"
+
+  # 还是默认配置, 只是调整下顺序, 原因是: knife4j的jar包中有个favicon.ico导致自己的失效
+  resources:
+    static-locations: ["classpath:/resources/", "classpath:/static/", "classpath:/public/" , "classpath:/META-INF/resources/"]
 
 mybatis-plus:
   global-config:
@@ -37,8 +37,12 @@ management:
     defaults:
       enabled: false
 
-# hekele的自定义配置
+logging:
+  level:
+    # 没事你显示什么一堆 Generating unique operation named: handleUsingGET_1 这东西!!
+    springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: warn
 
+# hekele的自定义配置
 hekele:
   restart:
     shell: "sh /root/app/gitPullThenRestart.sh"

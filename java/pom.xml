@@ -80,11 +80,13 @@
             <version>1.1.21</version>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>com.oracle.ojdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <scope>runtime</scope>
         </dependency>
+        -->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -170,12 +172,6 @@
             <groupId>com.github.junrar</groupId>
             <artifactId>junrar</artifactId>
             <version>4.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- 在解压7z文件时提示缺少本依赖的class文件,因此加入 -->
@@ -207,7 +203,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- 开发便捷工具 -->
+        <!-- 开发便捷工具
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -220,6 +216,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>

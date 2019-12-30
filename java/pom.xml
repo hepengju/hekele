@@ -244,6 +244,7 @@
 
     <!-- 构建管理 -->
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

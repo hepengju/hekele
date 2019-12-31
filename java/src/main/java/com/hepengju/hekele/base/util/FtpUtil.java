@@ -1,13 +1,12 @@
 package com.hepengju.hekele.base.util;
 
 import com.hepengju.hekele.base.core.exception.HeException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,10 +36,9 @@ import java.io.IOException;
  * 
  * @author he_pe 2018-03-12
  */
+@Slf4j
 public class FtpUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(FtpUtil.class);
-	
 	private static FTPClient ftpClient = null;
 	
 	/**
@@ -61,12 +59,12 @@ public class FtpUtil {
 			//响应检测
 			int replyCode = ftpClient.getReplyCode();
 			if(FTPReply.isPositiveCompletion(replyCode)) {
-				logger.info(loginfo + "成功");
+				log.info(loginfo + "成功");
 			}else {
 				throw new HeException("job.ftpconfig.connection");
 			}
 		} catch (Exception e) {
-			logger.info(loginfo + "异常");
+			log.info(loginfo + "异常");
 			throw new HeException("job.ftpconfig.connectionFailure");
 		}
 		
@@ -91,12 +89,12 @@ public class FtpUtil {
 			String remote = file.getName();
 			boolean storeFile = ftpClient.storeFile(remote, fis);
 			if(storeFile) {
-				logger.info(loginfo + "成功");
+				log.info(loginfo + "成功");
 			}else {
-				logger.info(loginfo + "失败");
+				log.info(loginfo + "失败");
 			}
 		} catch (Exception e) {
-			logger.info(loginfo + "异常");
+			log.info(loginfo + "异常");
 			throw new HeException("job.ftpconfig.putFailure");
 		} finally {
 			logout();
@@ -113,12 +111,12 @@ public class FtpUtil {
 		try(FileOutputStream fos = new FileOutputStream(new File(localPath, name))) {
 			boolean retrieveFile = ftpClient.retrieveFile(remoteFile, fos);
 			if(retrieveFile) {
-				logger.info(loginfo + "成功");
+				log.info(loginfo + "成功");
 			}else {
-				logger.info(loginfo + "失败");
+				log.info(loginfo + "失败");
 			}
 		} catch (Exception e) {
-			logger.info(loginfo + "异常");
+			log.info(loginfo + "异常");
 			throw new HeException("job.ftpconfig.getFailure");
 		} finally {
 			logout();
@@ -133,12 +131,12 @@ public class FtpUtil {
 		try {
 			boolean deleteFile = ftpClient.deleteFile(remoteFile);
 			if(deleteFile) {
-				logger.info(loginfo + "成功");
+				log.info(loginfo + "成功");
 			}else {
-				logger.info(loginfo + "失败");
+				log.info(loginfo + "失败");
 			}
 		} catch (IOException e) {
-			logger.info(loginfo + "异常");
+			log.info(loginfo + "异常");
 			throw new HeException("job.ftpconfig.deleteFailure");
 		} finally {
 			logout();
@@ -153,12 +151,12 @@ public class FtpUtil {
 		try {
 			boolean logout = ftpClient.logout();
 			if(logout) {
-				logger.info(loginfo + "成功");
+				log.info(loginfo + "成功");
 			}else {
-				logger.info(loginfo + "失败");
+				log.info(loginfo + "失败");
 			}
 		} catch (IOException e) {
-			logger.info(loginfo + "异常");
+			log.info(loginfo + "异常");
 			throw new HeException("job.ftpconfig.logoutFailure");
 		}
 	}

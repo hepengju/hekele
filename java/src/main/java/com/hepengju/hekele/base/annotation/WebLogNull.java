@@ -5,5 +5,4 @@ package com.hepengju.hekele.base.annotation;
  *
  * @author he_pe 2019-12-23
  */
-public @interface WebLogNull {
-}
+public @interface WebLogNull {}

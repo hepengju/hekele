@@ -1,22 +1,19 @@
 package com.hepengju.hekele.base.util;
 
 import com.hepengju.hekele.base.core.exception.HeException;
-import com.hepengju.hekele.base.core.sqlhandle.SelectResult;
 import com.hepengju.hekele.base.core.sqlhandle.SqlResult;
-import com.p6spy.engine.spy.P6DataSource;
+import com.hepengju.hekele.base.core.sqlhandle.SqlResult.SelectResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -29,49 +26,11 @@ import java.util.stream.Collectors;
  * 
  *	@author he_pe 2018-01-11
  */
+@Slf4j
 public class DBUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(DBUtil.class);
-	
-	public static final String dbtype   = PropUtil.get("system.dbtype");
-	public static final String url      = PropUtil.get("system.jdbc.url");
-	public static final String username = PropUtil.get("system.jdbc.username");
-	public static final String password = Base64Util.decode(PropUtil.get("system.jdbc.password"));
-	
-	public static final String url2      = PropUtil.getString("second.jdbc.url").contains("${") ? url : PropUtil.get("second.jdbc.url");
-	public static final String username2 = PropUtil.getString("second.jdbc.username").contains("${") ? username : PropUtil.get("second.jdbc.username");
-	public static final String password2 = PropUtil.getString("second.jdbc.password").contains("${") ? password : Base64Util.decode(PropUtil.get("second.jdbc.password"));
-	
 	public static final BigDecimal JS_NUMBER_MAX_VALUE = new BigDecimal("9007199254740992");
-	
-	/* 以下信息配置在Code表
-	public static Map<String,String> driverClassMap = new HashMap<>();
-	public static Map<String,String> jdbcUrlMap = new HashMap<>();
-	
-	static {
-		driverClassMap.put("MySQL"      , "com.mysql.jdbc.Driver");
-		    jdbcUrlMap.put("MySQL"      , "jdbc:mysql://<server>:<port3306>/<database>");
-		 
-		driverClassMap.put("DB2"        , "com.ibm.db2.jcc.DB2Driver");
-		    jdbcUrlMap.put("DB2"        , "jdbc:db2://<server>:<port50000>/<database>");
-		    
-	    driverClassMap.put("Oracle"     , "oracle.jdbc.OracleDriver");
-		    jdbcUrlMap.put("Oracle"     , "jdbc:oracle:thin:@<server>:<port1521>:<sid>");
 
-	    driverClassMap.put("SqlServer"  , "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	        jdbcUrlMap.put("SqlServer"  , "jdbc:sqlserver://<server>:<port1433>;DatabaseName=<database>");
-	        
-	    driverClassMap.put("PostgreSQL"  , "org.postgresql.Driver");
-	        jdbcUrlMap.put("PostgreSQL"  , "jdbc:postgresql://<server>:<port5432>/<database>");
-	        
-	    driverClassMap.put("MariaDB"     , "org.mariadb.jdbc.Driver");
-	        jdbcUrlMap.put("MariaDB"     , "jdbc:mariadb://<server>:<port3306>/<database>");
-	        
-	    driverClassMap.put("GreenPlum"   , "com.pivotal.jdbc.GreenplumDriver");
-	        jdbcUrlMap.put("GreenPlum"   , "jdbc:greenplum://<server>:<port5432>/<database>");
-	}
-	*/
-	
     /**
      * 执行SQL语句
      */
@@ -84,37 +43,7 @@ public class DBUtil {
             }
         }
     }
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// 测试使用
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
-	/**
-	 * 取得数据库连接
-	 */
-	public static Connection getConnection() {
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(url, username, password);
-		} catch (Exception e) {
-			logger.error(StackUtil.getStackTrace(e));
-		}
-		Objects.requireNonNull(conn);
-		return conn;
-	}
-	
-	/**
-	 * 取得数据库连接
-	 */
-	public static Connection getConnection2(){
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(url2, username2, password2);
-		} catch (Exception e) {
-			logger.error(StackUtil.getStackTrace(e));
-		}
-		Objects.requireNonNull(conn);
-		return conn;
-	}
-	
+
 	/**
 	 * 释放数据库连接
 	 */
@@ -124,7 +53,7 @@ public class DBUtil {
 				if (!conn.isClosed())
 					conn.close();
 			} catch (SQLException e) {
-				logger.error(StackUtil.getStackTrace(e));
+				log.error(StackUtil.getStackTrace(e));
 			}
 		}
 	}
@@ -137,7 +66,7 @@ public class DBUtil {
 			try {
 				conn.rollback();
 			} catch (SQLException e) {
-				logger.error(StackUtil.getStackTrace(e));
+				log.error(StackUtil.getStackTrace(e));
 			}
 		}
 	}
@@ -151,97 +80,11 @@ public class DBUtil {
 				if (!rst.isClosed())
 					rst.close();
 			} catch (SQLException e) {
-				logger.error(StackUtil.getStackTrace(e));
+				log.error(StackUtil.getStackTrace(e));
 			}
 		}
 	}
 	
-	/**
-	 * 根据数据库表名称取得Map<字段名称,字段类型>
-	 */
-	public static Map<String, String> getColumnTypeMap(String tableName,boolean second) {
-		Map<String, String> map = new LinkedHashMap<>();
-		Connection conn = null;
-		try {
-			conn = second ? DBUtil.getConnection2() : DBUtil.getConnection();
-			DatabaseMetaData metaData = conn.getMetaData();
-			String schema = null;
-			tableName = tableName.toUpperCase();
-			int dot = tableName.indexOf(".");
-			if(dot != -1) {
-				schema = tableName.substring(0, dot);
-				tableName = tableName.substring(dot + 1);
-			}
-			try(ResultSet rst = metaData.getColumns(null, schema, tableName.toUpperCase(), "%")){
-				while (rst.next()) {
-					String columnName = rst.getString("COLUMN_NAME");
-					String columnType = rst.getString("TYPE_NAME");
-					map.put(columnName, columnType);
-				}
-			}
-		} catch (SQLException e) {
-			logger.error(StackUtil.getStackTrace(e));
-		} finally {
-			DBUtil.releaseConnection(conn);
-		}
-		return map;
-	}
-
-	/**
-	 * 根据数据库表名称取得Map<字段名称,字段注释>
-	 */
-	public static Map<String, String> getColumnCommentMap(String tableName,boolean second) {
-		Map<String, String> map = new LinkedHashMap<>();
-		Connection conn = null;
-		try {
-			conn = second ? DBUtil.getConnection2() : DBUtil.getConnection();
-			DatabaseMetaData metaData = conn.getMetaData();
-			
-			String schema = null;
-			tableName = tableName.toUpperCase();
-			int dot = tableName.indexOf(".");
-			if(dot != -1) {
-				schema = tableName.substring(0, dot);
-				tableName = tableName.substring(dot + 1);
-			}
-			try(ResultSet rst = metaData.getColumns(null, schema, tableName.toUpperCase(), "%")){
-				while (rst.next()) {
-					String columnName = rst.getString("COLUMN_NAME");
-					String columnRemark = rst.getString("REMARKS");
-					map.put(columnName, columnRemark);
-				}
-			}
-		} catch (SQLException e) {
-			logger.error(StackUtil.getStackTrace(e));
-		} finally {
-			DBUtil.releaseConnection(conn);
-		}
-		return map;
-	}
-	
-	/**
-	 * 根据Sql语句取得Map<字段名称,字段类型>(sql.Type转换为使用的Type)
-	 */
-	public static Map<String, String> getColumnTypeMapBySql(Connection conn,String sql) {
-		Map<String, String> map = new LinkedHashMap<>();
-		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setMaxRows(1);
-			try (ResultSet rst = pstmt.executeQuery()) {
-				ResultSetMetaData rstmd = rst.getMetaData();
-				int columnCount = rstmd.getColumnCount();
-				for (int i = 1; i <= columnCount; i++) {
-					String label = rstmd.getColumnLabel(i);
-					int sqlType = rstmd.getColumnType(i);
-					String reportType = sqlTypeToReportType(sqlType);
-					map.put(label, reportType);
-				}
-			}
-		} catch (SQLException e) {
-			logger.error(StackUtil.getStackTrace(e));
-		} 
-		return map;
-	}
-
 	/**
 	 * java.sql.Types转换为报表查询所需的类型
 	 */
@@ -272,34 +115,6 @@ public class DBUtil {
 		return javaType;
 	}
 
-	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// Spring相关对象
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	
-	/**
-	 * 取得数据源: 测试临时使用, 开发请使用 @DbConfigService
-	 */
-	public static DataSource getDataSource() {
-		//new DriverManagerDataSource(url, username, password);
-		DataSource dataSource = new SingleConnectionDataSource(url, username, password, true);
-		return new P6DataSource(dataSource);
-	}
-	
-	/**
-	 * 取得JDBCTemplate: 测试临时使用, 开发请使用 @DbConfigService
-	 */
-	public static JdbcTemplate getJdbcTemplate() {
-		return new JdbcTemplate(getDataSource());
-	}
-	
-	/**
-	 * 取得SimpleJdbcInsert: 测试临时使用, 开发请使用 @DbConfigService
-	 */
-	public static SimpleJdbcInsert getSimpleJdbcInsert(String tableName) {
-		return new SimpleJdbcInsert(getDataSource()).withTableName(tableName);
-	}
-
 
 	/**
 	 * Spring的JdbcTemplate的QueryForList返回值的特殊处理
@@ -311,7 +126,7 @@ public class DBUtil {
 			                 return map;})
 				   .collect(Collectors.toList());
 	}
-	
+
 	/**
 	 * 默认不处理double的精度
 	 */
@@ -530,54 +345,4 @@ public class DBUtil {
 		return selectResult;
 	}
 	
-//	/**
-//	 * 根据jdbcUrl获取数据库类型
-//	 */
-//	public static String getDbType(String jdbcUrl) {
-//		DBType dbType = JdbcUtils.getDbType(jdbcUrl);
-//		//特殊处理
-//		String dbTypeStr = dbType.getDb();
-//		if("sqlserver2005".equalsIgnoreCase(dbTypeStr)) dbTypeStr = "sqlserver";
-//		return dbTypeStr;
-//	}
-	
-//	/**
-//	 * 生成分页语句
-//	 */
-//	public static String buildPaginationSql(RowBounds rowBounds, String buildSql, DBType dbType) {
-//		try {
-//			return DialectFactory.buildPaginationSql(rowBounds, buildSql, dbType, null);
-//		} catch (Exception e) {
-//			throw new HeException(e);
-//		}
-//	}
-
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// Spring相关对象
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	
-	
-	///**
-	// * 根据数据库表名称取得Map<字段名称,字段类型>
-	// * <br> 
-	// * 采用[select * from tableName where 1 = 0]语句,是各种数据库的通用方法
-	// */
-	//public static Map<String, String> getColumnTypeMap(String tableName){
-	//	Map<String, String> map = new LinkedHashMap<>();
-	//	String sql = "SELECT * FROM " + tableName + " WHERE 1 = 0 ";
-	//	Connection conn = DBUtil.getConnection();
-	//	try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rst = pstmt.executeQuery();) {
-	//		ResultSetMetaData metaData = rst.getMetaData();
-	//		int count = metaData.getColumnCount();
-	//		for (int i = 1; i <= count; i++) {
-	//			String key = metaData.getColumnName(i);
-	//			String value = metaData.getColumnTypeName(i);
-	//			map.put(key, value);
-	//		}
-	//	} catch (SQLException e) {
-	//		logger.error(StackUtil.getStackTrace(e));
-	//	}
-	//	DBUtil.releaseConnection(conn);
-	//	return map;
-	//}
 }

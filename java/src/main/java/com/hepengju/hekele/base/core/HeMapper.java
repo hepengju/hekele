@@ -14,12 +14,14 @@ import java.util.Date;
  */
 public interface HeMapper<T> extends BaseMapper<T> {
 
-    // 扩展MybatisPlus的方法: 启用,禁用
-    long enableById(Serializable id);
-    long enableBatchByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
-    long disableById(Serializable id);
+    // 扩展MybatisPlus的方法: 根据列值查询个数; 启用,禁用
+    long countByColumnValue(@Param("columnName") String columnName, @Param("columnValue") String columnValue,
+                            @Param("id") Serializable id);
+    long countByTwoColumnValue(@Param("columnName1") String columnName1, @Param("columnValue1") String columnValue1,
+                               @Param("columnName2") String columnName2, @Param("columnValue2") String columnValue2,
+                               @Param("id") Serializable id);
+    long enableBatchByIds (@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
     long disableBatchByIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
-    long countByColumnValue(@Param("columnName") String columnName, @Param("columnValue") String columnValue, @Param("id") Serializable id);
 
     // 新增: 带创建时间和用户
     default Integer addWithCreate(T entity) {

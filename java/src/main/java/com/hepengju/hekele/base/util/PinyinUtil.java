@@ -49,10 +49,5 @@ public class PinyinUtil {
 	 */
 	public static void sort(List<String> srcList){
 		srcList.sort(Comparator.comparing(PinyinUtil::toPinyin).thenComparing(s -> s));
-		//srcList.sort((s1,s2) -> {
-		//	int pinyinCompare = toPinyin(s1).compareTo(toPinyin(s2));
-		//	return pinyinCompare == 0 ? s1.compareTo(s2) : pinyinCompare;
-		//});
-		
 	}
 }

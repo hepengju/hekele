@@ -57,8 +57,6 @@ public class CompressUtil {
      */
     public static String getDefaultPath(String compressFile) {
         File srcFile = new File(compressFile);
-        //String absPath = srcFile.getAbsolutePath();
-        //String path = absPath.substring(0, absPath.lastIndexOf("."));
         return srcFile.getParent();
     }
     

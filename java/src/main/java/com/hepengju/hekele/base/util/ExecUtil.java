@@ -1,7 +1,6 @@
 package com.hepengju.hekele.base.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,12 +19,11 @@ import java.io.InputStreamReader;
  * @author he_pe
  *
  */
+@Slf4j
 public class ExecUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(ExecUtil.class);
-
 	public static void execCommand(String command) {
-		logger.info("begin exec os command: " + command);
+		log.info("begin exec os command: " + command);
 		Process process;
 		try {
 			process = Runtime.getRuntime().exec(command);
@@ -39,12 +37,12 @@ public class ExecUtil {
 
 			// 不会阻塞进程,但是调用时如果没有完成会报错
 			if (process.exitValue() != 0) {
-				logger.error("exec os command failure: " + command);
+				log.error("exec os command failure: " + command);
 			} else {
-				logger.info("exec os command success: " + command);
+				log.info("exec os command success: " + command);
 			}
 		} catch (Exception e) {
-			logger.error("exec os command exception: " + command);
+			log.error(e.getMessage(), e);
 		}
 	}
 
@@ -54,7 +52,7 @@ public class ExecUtil {
 				BufferedReader bufr = new BufferedReader(new InputStreamReader(inputStream))){
 				String out = null;
 				while ((out = bufr.readLine()) != null) {
-					logger.info(out);
+					log.info(out);
 				}
 			} catch (IOException e) {
 			}

@@ -42,8 +42,8 @@ public class Menu {
     private String menuType;
 
     @Code
-    @ApiModelProperty("设备类型(B-浏览器, M-手机, P-PAD)")
-    private String terminalType;
+    @ApiModelProperty("设备类型(B-浏览器, M-移动端)")
+    private String deviceType;
 
     @ApiModelProperty("菜单图标")
     private String menuIcon;

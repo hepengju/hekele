@@ -1,8 +1,7 @@
 package com.hepengju.hekele.base.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.input.ReversedLinesFileReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +15,9 @@ import java.util.List;
  * 
  * @author hepengju
  */
+@Slf4j
 public class IOUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(IOUtil.class);
-	
 	/**
 	 * 读取文件最后N行
 	 */
@@ -40,7 +38,7 @@ public class IOUtil {
 				}
 			}
 		} catch (IOException e) {
-			logger.error(StackUtil.getStackTrace(e));
+			log.error(StackUtil.getStackTrace(e));
 		}
 		
 		//正序返回

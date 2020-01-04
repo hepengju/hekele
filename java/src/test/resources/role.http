@@ -63,4 +63,3 @@ POST {{host}}/admin/role/assignMenu
 Content-Type: application/x-www-form-urlencoded
 
 roleId=aaa&menuId=xxx&menuId=yyy
-###

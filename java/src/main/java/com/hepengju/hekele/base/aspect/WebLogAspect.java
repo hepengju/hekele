@@ -39,8 +39,8 @@ import java.util.Arrays;
 public class WebLogAspect {
 
     // 切入点: Controller的所有public方法
-    @Pointcut("(  execution(public * com.hepengju.hekele..controller.*.*(..)) ) " +
-            " && !@annotation(com.hepengju.hekele.base.annotation.WebLogNull)   ")
+    @Pointcut("(  execution(* com.hepengju.hekele..*Controller.*(..))  " +
+            " && !@annotation(com.hepengju.hekele.base.annotation.WebLogNull) )  ")
     public void logPointCut(){}
 
     // 环绕通知: 整个方法try..catch..起来, 不允许抛出异常
@@ -94,7 +94,7 @@ public class WebLogAspect {
 
         @Override
         public String toString() {
-            return "访问日志 --> 用户: "    + userCode
+            return "==> 用户: "    + userCode
                     + ", IP地址: "  + ipAddr
                     + ", 请求URI: " + requestUri
                     + ", 方法名: "  + methodName
@@ -110,7 +110,7 @@ public class WebLogAspect {
 
         @Override
         public String toString() {
-            return "返回日志 --> 耗时: "     + methodCost
+            return "<== 耗时: "     + methodCost
                     + ", 是否异常: " + throwException
                     + ", 返回值: "   + methodReturn;
         }

@@ -15,3 +15,5 @@ GET http://10.10.128.105:80/actuator/metrics/jvm.memory.used
 
 ### 获取单个服务的JVM占用内存
 GET http://10.10.128.105:80/actuator/metrics/jvm.memory.committed
+
+###

@@ -3,6 +3,7 @@ package com.hepengju.hekele.admin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hepengju.hekele.base.util.SSHUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -13,16 +14,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
-public class EurekaTest {
+import static org.apache.commons.lang3.StringUtils.rightPad;
 
-    private RestTemplate restTemplate;
-    private String eurekaHost = "http://10.10.128.101:8763";
+@Slf4j
+public class SpringMonitorTest {
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private RestTemplate restTemplate;
 
     {
         // 设置1s超时
@@ -32,8 +34,35 @@ public class EurekaTest {
         restTemplate=new RestTemplate(requestFactory);
     }
 
+    // private String eurekaHost = "http://10.10.128.101:8763";  // 开发
+    // private String eurekaHost = "http://10.10.128.121:8763";  // 类生产
+    private String eurekaHost = "http://10.10.121.136:8763";  // 生产
+
+    //  private String host01 = "10.10.128.121";
+    //  private String host02 = "10.10.128.122";
+    private String host01 = "10.10.121.136";
+    private String host02 = "10.10.121.137";
+
     @Test
-    public void testApps(){
+    public void printAll(){
+        printLinux();
+        printlnJava();
+    }
+
+    @Test
+    public void printLinux(){
+        LinuxMonitor lm01 = getLinuxMonitor(host01);
+        LinuxMonitor lm02 = getLinuxMonitor(host02);
+        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("磁盘剩余: ", 48) + lm01.getDiskRemain());
+        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("磁盘剩余: ", 48) + lm02.getDiskRemain());
+        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("内存Free: ", 50) + lm01.getMemFree());
+        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("内存Cache: ", 50) + lm01.getMemCache());
+        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("内存Free: ", 50) + lm02.getMemFree());
+        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("内存Cache: ", 50) + lm02.getMemCache());
+    }
+
+    @Test
+    public void printlnJava(){
 
         // 1. 通过eureka拿到所有实例信息
         List<InstanceMonitor> imList = getInstanceList(eurekaHost);
@@ -45,22 +74,29 @@ public class EurekaTest {
 
         // 按照合理的格式输出
         for (InstanceMonitor monitor : nonNullImList) {
-            System.out.println(StringUtils.rightPad(monitor.getName(), 30)
-                    + StringUtils.rightPad(monitor.getInstanceId(), 50)
-                    + monitor.getJvmUsed() + " / " + monitor.getJvmSize());
+            System.err.println(rightPad(monitor.getName(), 30) + rightPad(monitor.getInstanceId(), 50) + (monitor.getJvmUsed() + " / " + monitor.getJvmSize()));
         }
     }
 
     @Test
-    public void testNumber(){
-        long size = 2790014976L;
-        long sizeM  = size/1024/1024;
-        System.out.println(sizeM);
+    public LinuxMonitor getLinuxMonitor(String host){
+        List<String> lineList = new ArrayList<>();
+        SSHUtil.execCommand(host,22,"root","!QAZ2wsx", "df -h;free -h", lineList::add);
 
-        if(sizeM > 1000){
-            double sizeG = sizeM / 1024.0;
-            System.out.println(decimalFormat.format(sizeG) + "G");
-        }
+        String diskRemain = Arrays.stream(lineList.get(1).split(" "))
+                .filter(StringUtils::isNoneBlank).collect(Collectors.toList()).get(3); // 第二行为挂载目录为/的容量大小
+
+        List<String> memList = Arrays.stream(lineList.get(lineList.size() - 2).split(" ")).filter(StringUtils::isNoneBlank).collect(Collectors.toList());
+        String free = memList.get(3);
+        String buffCache = memList.get(5);
+
+        LinuxMonitor lm = new LinuxMonitor();
+        lm.setHost(host);
+        lm.setDiskRemain(diskRemain);
+        lm.setMemFree(free);
+        lm.setMemCache(buffCache);
+
+        return lm;
     }
 
     private String getFormatSize(Long jvmBytes) {
@@ -117,6 +153,14 @@ public class EurekaTest {
         }
 
         return imList;
+    }
+
+    @Data
+    static class LinuxMonitor {
+        private String host;
+        private String diskRemain;
+        private String memFree;
+        private String memCache;
     }
 
     @Data

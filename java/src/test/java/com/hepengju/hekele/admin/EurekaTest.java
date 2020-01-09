@@ -22,13 +22,13 @@ public class EurekaTest {
 
     private RestTemplate restTemplate;
     private String eurekaHost = "http://10.10.128.101:8763";
-    private DecimalFormat decimalFormat = new DecimalFormat("##.00");
+    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     {
         // 设置1s超时
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(500);
-        requestFactory.setReadTimeout(500);
+        requestFactory.setConnectTimeout(1000);
+        requestFactory.setReadTimeout(2000);
         restTemplate=new RestTemplate(requestFactory);
     }
 

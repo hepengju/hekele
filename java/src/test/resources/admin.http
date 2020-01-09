@@ -6,3 +6,12 @@ Authorization: Basic admin 11a422fbfdcb69570b578f3231eceed8bb
 ### 用户名密码写在url上的方式, 在idea中不行, 但是实测在gitee的webHooks里面是可以的(浏览器直接访问也是OK的)
 POST http://admin:11a422fbfdcb69570b578f3231eceed8bb@ali.hepengju.com:8082/job/hekele-dev/build?token=jenkinsToken&cause=giteeWebHooks
 
+### Eureka获取所有的服务地址和接口
+GET {{host}}/eureka/apps
+Accept:application/json
+
+### 获取单个服务的JVM使用内存
+GET http://10.10.128.105:80/actuator/metrics/jvm.memory.used
+
+### 获取单个服务的JVM占用内存
+GET http://10.10.128.105:80/actuator/metrics/jvm.memory.committed

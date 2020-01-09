@@ -136,7 +136,6 @@ public class SSHUtil {
             try(BufferedReader bufr = new BufferedReader(new InputStreamReader(in,StandardCharsets.UTF_8))){
                 String out = null;
                 while ((out = bufr.readLine()) != null) {
-                    logger.info(out);
                     consumer.accept(out);
                 }
             } catch (IOException e) {
@@ -146,7 +145,6 @@ public class SSHUtil {
             try(BufferedReader bufr = new BufferedReader(new InputStreamReader(err,StandardCharsets.UTF_8))){
                 String out = null;
                 while ((out = bufr.readLine()) != null) {
-                    logger.error(out);
                     consumer.accept(out);
                 }
             } catch (IOException e) {

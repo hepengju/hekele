@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hepengju.hekele.base.util.SSHUtil;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +20,11 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
 
-@Slf4j
 public class SpringMonitorTest {
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private RestTemplate restTemplate;
 
     {
-        // 设置1s超时
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(1000);
         requestFactory.setReadTimeout(2000);
@@ -46,19 +43,32 @@ public class SpringMonitorTest {
     @Test
     public void printAll(){
         printLinux();
+        printDocker();
         printlnJava();
+    }
+
+
+    @Test
+    public void printDocker(){
+        List<String> lineList = new ArrayList<>();
+        SSHUtil.execCommand(host02,22,"root","!QAZ2wsx", "docker stats --no-stream --format \"table {{.Name}}\\t{{.CPUPerc}}\\t{{.MemUsage}}\"", lineList::add);
+        lineList.remove(0); // 去掉标题行
+        for (String line : lineList) {
+            List<String> eleList = Arrays.stream(line.split(" ")).filter(StringUtils::isNoneBlank).collect(Collectors.toList());
+            System.err.println(rightPad(eleList.get(0), 30) + rightPad("内存占用: ", 46) + eleList.get(2) + "M");
+        }
     }
 
     @Test
     public void printLinux(){
         LinuxMonitor lm01 = getLinuxMonitor(host01);
         LinuxMonitor lm02 = getLinuxMonitor(host02);
-        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("磁盘剩余: ", 48) + lm01.getDiskRemain());
-        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("磁盘剩余: ", 48) + lm02.getDiskRemain());
-        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("内存Free: ", 50) + lm01.getMemFree());
-        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("内存Cache: ", 50) + lm01.getMemCache());
-        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("内存Free: ", 50) + lm02.getMemFree());
-        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("内存Cache: ", 50) + lm02.getMemCache());
+        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("磁盘剩余: ", 46) + lm01.getDiskRemain());
+        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("磁盘剩余: ", 46) + lm02.getDiskRemain());
+        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("内存Free: ", 48) + lm01.getMemFree());
+        System.err.println(rightPad(lm01.getHost(), 30) + rightPad("内存Cache: ", 48) + lm01.getMemCache());
+        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("内存Free: ", 48) + lm02.getMemFree());
+        System.err.println(rightPad(lm02.getHost(), 30) + rightPad("内存Cache: ", 48) + lm02.getMemCache());
     }
 
     @Test
@@ -118,7 +128,7 @@ public class SpringMonitorTest {
             im.setJvmUsed(getFormatSize(jvmUsed));
             im.setJvmSize(getFormatSize(jvmSize));
         } catch (Exception e) {
-            log.error(im.instanceId + " 获取JVM内存失败, 原因是: " + e.getMessage());
+            System.err.println(im.instanceId + " 获取JVM内存失败, 原因是: " + e.getMessage());
         }
     }
 

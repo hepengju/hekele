@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class HeException extends RuntimeException {
 
-    private Object[] errFormatArr;
+    protected Object[] errFormatArr;
 
     public HeException(String message, Object... obj) {
         super(message);
@@ -18,11 +18,11 @@ public class HeException extends RuntimeException {
     }
 
     //由于实际需要,因此又追加以下两种构造方法
-    public HeException(String message, Throwable cause) {
-        super(message, cause);
-    }
     public HeException(Throwable cause) {
         super(cause);
+    }
+    public HeException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

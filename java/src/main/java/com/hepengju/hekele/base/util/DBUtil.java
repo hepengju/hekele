@@ -141,35 +141,35 @@ public class DBUtil {
 	 * <br>JDBC的所有类型参见: @java.sql.Types
 	 * <br>Mybatis的类型处理参见: http://www.mybatis.org/mybatis-3/zh/configuration.html#typeHandlers
 	 */
-	public static Object handleJdbcType(Object obj,boolean doubleTwoScale) {
+	public static Object handleJdbcType(Object obj, boolean doubleTwoScale) {
 		//日期/时间的格式化处理
-		if(obj instanceof Time) {
-			return DateFormatUtils.format((java.util.Date)obj, "yyyy-MM-dd HH:mm:ss");
-		}else if(obj instanceof java.sql.Date) {
-			return DateFormatUtils.format((java.sql.Date)obj, "yyyy-MM-dd");
-		}else if(obj instanceof Timestamp) {
-			return DateFormatUtils.format((Timestamp)obj, "yyyy-MM-dd HH:mm:ss");
-		}else if(obj instanceof java.util.Date) {
-			return DateFormatUtils.format((Time)obj, "yyyy-MM-dd HH:mm:ss");
-		
-		//Clob,Blob处理	20190214 情人节 何鹏举 处理Clob到字符串
-		}else if(obj instanceof Blob) {
+		if (obj instanceof Time) {
+			return DateFormatUtils.format((java.util.Date) obj, "yyyy-MM-dd HH:mm:ss");
+		} else if (obj instanceof java.sql.Date) {
+			return DateFormatUtils.format((java.sql.Date) obj, "yyyy-MM-dd");
+		} else if (obj instanceof Timestamp) {
+			return DateFormatUtils.format((Timestamp) obj, "yyyy-MM-dd HH:mm:ss");
+		} else if (obj instanceof java.util.Date) {
+			return DateFormatUtils.format((Time) obj, "yyyy-MM-dd HH:mm:ss");
+
+			//Clob,Blob处理	20190214 情人节 何鹏举 处理Clob到字符串
+		} else if (obj instanceof Blob) {
 			return "(blob)";
-		}else if(obj instanceof Clob) {
+		} else if (obj instanceof Clob) {
 			Clob clob = (Clob) obj;
-			try(Reader reader = clob.getCharacterStream()) {
-				char[] cbuf = new char[(int) clob.length()];
-				reader.read(cbuf);
-				return new String(cbuf);
+			try (Reader reader = clob.getCharacterStream()) {
+				char[] buf = new char[(int) clob.length()];
+				reader.read(buf);
+				return new String(buf);
 			} catch (SQLException | IOException e) {
 				return "(clob)";
 			}
-			
-		//空值处理
-		}else if(obj == null) {
+
+			//空值处理
+		} else if (obj == null) {
 			return "";
-		
-		}else {
+
+		} else {
 			if (doubleTwoScale) {
 				if (obj instanceof Float) {
 					return Double.parseDouble(String.format("%.2f", obj));
@@ -179,11 +179,11 @@ public class DBUtil {
 					return ((BigDecimal) obj).setScale(2, BigDecimal.ROUND_HALF_UP);
 				}
 			}
-			
+
 			//20190219 王正英/何鹏举 对于BigDecimal当大于js的最大值: 2^53时, 返回字符串
 			if (obj instanceof BigDecimal) {
 				BigDecimal dbValue = (BigDecimal) obj;
-				if(dbValue.compareTo(JS_NUMBER_MAX_VALUE) > 0) {
+				if (dbValue.compareTo(JS_NUMBER_MAX_VALUE) > 0) {
 					return dbValue.toString();
 				}
 			}

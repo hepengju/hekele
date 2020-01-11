@@ -3,11 +3,13 @@ package com.hepengju.hekele.base.core;
 import com.hepengju.hekele.base.constant.HeConst;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.ResourceUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class M {
 
+    private static ResourceLoader resourceLoader = new DefaultResourceLoader();
     private static final String MESSAGE_NAME = "classpath:he.message";
 
     // 由于SpringBoot项目, 配置文件在jar包里面, 不能动态修改文件了, 此处加入get/set用于前端界面动态修改(重启后失效)
@@ -27,13 +30,15 @@ public class M {
     private static Map<String, HeMessage> keyHeMessageMap;
 
     static {
-        try {
+        try (InputStream inputStream = resourceLoader.getResource(MESSAGE_NAME).getInputStream();){
             List<Integer>   codeList = new ArrayList<>();
             List<String>    keyList  = new ArrayList<>();
             List<HeMessage> hmList   = new ArrayList<>();
 
-            File file = ResourceUtils.getFile(MESSAGE_NAME);
-            List<String> lineList = Files.readAllLines(file.toPath());
+            // SpringBoot的jar包里面不能使用此种方式读取
+            //File file = ResourceUtils.getFile(MESSAGE_NAME);
+            //List<String> lineList = Files.readAllLines(file.toPath());
+            List<String> lineList = IOUtils.readLines(inputStream, StandardCharsets.UTF_8);
             for (String line : lineList) {
                 if (line.startsWith("#") || "".equals(line.trim())) continue;     //#号注释处理
                 try {

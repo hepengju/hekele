@@ -9,13 +9,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * 管理员控制
@@ -27,6 +28,8 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("/admin/super")
 public class AdminController {
+
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     @Value("${hekele.restart.shell}")
     private String restartShell;
@@ -42,11 +45,8 @@ public class AdminController {
     @ApiOperation("下载hekele最新数据库设计")
     @GetMapping("downloadHekeleXlsm")
     public void downloadHekeleXlsm(HttpServletResponse res) throws IOException {
-        try(InputStream is = this.getClass().getClassLoader().getResourceAsStream("public/db/hekele.xlsm")){
-            byte[] bytes = new byte[is.available()];
-            is.read(bytes);
-            WebUtil.handleFileDownload("hekele-" + Now.yyyyMMddHHmmss() + ".xlsm", bytes);
-        };
+        WebUtil.handleFileDownload("hekele-" + Now.yyyyMMddHHmmss() + ".xlsm",
+                resourceLoader.getResource("classpath:public/db/hekele.xlsm").getInputStream());
     }
 
 }

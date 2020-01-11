@@ -83,6 +83,12 @@ public class ExcelUtil {
 		Workbook wb = new SXSSFWorkbook();
 		Sheet sheet = wb.createSheet();
 
+		// 20200111 hepengju 补充一个Sheet, 记录SQL语句
+		Sheet sqlSheet = wb.createSheet("sql");
+		Row sqlRow = sqlSheet.createRow(0);
+		Cell sqlCell = sqlRow.createCell(0);
+		sqlCell.setCellValue(sql);
+
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);
 			 ResultSet rst = pstmt.executeQuery();) {
 			ResultSetMetaData metaData = rst.getMetaData();
@@ -226,7 +232,7 @@ public class ExcelUtil {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static Map<String, List<List<String>>> readCommon(MultipartFile multipartFile, String sheetName, Integer sheetNo, boolean onlySheetName, boolean onlyTitle, boolean onlyData, int titleRow, int dataBeginRow, Integer lastColumnIndex) {
 		try (InputStream is = multipartFile.getInputStream()) {
 			return readCommon(is, multipartFile.getOriginalFilename(), sheetName, sheetNo, onlySheetName, onlyTitle, onlyData, titleRow, dataBeginRow, lastColumnIndex);

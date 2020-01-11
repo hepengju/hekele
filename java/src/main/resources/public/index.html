@@ -8,7 +8,12 @@
 
     <h2>欢迎来到喝可乐项目</h2>
 
-    <a href="/document">设计理念</a><br>
+    <a href="https://gitee.com/hepengju/hekele" target="_blank">Gitee</a><br>
+    <a href="https://github.com/hepengju/hekele.git" target="_blank">Github</a><br>
+    <br>
+    <br>
+
+    <a href="https://gitee.com/hepengju/hekele/tree/master/java/src/main/resources/public/doc" target="_blank">设计理念</a><br>
     <a href="/doc.html">接口文档</a><br>
     <a href="/druid">Druid监控</a><br>
     <a href="/actuator">Actuator</a><br>
@@ -19,5 +24,22 @@
     <a href="/admin/super/gitPullThenRestart">拉取最新代码然后重启应用</a><br>
     <a href="/admin/super/downloadHekeleXlsm">下载hekele最新数据库设计</a><br>
 
+    <br>
+    <br>
+
+    <h3>SQL语句导出Excel</h3>
+    <form action="/admin/excel/exportFromDbBySQL" method="post">
+        <textarea cols="20" rows="5" name="sql">SELECT * FROM PERSON</textarea><button>导出</button><br>
+    </form>
+
+    <br>
+    <br>
+    <a href="/admin/excel/downloadTemplate">下载人员表的导入模板</a><br><br>
+
+    <h3>Excel通用导入</h3>
+    <form action="/admin/excel/importByConfigBeanId" method="post" enctype="multipart/form-data">
+        配置Bean: <input type="text" name="configBeanId" value="importPerson"><br>
+        选择导入文件: <input type="file" name="file"/><button>提交</button>
+    </form>
 </body>
 </html>

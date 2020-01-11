@@ -16,13 +16,13 @@ class ExcelUtilTest {
     private String username = "hekele";
     private String password = "hekele123";
 
-    private String sql = "SELECT USER_ID AS 主键, USER_NAME AS 姓名, GENDER AS 性别, PHONE AS 手机号, BIRTH AS 出生日期, FAMILY_POPULATION AS 家庭人口, SALARY_YEAR AS 年收入, MANAGER_NO AS 经理编号, ORG_NO AS 机构编号, FAMILY_ADDR AS 家庭地址 FROM PERSON";
+    private String sql = "SELECT USER_ID AS 主键, USER_NAME AS 姓名, GENDER AS 性别, PHONE AS 手机号, BIRTH AS 出生日期, FAMILY_POPULATION AS 家庭人口, SALARY_YEAR AS 年收入, MANAGER_NO AS 经理编号, ORG_NO AS 机构编号, FAMILY_ADDR AS 家庭地址 FROM PERSON LIMIT 10";
     private String fileName = "d:/person.xlsx";
 
     @Test
     void exportFromDB() throws SQLException, FileNotFoundException {
         Connection conn = DriverManager.getConnection(url, username, password);
-        ExcelUtil.exportFromDB(conn, sql, new FileOutputStream(new File(fileName)));
+        ExcelUtil.exportFromDB(conn, sql, new FileOutputStream(fileName));
     }
 
     @Test

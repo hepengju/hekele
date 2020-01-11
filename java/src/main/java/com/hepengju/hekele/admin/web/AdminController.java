@@ -24,8 +24,7 @@ import java.io.IOException;
  * @author he_pe 2019-12-25
  */
 @Api(tags = "超级管理员操作")
-@Slf4j
-@RestController
+@RestController @Slf4j
 @RequestMapping("/admin/super")
 public class AdminController {
 
@@ -46,8 +45,7 @@ public class AdminController {
     @ApiOperation("下载hekele最新数据库设计")
     @GetMapping("downloadHekeleXlsm")
     public void downloadHekeleXlsm(HttpServletResponse res) throws IOException {
-        WebUtil.handleFileDownload("hekele-" + Now.yyyyMMddHHmmss() + ".xlsm",
-                resourceLoader.getResource(hekeleXlsmFile).getInputStream());
+        WebUtil.handleFileDownload("hekele-" + Now.yyyyMMddHHmmss() + ".xlsm", resourceLoader.getResource(hekeleXlsmFile).getInputStream());
     }
 
 }

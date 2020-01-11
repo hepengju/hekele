@@ -17,8 +17,8 @@ public class ExcelSheetConfig {
 	private Integer dataBeginRow = 2;   //数据开始行
 	private ExcelSheetCheck excelSheetCheck;   // Excel工作表的校验类
 	
-	private boolean sheetNameMustExist      = false; // 工作表必须存在检查
-	private boolean sheetNameDataMustExist  = false; // 工作表数据必须大于0检查
+	private boolean sheetNameMustExist      = true; // 工作表必须存在检查
+	private boolean sheetNameDataMustExist  = true; // 工作表数据必须大于0检查
 	
 	private String beforeSqls;  // 预处理语句
 	private String afterSqls;   // 后处理语句

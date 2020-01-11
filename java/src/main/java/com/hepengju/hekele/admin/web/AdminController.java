@@ -30,6 +30,7 @@ import java.io.IOException;
 public class AdminController {
 
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
+    private String hekeleXlsmFile = "classpath:public/db/hekele.xlsm";
 
     @Value("${hekele.restart.shell}")
     private String restartShell;
@@ -46,7 +47,7 @@ public class AdminController {
     @GetMapping("downloadHekeleXlsm")
     public void downloadHekeleXlsm(HttpServletResponse res) throws IOException {
         WebUtil.handleFileDownload("hekele-" + Now.yyyyMMddHHmmss() + ".xlsm",
-                resourceLoader.getResource("classpath:public/db/hekele.xlsm").getInputStream());
+                resourceLoader.getResource(hekeleXlsmFile).getInputStream());
     }
 
 }

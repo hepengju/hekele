@@ -5,6 +5,7 @@ import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -65,10 +67,9 @@ public class WebUtil implements ApplicationContextAware {
 	}
 
 	public static void handleFileDownload(String attachment, InputStream inputStream) {
+		handleFileDownload(attachment);
 		try (InputStream is = inputStream) {
-			byte[] bytes = new byte[is.available()];
-			is.read(bytes);
-			WebUtil.handleFileDownload(attachment, bytes);
+			IOUtils.copy(inputStream, WebUtil.getHttpServletResponse().getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -78,7 +79,9 @@ public class WebUtil implements ApplicationContextAware {
 		handleFileDownload(attachment);
 		if(byteArray != null){
 			try {
-				WebUtil.getHttpServletResponse().getOutputStream().write(byteArray);
+				ServletOutputStream outputStream = WebUtil.getHttpServletResponse().getOutputStream();
+				outputStream.write(byteArray);
+				outputStream.flush();
 			} catch (IOException e) {
 				throw new HeException(e);
 			}

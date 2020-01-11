@@ -71,13 +71,13 @@
 
 
 # Word, Excel, PDF等处理 10800
- 10801 : excel.suffixError               : Excel的后缀名错误，只能是xls或xlsx
+ 10801 : excel.extNameWrong              : Excel的后缀名错误，只能是xls或xlsx
  10802 : excel.fileReadException         : Excel文件读取异常
  10803 : excel.titleIsNull               : 没有标题数据
  10804 : excel.dataIsNull                : 没有内容数据
  10805 : excel.configException           : Excel导入配置异常
- 10806 : excel.columnTitle.wrong         : Excel工作表【%s】的标题与配置不符合，请重新下载模板
- 10807 : excel.sheetNameMustExist        : Excel工作表【%s】的必须存在
+ 10806 : excel.columnTitle.wrong         : Excel工作表【%s】的标题与配置不符，请重新下载导入模板
+ 10807 : excel.sheetNameMustExist        : Excel工作表【%s】必须存在
  10808 : excel.sheetNameDataMustExist    : Excel工作表【%s】没有数据
  10809 : excel.import.failure            : Excel导入失败
  10810 : excel.import.checkErr           : Excel导入检查异常

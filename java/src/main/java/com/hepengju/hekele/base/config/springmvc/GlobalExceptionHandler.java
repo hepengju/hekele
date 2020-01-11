@@ -4,9 +4,11 @@ import com.hepengju.hekele.base.constant.HeConst;
 import com.hepengju.hekele.base.core.M;
 import com.hepengju.hekele.base.core.R;
 import com.hepengju.hekele.base.core.exception.BeanValidException;
+import com.hepengju.hekele.base.core.exception.ExcelCheckException;
 import com.hepengju.hekele.base.core.exception.HeException;
 import com.hepengju.hekele.base.util.StackUtil;
 import com.hepengju.hekele.base.util.ValidUtil;
+import com.hepengju.hekele.base.util.WebUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
+import java.util.stream.Collectors;
 
 /**
  * 全局的异常处理器
@@ -77,12 +80,26 @@ public class GlobalExceptionHandler {
      * 1. 记录错误异常
      * 2. 如果是浏览器端, 则加入错误详细信息(移动端不加入)
      */
+    @ExceptionHandler(ExcelCheckException.class)
+    public R handleExcelCheckException(ExcelCheckException e) {
+        R result = M.getErrR("excel.import.checkErr");
+        String errDetail = e.getErrList().stream().collect(Collectors.joining("\n"));
+        log.info(errDetail);
+        result.setErrdetail(errDetail);
+        return result;
+    }
+
+    /**
+     * 自定义异常
+     *
+     * 1. 记录错误异常
+     * 2. 如果是浏览器端, 则加入错误详细信息(移动端不加入)
+     */
     @ExceptionHandler(HeException.class)
     public R handleHeException(HeException e) {
         log.error(e.getMessage(), e);
         R result = M.getErrR(e.getMessage(), e.getErrFormatArr());
-        // TODO 是否返回堆栈信息
-        return true ? result.setErrdetail(StackUtil.getStackTrace(e)) : result;
+        return WebUtil.isComputer() ? result.setErrdetail(StackUtil.getStackTrace(e)) : result;
     }
 
     /**

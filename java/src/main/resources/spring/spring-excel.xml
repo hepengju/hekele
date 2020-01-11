@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+    <bean id="importPerson" class="com.hepengju.hekele.base.core.excel.ExcelBookConfig">
+        <property name="sheetList">
+            <util:list>
+                <bean class="com.hepengju.hekele.base.core.excel.ExcelSheetConfig">
+                    <property name="beforeSqls"><value><![CDATA[
+                        TRUNCATE TABLE IMP_PERSON
+                    ]]></value></property>
+                    <property name="sheetName"   value="人员表"/>
+                    <property name="columnTitle" value="姓名,性别,手机号,出生日期,家庭人口,年收入,经理编号,机构编号,家庭地址"/>
+                    <property name="insertSql"   value="INSERT INTO IMP_PERSON (USER_NAME, GENDER, PHONE, BIRTH, FAMILY_POPULATION, SALARY_YEAR, MANAGER_NO, ORG_NO, FAMILY_ADDR, _CREATE_TIME, _CREATE_USER_CODE, _CREATE_USER_NAME, _IMPORT_FILE_NAME, _CHECK_ERROR_INFO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"/>
+                    <property name="excelSheetCheck">
+                        <bean class="com.hepengju.hekele.base.core.excel.ImportPersonCheck"/>
+                    </property>
+                    <!--
+                    <property name="afterSqls"><value><![CDATA[
+                        INSERT INTO PERSON(USER_ID, USER_NAME, GENDER, PHONE, BIRTH, FAMILY_POPULATION, SALARY_YEAR, MANAGER_NO, ORG_NO, FAMILY_ADDR)
+                                    SELECT USER_ID, USER_NAME, GENDER, PHONE, BIRTH, FAMILY_POPULATION, SALARY_YEAR, MANAGER_NO, ORG_NO, FAMILY_ADDR
+                                      FROM IMP_PERSON
+                    ]]></value></property>
+                    -->
+                </bean>
+            </util:list>
+        </property>
+    </bean>
+</beans>

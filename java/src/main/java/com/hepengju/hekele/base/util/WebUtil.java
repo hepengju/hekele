@@ -5,6 +5,7 @@ import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -42,11 +45,7 @@ public class WebUtil implements ApplicationContextAware {
 	 * 处理文件下载的通用方法
 	 */
 	public static void handleFileDownload(String attachment){
-		handleFileDownload(attachment, null);
-	}
-	public static void handleFileDownload(String attachment, byte[] byteArray){
 		String fileName = attachment;
-
 		// 这种方式: 谷歌/火狐OK, IE/Edge不行
 		//try {fileName = new String(fileName.getBytes("UTF-8"),"ISO-8859-1");} catch (UnsupportedEncodingException e) {}
 
@@ -55,7 +54,6 @@ public class WebUtil implements ApplicationContextAware {
 		HttpServletResponse response = WebUtil.getHttpServletResponse();
 		response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"; filename*=utf-8''" + fileName);
-
 
 		// 保留原始的文件名, 便于前端解析 --> 需要使用; 两种都设置下
 		// var filename = resp.headers['original-filename'];
@@ -66,10 +64,24 @@ public class WebUtil implements ApplicationContextAware {
 		// 以下两个也加入, 以便可能的使用
 		response.setHeader("Original-Filename-Java", attachment);
 		response.setHeader("Original-Filename-Encode", fileName);
+	}
 
+	public static void handleFileDownload(String attachment, InputStream inputStream) {
+		handleFileDownload(attachment);
+		try (InputStream is = inputStream) {
+			IOUtils.copy(inputStream, WebUtil.getHttpServletResponse().getOutputStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void handleFileDownload(String attachment, byte[] byteArray){
+		handleFileDownload(attachment);
 		if(byteArray != null){
 			try {
-				response.getOutputStream().write(byteArray);
+				ServletOutputStream outputStream = WebUtil.getHttpServletResponse().getOutputStream();
+				outputStream.write(byteArray);
+				outputStream.flush();
 			} catch (IOException e) {
 				throw new HeException(e);
 			}

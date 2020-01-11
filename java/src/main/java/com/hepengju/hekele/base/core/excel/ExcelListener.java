@@ -1,4 +1,4 @@
-package com.hepengju.hekele.base.core.easyexcel;
+package com.hepengju.hekele.base.core.excel;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
@@ -58,10 +58,10 @@ public class ExcelListener extends AnalysisEventListener<Object> {
     @Override
     public void invoke(Object object, AnalysisContext context) {
         currentRow ++;
-        if(onlySheetName) return;                                                       // 跳过行处理(仅仅读取Sheet名称时使用)
-        if(onlyTitle && currentRow == titleRow) { readDataNormal(object); return; }     // 只需要标题
-        if(onlyData  && currentRow >= dataBeginRow) { readDataNormal(object); return; } // 只需要数据
-        readDataNormal(object);                                                         // 正常读取数据情况
+        if(onlySheetName) return;                           // 跳过行处理(仅仅读取Sheet名称时使用)
+        if(onlyTitle && currentRow != titleRow) return;     // 只需要标题
+        if(onlyData  && currentRow < dataBeginRow) return; // 只需要数据
+        readDataNormal(object);                             // 正常读取数据情况
     }
 
     private void readDataNormal(Object object) {

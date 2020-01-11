@@ -3,11 +3,11 @@ package com.hepengju.hekele.base.util;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.hepengju.hekele.base.core.excel.ExcelListener;
-import com.hepengju.hekele.base.core.exception.ExcelHandleException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.util.PropertyPlaceholderHelper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -118,7 +118,7 @@ public class ExcelUtil {
 			wb.write(os);
 			wb.close();
 		} catch (SQLException | IOException e) {
-			throw new ExcelHandleException(e);
+			throw new RuntimeException(e);
 		} finally {
 			DBUtil.releaseConnection(conn);
 		}
@@ -132,7 +132,7 @@ public class ExcelUtil {
 			wb.write(os);
 			wb.setActiveSheet(0); //激活首个Sheet页
 		} catch (IOException e) {
-			throw new ExcelHandleException(e);
+			throw new RuntimeException(e);
 		}
 	}
 	public static void exportFromList(Map<String, List<String>> titleMap, Map<String, List<List<Object>>> dataMap, OutputStream os) {
@@ -145,7 +145,7 @@ public class ExcelUtil {
 			wb.write(os);
 			wb.setActiveSheet(0); //激活首个Sheet页
 		} catch (IOException e) {
-			throw new ExcelHandleException(e);
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -169,7 +169,7 @@ public class ExcelUtil {
 			}
 			return sheetNameList;
 		} catch (IOException e) {
-			throw new ExcelHandleException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -218,43 +218,56 @@ public class ExcelUtil {
 		return readCommon(fileName, sheetName, sheetNo, onlySheetName, onlyTitle, onlyData, 1, 2, null);
 	}
 
-	/**
-     * 通用的读取方法
-     * 
-     * @param fileName      文件名称
-     * @param sheetName     工作表名称
-     * @param sheetNo       工作表索引
-     * @param onlySheetName 只读取工作表名称
-     * @param onlyTitle     只读取标题
-     * @param onlyData      只读取数据
-     * @param titleRow      标题所在行
-     * @param dataBeginRow  数据开始行
-     */
-	@SuppressWarnings("deprecation")
+
 	public static Map<String, List<List<String>>> readCommon(String fileName, String sheetName, Integer sheetNo, boolean onlySheetName, boolean onlyTitle, boolean onlyData, int titleRow, int dataBeginRow, Integer lastColumnIndex) {
 		try (InputStream is = new FileInputStream(fileName)) {
-			ExcelListener excelListener = new ExcelListener(onlySheetName, onlyTitle, onlyData, titleRow, dataBeginRow, lastColumnIndex);
-			ExcelTypeEnum type = excelListener.getExcelType(fileName);                              // 类型判断
-			ExcelReader excelReader = new ExcelReader(is, type, null, excelListener); // SAX读取
-			List<com.alibaba.excel.metadata.Sheet> sheets = excelReader.getSheets();                // 逐个Sheet读取
-			Map<String, List<List<String>>> dataMap = new LinkedHashMap<>(sheets.size());
-			for (com.alibaba.excel.metadata.Sheet sheet : sheets) {
-				String name = sheet.getSheetName();
-				int num = sheet.getSheetNo();
-				if (sheetName != null && sheetName.equals(name)      // sheetName不为空时必须相等
-						|| sheetNo != null && sheetNo.equals(num)    // sheetNo不为空时必须相等
-						|| sheetName == null && sheetNo == null) {
-					excelReader.read(sheet);
-					List<List<String>> dataList = excelListener.getDataList();
-					dataMap.put(name, dataList);
-					if (sheetNo != null) dataMap.put(String.valueOf(sheetNo), dataList); // 工作表序号不为空, 则也put进去
-					excelListener.resetDataList();
-				}
-			}
-			return dataMap;
+			return readCommon(is, fileName, sheetName, sheetNo, onlySheetName, onlyTitle, onlyData, titleRow, dataBeginRow, lastColumnIndex);
 		} catch (IOException e) {
-			throw new ExcelHandleException(e);
+			throw new RuntimeException(e);
 		}
+	}
+	
+	public static Map<String, List<List<String>>> readCommon(MultipartFile multipartFile, String sheetName, Integer sheetNo, boolean onlySheetName, boolean onlyTitle, boolean onlyData, int titleRow, int dataBeginRow, Integer lastColumnIndex) {
+		try (InputStream is = multipartFile.getInputStream()) {
+			return readCommon(is, multipartFile.getOriginalFilename(), sheetName, sheetNo, onlySheetName, onlyTitle, onlyData, titleRow, dataBeginRow, lastColumnIndex);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 通用的读取方法
+	 *
+	 * @param fileName      文件名称
+	 * @param sheetName     工作表名称
+	 * @param sheetNo       工作表索引
+	 * @param onlySheetName 只读取工作表名称
+	 * @param onlyTitle     只读取标题
+	 * @param onlyData      只读取数据
+	 * @param titleRow      标题所在行
+	 * @param dataBeginRow  数据开始行
+	 */
+	@SuppressWarnings("deprecation")
+	public static Map<String, List<List<String>>> readCommon(InputStream inputStream, String fileName ,String sheetName, Integer sheetNo, boolean onlySheetName, boolean onlyTitle, boolean onlyData, int titleRow, int dataBeginRow, Integer lastColumnIndex) {
+		ExcelListener excelListener = new ExcelListener(onlySheetName, onlyTitle, onlyData, titleRow, dataBeginRow, lastColumnIndex);
+		ExcelTypeEnum type = excelListener.getExcelType(fileName);                                         // 类型判断
+		ExcelReader excelReader = new ExcelReader(inputStream, type, null, excelListener); // SAX读取
+		List<com.alibaba.excel.metadata.Sheet> sheets = excelReader.getSheets();                          // 逐个Sheet读取
+		Map<String, List<List<String>>> dataMap = new LinkedHashMap<>(sheets.size());
+		for (com.alibaba.excel.metadata.Sheet sheet : sheets) {
+			String name = sheet.getSheetName();
+			int num = sheet.getSheetNo();
+			if (sheetName != null && sheetName.equals(name)      // sheetName不为空时必须相等
+					|| sheetNo != null && sheetNo.equals(num)    // sheetNo不为空时必须相等
+					|| sheetName == null && sheetNo == null) {
+				excelReader.read(sheet);
+				List<List<String>> dataList = excelListener.getDataList();
+				dataMap.put(name, dataList);
+				if (sheetNo != null) dataMap.put(String.valueOf(sheetNo), dataList); // 工作表序号不为空, 则也put进去
+				excelListener.resetDataList();
+			}
+		}
+		return dataMap;
 	}
 
 	/**
@@ -276,7 +289,7 @@ public class ExcelUtil {
 	public static List<String> getTitleList(Sheet sheet, int lastColumnIndex) {
 		List<String> titleList = new ArrayList<>();
 		Row titleRow = sheet.getRow(0);
-		if (titleRow == null) throw new ExcelHandleException("excel.titleIsNull");
+		if (titleRow == null) throw new RuntimeException("excel.titleIsNull");
 		for (int i = 0; i < (lastColumnIndex == 0 ? titleRow.getLastCellNum() : lastColumnIndex); i++) {
 			Cell cell = titleRow.getCell(i);
 			titleList.add(cell == null ? "" : excelTrim(cell.getStringCellValue()));

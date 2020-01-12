@@ -3,9 +3,6 @@ package com.hepengju.hekele.data.generator.date;
 import com.hepengju.hekele.base.util.DateUtil;
 import com.hepengju.hekele.base.util.RandomUtil;
 import com.hepengju.hekele.data.generator.Generator;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -15,15 +12,35 @@ import java.util.Date;
  * @author hepengju
  *
  */
-@Data @NoArgsConstructor @AllArgsConstructor
 public class DateTimeGenerator implements Generator<Date> {
 
-	private Date min = DateUtil.stringToDate("1900-01-01 00:00:00");
-	private Date max = DateUtil.stringToDate("2100-12-31 23:59:59");
+	private String min = "1900-01-01 00:00:00";
+	private String max = "2100-12-31 23:59:59";
+
+	private Date minDate;
+	private Date maxDate;
 
 	@Override
 	public Date generate() {
-		return RandomUtil.randomDate(min.getTime(), max.getTime());
+		return RandomUtil.randomDate(minDate.getTime(), maxDate.getTime());
 	}
 
+	public DateTimeGenerator() {
+		this.setMin(min);
+		this.setMax(max);
+	}
+	public DateTimeGenerator(String min, String max) {
+		this.setMin(min);
+		this.setMax(max);
+	}
+
+	public void setMin(String min) {
+		this.min = min;
+		this.minDate = DateUtil.stringToDate(min);
+	}
+
+	public void setMax(String max) {
+		this.max = max;
+		maxDate = DateUtil.stringToDate(max);
+	}
 }

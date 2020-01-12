@@ -1,4 +1,4 @@
-package com.hepengju.hekele.data.generator.config;
+package com.hepengju.hekele.data.generator.constant;
 
 /**
  * 常量

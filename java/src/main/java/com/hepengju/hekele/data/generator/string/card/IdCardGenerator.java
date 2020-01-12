@@ -3,7 +3,7 @@ package com.hepengju.hekele.data.generator.string.card;
 import com.hepengju.hekele.base.util.DateUtil;
 import com.hepengju.hekele.base.util.RandomUtil;
 import com.hepengju.hekele.data.generator.StringGenerator;
-import com.hepengju.hekele.data.generator.config.DataConst;
+import com.hepengju.hekele.data.generator.constant.DataConst;
 import lombok.Data;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -2,7 +2,7 @@ package com.hepengju.hekele.data.generator.string.name;
 
 
 import com.hepengju.hekele.data.generator.StringGenerator;
-import com.hepengju.hekele.data.generator.config.DataConst;
+import com.hepengju.hekele.data.generator.constant.DataConst;
 import lombok.Data;
 import org.apache.commons.lang3.RandomUtils;
 

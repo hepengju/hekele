@@ -3,9 +3,8 @@ package com.hepengju.hekele.data.generator.string;
 
 import com.hepengju.hekele.base.util.RandomUtil;
 import com.hepengju.hekele.data.generator.StringGenerator;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,9 +13,9 @@ import java.util.List;
  * @author hepengju
  *
  */
-@Data @AllArgsConstructor
-public class CodeListGenerator implements StringGenerator {
+public class CodeGenerator implements StringGenerator {
 
+	private String code = "";
 	private List<String> codeList;
 
 	@Override
@@ -24,4 +23,16 @@ public class CodeListGenerator implements StringGenerator {
 		return RandomUtil.randomOne(codeList);
 	}
 
+	public void setCode(String code) {
+		this.code = code;
+		this.codeList = Arrays.asList(code.split(","));
+	}
+
+	public CodeGenerator() {
+		this.setCode(this.code);
+	}
+
+	public CodeGenerator(String code) {
+		this.setCode(code);
+	}
 }

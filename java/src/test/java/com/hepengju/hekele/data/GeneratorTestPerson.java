@@ -1,11 +1,12 @@
 package com.hepengju.hekele.data;
 
 
+import com.hepengju.hekele.base.core.Now;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.date.DateGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
-import com.hepengju.hekele.data.generator.string.CodeListGenerator;
+import com.hepengju.hekele.data.generator.string.CodeGenerator;
 import com.hepengju.hekele.data.generator.string.address.AddressGenerator;
 import com.hepengju.hekele.data.generator.string.name.ChineseNameGenerator;
 import com.hepengju.hekele.data.generator.string.phone.MobileGenerator;
@@ -15,7 +16,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.stream.IntStream;
 
 public class GeneratorTestPerson {
@@ -29,12 +29,12 @@ public class GeneratorTestPerson {
 		Generator<String> nameGenerator = new ChineseNameGenerator();
 		
 		//性别
-		Generator<String> genderGenerator = new CodeListGenerator(Arrays.asList("M","F"));
+		Generator<String> genderGenerator = new CodeGenerator("M,F");
 		
 		//出生日期
 		DateGenerator birthDateGenerator = new DateGenerator();
-		birthDateGenerator.setMin(new SimpleDateFormat("yyyy-MM-dd").parse("1970-01-01"));
-		birthDateGenerator.setMax((new Date()));
+		birthDateGenerator.setMin("1970-01-01");
+		birthDateGenerator.setMax(Now.yyyyMMdd());
 		
 		//家庭人口
 		IntegerGenerator populationGenerator = new IntegerGenerator();
@@ -55,7 +55,7 @@ public class GeneratorTestPerson {
 		incomeGenerator.setScale(3);
 		
 		//经理,机构
-		CodeListGenerator managerGenerator = new CodeListGenerator(Arrays.asList("M004","M005","M006","M007"));
+		CodeGenerator managerGenerator = new CodeGenerator("M004,M005,M006,M007");
 		
 		//反射生成数据
 		//List<Generator<?>> generatorList = new ArrayList<>();

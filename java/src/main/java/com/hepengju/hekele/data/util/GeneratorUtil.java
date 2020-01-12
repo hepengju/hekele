@@ -39,7 +39,11 @@ public class GeneratorUtil {
         for (Field field : fields) {
             com.hepengju.hekele.data.annotation.Generator gn = field.getAnnotation(com.hepengju.hekele.data.annotation.Generator.class);
             if (gn != null) {
-                MetaGenerator metaGen = new MetaGenerator(gn.min(), gn.max(), gn.code(), gn.scale());
+                MetaGenerator metaGen = new MetaGenerator();
+                metaGen.setMin(gn.min());
+                metaGen.setMax(gn.max());
+                metaGen.setCode(gn.code());
+                metaGen.setScale(gn.scale());
                 genList.add(getGenerator(gn.value(), metaGen));
             } else {
                 genList.add(new NullGenerator());

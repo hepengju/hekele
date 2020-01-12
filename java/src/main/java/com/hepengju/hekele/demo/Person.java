@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hepengju.hekele.base.constant.HeConst;
 import com.hepengju.hekele.data.annotation.Generator;
-import com.hepengju.hekele.data.generator.date.DateGenerator;
+import com.hepengju.hekele.data.generator.date.LocalDateGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
 import com.hepengju.hekele.data.generator.string.CodeGenerator;
 import com.hepengju.hekele.data.generator.string.address.AddressGenerator;
 import com.hepengju.hekele.data.generator.string.computer.UUIDGenerator;
-import com.hepengju.hekele.data.generator.string.name.NameGenerator;
+import com.hepengju.hekele.data.generator.string.name.ChineseNameGenerator;
 import com.hepengju.hekele.data.generator.string.phone.MobileGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,7 +37,7 @@ public class Person {
     private String userId;
 
     @ApiModelProperty("姓名")
-    @Generator(NameGenerator.class)
+    @Generator(ChineseNameGenerator.class)
     private String userName;
 
     @ApiModelProperty("性别")
@@ -49,7 +49,7 @@ public class Person {
     private String phone;
 
     @ApiModelProperty("出生日期")
-    @Generator(value = DateGenerator.class, min = "1949-01-01", max = "2020-01-01")
+    @Generator(value = LocalDateGenerator.class, min = "1949-01-01", max = "2020-01-01")
     @JsonFormat(pattern = HeConst.DATE_FORMAT, timezone = "GMT+8")
     private Date birth;
 

@@ -1,6 +1,7 @@
 package com.hepengju.hekele.data;
 
 
+import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.date.DateGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
@@ -31,15 +32,14 @@ public class GeneratorTestPerson {
 		Generator<String> genderGenerator = new CodeListGenerator(Arrays.asList("M","F"));
 		
 		//出生日期
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		DateGenerator birthDateGenerator = new DateGenerator();
-		birthDateGenerator.setStartInclusive(sdf.parse("1900-01-01").getTime());
-		birthDateGenerator.setEndInclusive((new Date().getTime()));
+		birthDateGenerator.setMin(new SimpleDateFormat("yyyy-MM-dd").parse("1970-01-01"));
+		birthDateGenerator.setMax((new Date()));
 		
 		//家庭人口
 		IntegerGenerator populationGenerator = new IntegerGenerator();
-		populationGenerator.setStartInclusive(1);
-		populationGenerator.setEndExclusive(10);
+		populationGenerator.setMin(1);
+		populationGenerator.setMax(10);
 		
 		//家庭地址
 		AddressGenerator addressGenerator = new AddressGenerator();
@@ -50,8 +50,8 @@ public class GeneratorTestPerson {
 		//年收入
 		DecimalFormat df = new DecimalFormat("####.00");
 		DoubleGenerator incomeGenerator = new DoubleGenerator();
-		incomeGenerator.setStartInclusive(10000.0);
-		incomeGenerator.setEndInclusive(99999.0);
+		incomeGenerator.setMin(10000.0);
+		incomeGenerator.setMax(99999.0);
 		incomeGenerator.setScale(3);
 		
 		//经理,机构
@@ -75,7 +75,7 @@ public class GeneratorTestPerson {
 			sb.append(nameGenerator.generate()).append("\t")                     //姓名
 			  .append(genderGenerator.generate()).append("\t")                   //性别
 			  .append(mobileGenerator.generate()).append("\t")                   //手机号
-			  .append(sdf.format(birthDateGenerator.generate())).append("\t")    //出生日期
+			  .append(new SimpleDateFormat("yyyy-MM-dd").format(birthDateGenerator.generate())).append("\t")    //出生日期
 			  .append(populationGenerator.generate()).append("\t")               //家庭人口
 			  .append(df.format(incomeGenerator.generate())).append("\t")        //年收入
 			  .append(managerId).append("\t")                                    //经理编号

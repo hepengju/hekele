@@ -1,5 +1,6 @@
 package com.hepengju.hekele.data;
 
+import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.date.DateGenerator;
 import com.hepengju.hekele.data.generator.number.AutoIncrementGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;

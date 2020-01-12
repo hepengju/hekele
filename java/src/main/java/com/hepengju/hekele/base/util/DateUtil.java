@@ -124,7 +124,7 @@ public class DateUtil {
     /**
      * 解析常用的日期字符串
      *
-     * @see DateConverter
+     * @see com.hepengju.hekele.base.config.springmvc.DateConverter
      */
     public static Date stringToDate(String source) {
         String dateStr = JSON.toJSONString(source);

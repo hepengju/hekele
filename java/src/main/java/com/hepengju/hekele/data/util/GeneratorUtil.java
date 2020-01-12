@@ -1,8 +1,12 @@
 package com.hepengju.hekele.data.util;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.hepengju.hekele.base.util.StringUtil;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.string.NullGenerator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.Field;
@@ -14,6 +18,32 @@ import java.util.List;
  */
 public class GeneratorUtil {
 
+    /**
+     * 获取表名称
+     */
+    public static String getTableName(Class<?> clazz) {
+        TableName tableName = clazz.getAnnotation(TableName.class);
+        return tableName == null ? StringUtil.camelToUnderline(clazz.getSimpleName()).toUpperCase() : tableName.value().toUpperCase();
+    }
+
+    /**
+     * 获取列名称列表
+     */
+    public static List<String> getColumnNameList(Class<?> clazz) {
+        List<String> columnNameList = new ArrayList<>();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            String columnName = StringUtil.camelToUnderline(field.getName());
+            TableField tableField = field.getAnnotation(TableField.class);
+            if(tableField != null && StringUtils.isNotBlank(tableField.value())) columnName = tableField.value();
+            columnNameList.add(columnName.toUpperCase());
+        }
+        return columnNameList;
+    }
+
+    /**
+     * 生成批量数据
+     */
     public static List<List<Object>> getDataList(Class<?> clazz, int count) {
         List<Generator> generatorList = getGeneratorList(clazz);
         return getDataList(generatorList, count);

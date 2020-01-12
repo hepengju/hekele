@@ -22,8 +22,21 @@
     <br>
 
     <a href="/admin/super/downloadHekeleXlsm">下载hekele最新数据库设计</a><br>
-    <a href="/admin/generator/getDataByClassFullName">来点测试数据吧</a><br>
-
+    <br>
+    <div style="border: solid blue 2px">
+        <h2>自动生成测试数据项目</h2>
+        <a href="/admin/generator/getDataByClassFullName">来点测试数据吧</a><br>
+        <form action="/admin/generator/downloadDataByClassFullName" method="get">
+            数据量: <input type="text" name="count" value="1050"><br>
+            格式: <select name="dataFormat">
+                     <option value="csv">CSV</option>
+                     <option value="tsv">TSV</option>
+                     <option value="sql" selected>SQL</option>
+                     <option value="excel">Excel</option>
+                 </select><br>
+            <button>下载</button><br>
+        </form>
+    </div>
     <br>
     <br>
 

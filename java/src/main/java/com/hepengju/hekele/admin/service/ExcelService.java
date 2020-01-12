@@ -30,7 +30,7 @@ import java.util.*;
 @Service @Slf4j
 public class ExcelService {
 
-    private final Integer BATCH_SIZE = 1000;
+    private final Integer BATCH_SIZE = 500;
     @Autowired private DbService dbService;
 
     /**

@@ -1,6 +1,7 @@
-package com.hepengju.hekele.data;
+package com.hepengju.hekele.data.selector;
 
 
+import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.meta.MetaColumn;
 
 import java.util.List;

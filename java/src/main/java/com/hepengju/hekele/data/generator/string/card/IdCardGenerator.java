@@ -1,13 +1,15 @@
 package com.hepengju.hekele.data.generator.string.card;
 
+import com.hepengju.hekele.base.util.DateUtil;
 import com.hepengju.hekele.base.util.RandomUtil;
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import com.hepengju.hekele.data.generator.config.DataConst;
 import lombok.Data;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 身份证号码
@@ -28,32 +30,32 @@ import java.text.SimpleDateFormat;
 @Data
 public class IdCardGenerator implements StringGenerator {
 
+	private Date min = DateUtil.stringToDate("1900-01-01");
+	private Date max = DateUtil.stringToDate("2100-12-31");
+
 	private String[] areas = DataConst.idCardAreas;
-	private long startInclusive = -2209017600000l; //1900-01-01 00:00:00
-	private long endExclusive   = 4133952000000l;  //2101-01-01 00:00:00
-	
 	private static String[] ValCodeArr = { "1", "0", "X", "9", "8", "7", "6", "5", "4","3", "2" };
 	private static String[] Wi = { "7", "9", "10", "5", "8", "4", "2", "1", "6", "3", "7","9", "10", "5", "8", "4", "2" };
 	
 	@Override
 	public String generate() {
 		StringBuffer result = new StringBuffer(18);
-		result.append(RandomUtil.randomOne(areas))                                                                   //地区:前两位
-		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 9999) + "", 4, '0'))                                //地区:后四位
-		      .append(new SimpleDateFormat("yyyyMMdd").format(RandomUtil.randomDate(startInclusive, endExclusive)))  //出生日期
-		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 999) + "", 3, '0'))                                 //顺序码
+		result.append(RandomUtil.randomOne(areas))                                                                           //地区:前两位
+		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 9999) + "", 4, '0'))                     //地区:后四位
+		      .append(new SimpleDateFormat("yyyyMMdd").format(RandomUtil.randomDate(min.getTime(), max.getTime())))  //出生日期
+		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 999) + "", 3, '0'))                      //顺序码
 		      ;
-		String verifyCode = getVerifyCode(result.toString());                                                        //验证码
+		String verifyCode = getVerifyCode(result.toString());                                                                 //验证码
 		return result.append(verifyCode).toString();
 	}
 
 	private static String getVerifyCode(String cardId) {
-        int sum = 0;
+		int sum = 0;
 		for (int i = 0; i < Wi.length; i++) {
 			sum += Integer.parseInt(String.valueOf(cardId.charAt(i))) * Integer.parseInt(Wi[i]);
 		}
-        int modValue = sum % 11;
-        String strVerifyCode = ValCodeArr[modValue];
-        return strVerifyCode;
-    }
+		int modValue = sum % 11;
+		String strVerifyCode = ValCodeArr[modValue];
+		return strVerifyCode;
+	}
 }

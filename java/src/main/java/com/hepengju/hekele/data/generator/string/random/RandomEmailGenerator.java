@@ -1,7 +1,7 @@
 package com.hepengju.hekele.data.generator.string.random;
 
 
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**

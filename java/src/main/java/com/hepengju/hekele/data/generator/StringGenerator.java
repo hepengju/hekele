@@ -1,4 +1,4 @@
-package com.hepengju.hekele.data;
+package com.hepengju.hekele.data.generator;
 
 /**
  * 字符生成器

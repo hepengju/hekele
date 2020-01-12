@@ -2,8 +2,9 @@ package com.hepengju.hekele.data.generator.string.name;
 
 
 import com.hepengju.hekele.base.util.RandomUtil;
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import com.hepengju.hekele.data.generator.config.DataConst;
+import lombok.Data;
 
 /**
  * 中文名
@@ -14,6 +15,7 @@ import com.hepengju.hekele.data.generator.config.DataConst;
  * @author hepengju
  *
  */
+@Data
 public class ChineseLastNameGenerator implements StringGenerator {
 
 	private String[] words = DataConst.words;

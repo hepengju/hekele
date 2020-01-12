@@ -1,10 +1,12 @@
 package com.hepengju.hekele.data.generator.string.name;
 
 
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import com.hepengju.hekele.data.generator.config.DataConst;
+import lombok.Data;
 import org.apache.commons.lang3.RandomUtils;
 
+@Data
 public class EnglishFirstNameGenerator implements StringGenerator {
 
 	private String[] firstNameArray = DataConst.firstNames;

@@ -1,6 +1,6 @@
 package com.hepengju.hekele.data.meta;
 
-import com.hepengju.hekele.data.Generator;
+import com.hepengju.hekele.data.generator.Generator;
 import lombok.Data;
 
 import java.util.List;

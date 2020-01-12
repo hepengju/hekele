@@ -1,7 +1,11 @@
 package com.hepengju.hekele.data.generator.date;
 
+import com.hepengju.hekele.base.util.DateUtil;
 import com.hepengju.hekele.base.util.RandomUtil;
-import com.hepengju.hekele.data.Generator;
+import com.hepengju.hekele.data.generator.Generator;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -11,26 +15,15 @@ import java.util.Date;
  * @author hepengju
  *
  */
+@Data @NoArgsConstructor @AllArgsConstructor
 public class DateTimeGenerator implements Generator<Date> {
 
-	private long startInclusive = -2209017600000l;    //1900-01-01 00:00:00
-	private long endInclusive   = 4133952000000l;     //2101-01-01 00:00:00
-	
-	
-	public DateTimeGenerator() {
-		super();
-	}
-
-	public DateTimeGenerator(long startInclusive, long endInclusive) {
-		super();
-		this.startInclusive = startInclusive;
-		this.endInclusive = endInclusive;
-	}
-
+	private Date min = DateUtil.stringToDate("1900-01-01 00:00:00");
+	private Date max = DateUtil.stringToDate("2100-12-31 23:59:59");
 
 	@Override
 	public Date generate() {
-		return RandomUtil.randomDate(startInclusive, endInclusive);
+		return RandomUtil.randomDate(min.getTime(), max.getTime());
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.hepengju.hekele.data.generator.string.computer;
 
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import org.apache.commons.lang3.RandomUtils;
 
 /**

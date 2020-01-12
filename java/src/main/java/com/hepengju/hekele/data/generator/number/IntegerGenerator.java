@@ -1,7 +1,9 @@
 package com.hepengju.hekele.data.generator.number;
 
-import com.hepengju.hekele.data.Generator;
+import com.hepengju.hekele.data.generator.NumberGenerator;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
 
 /**
@@ -10,14 +12,14 @@ import org.apache.commons.lang3.RandomUtils;
  * @author hepengju
  *
  */
-@Data
-public class IntegerGenerator implements Generator<Integer> {
+@Data @NoArgsConstructor @AllArgsConstructor
+public class IntegerGenerator implements NumberGenerator {
 
-	private Integer startInclusive = 0;
-	private Integer endExclusive = 99999;
+	private Integer min = 0;
+	private Integer max = 99999;
 	
 	@Override
 	public Integer generate() {
-		return RandomUtils.nextInt(startInclusive,endExclusive);
+		return RandomUtils.nextInt(min, max);
 	}
 }

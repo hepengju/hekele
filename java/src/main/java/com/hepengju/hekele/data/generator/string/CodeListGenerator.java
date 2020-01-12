@@ -2,7 +2,8 @@ package com.hepengju.hekele.data.generator.string;
 
 
 import com.hepengju.hekele.base.util.RandomUtil;
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -13,15 +14,10 @@ import java.util.List;
  * @author hepengju
  *
  */
-@Data
+@Data @AllArgsConstructor
 public class CodeListGenerator implements StringGenerator {
 
 	private List<String> codeList;
-	
-	public CodeListGenerator(List<String> codeList) {
-		super();
-		this.codeList = codeList;
-	}
 
 	@Override
 	public String generate() {

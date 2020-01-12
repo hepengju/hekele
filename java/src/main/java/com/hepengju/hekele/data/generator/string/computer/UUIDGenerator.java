@@ -1,7 +1,7 @@
 package com.hepengju.hekele.data.generator.string.computer;
 
 
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 
 import java.util.UUID;
 

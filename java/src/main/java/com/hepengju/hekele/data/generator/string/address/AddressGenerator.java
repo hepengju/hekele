@@ -1,7 +1,7 @@
 package com.hepengju.hekele.data.generator.string.address;
 
 import com.hepengju.hekele.base.util.RandomUtil;
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import com.hepengju.hekele.data.generator.config.DataConst;
 import org.apache.commons.lang3.RandomUtils;
 

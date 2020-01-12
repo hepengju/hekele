@@ -2,18 +2,19 @@ package com.hepengju.hekele.data.generator.string.random;
 
 
 import com.hepengju.hekele.base.util.RandomUtil;
-import com.hepengju.hekele.data.StringGenerator;
+import com.hepengju.hekele.data.generator.StringGenerator;
 import com.hepengju.hekele.data.generator.config.DataConst;
+import lombok.Data;
 
+@Data
 public class RandomNameGenerator implements StringGenerator {
-
 	
-	private int startInclusive = 1;
-	private int endExclusive = 10;
+	private int min = 1;
+	private int max = 4;
 
 	@Override
 	public String generate() {
-		return RandomUtil.randomNum(DataConst.words, startInclusive, endExclusive);
+		return RandomUtil.randomNum(DataConst.words, min, max);
 	}
 
 }

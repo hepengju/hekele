@@ -69,7 +69,7 @@ public class WebUtil implements ApplicationContextAware {
 	public static void handleFileDownload(String attachment, InputStream inputStream) {
 		handleFileDownload(attachment);
 		try (InputStream is = inputStream) {
-			IOUtils.copy(inputStream, WebUtil.getHttpServletResponse().getOutputStream());
+			IOUtils.copy(is, WebUtil.getHttpServletResponse().getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -173,11 +173,11 @@ public class ExcelService {
 
         // 20190508: 特殊字段
         String sql = insertSql.toLowerCase();
-        boolean hasTime     = sql.contains("_create_time");
-        boolean hasUserCode = sql.contains("_create_user_code");
-        boolean hasUserName = sql.contains("_create_user_name");
-        boolean hasFile     = sql.contains("_import_file_name");
-        boolean hasErr      = sql.contains("_check_error_info");
+        boolean hasTime     = sql.contains("imp_create_time");
+        boolean hasUserCode = sql.contains("imp_create_user_code");
+        boolean hasUserName = sql.contains("imp_create_user_name");
+        boolean hasFile     = sql.contains("imp_file_name");
+        boolean hasErr      = sql.contains("imp_check_error_info");
 
         try(PreparedStatement pstmt = conn.prepareStatement(insertSql)){
             for (int i = 0; i < dataList.size(); i++) {
@@ -200,7 +200,8 @@ public class ExcelService {
                 }
 
                 // 特殊字段
-                if (hasTime)     pstmt.setObject(++colCount, new Date());
+                //if (hasTime)     pstmt.setObject(++colCount, new Date());
+                if (hasTime)     pstmt.setDate(++colCount, new java.sql.Date(new Date().getTime())); // 解决Oracle无效的列类型
                 if (hasUserCode) pstmt.setString(++colCount, Now.userCode());
                 if (hasUserName) pstmt.setString(++colCount, Now.userName());
                 if (hasFile)     pstmt.setString(++colCount, fileName);

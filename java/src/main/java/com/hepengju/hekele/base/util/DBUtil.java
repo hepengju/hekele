@@ -1,6 +1,5 @@
 package com.hepengju.hekele.base.util;
 
-import com.hepengju.hekele.base.core.exception.HeException;
 import com.hepengju.hekele.base.core.sqlhandle.SqlResult;
 import com.hepengju.hekele.base.core.sqlhandle.SqlResult.SelectResult;
 import lombok.extern.slf4j.Slf4j;
@@ -243,7 +242,7 @@ public class DBUtil {
 				selectResult.setRecordList(recordList);
 			}
 		} catch (SQLException e) {
-			throw new HeException(e);
+			throw new RuntimeException(e);
 		}
 		return selectResult;
 	}
@@ -270,7 +269,7 @@ public class DBUtil {
 			int rows = pstmt.executeUpdate();
 			return rows;
 		} catch (SQLException e) {
-			throw new HeException(e);
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -292,7 +291,7 @@ public class DBUtil {
 			}
 			return sqlResult;
 		} catch (SQLException e) {
-			throw new HeException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -314,7 +313,7 @@ public class DBUtil {
 			}
 			return sqlResult;
 		} catch (SQLException e) {
-			throw new HeException(e);
+			throw new RuntimeException(e);
 		}
 	}
 

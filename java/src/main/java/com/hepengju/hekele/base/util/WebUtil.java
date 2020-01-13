@@ -1,6 +1,5 @@
 package com.hepengju.hekele.base.util;
 
-import com.hepengju.hekele.base.core.exception.HeException;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.AllArgsConstructor;
@@ -83,7 +82,7 @@ public class WebUtil implements ApplicationContextAware {
 				outputStream.write(byteArray);
 				outputStream.flush();
 			} catch (IOException e) {
-				throw new HeException(e);
+				throw new RuntimeException(e);
 			}
 		}
 	}

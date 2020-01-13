@@ -1,4 +1,4 @@
-package com.hepengju.hekele.admin;
+package com.hepengju.hekele.monitor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -28,7 +28,7 @@ public class SpringMonitorTest {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(1000);
         requestFactory.setReadTimeout(2000);
-        restTemplate=new RestTemplate(requestFactory);
+        restTemplate = new RestTemplate(requestFactory);
     }
 
     // private String eurekaHost = "http://10.10.128.101:8763";  // 开发

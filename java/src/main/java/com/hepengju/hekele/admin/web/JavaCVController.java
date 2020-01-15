@@ -53,7 +53,7 @@ public class JavaCVController {
             // 拉普拉斯
             Mat laplImage = new Mat();
             opencv_imgproc.Laplacian(grayImage, laplImage, opencv_core.CV_64F);
-            opencv_imgcodecs.imwrite(path + grayImageName, laplImage);
+            opencv_imgcodecs.imwrite(path + laplImageName, laplImage);
 
             //平均值和标准差
             Mat mean = new Mat();

@@ -24,7 +24,7 @@ import java.io.IOException;
 @RequestMapping("/admin/image")
 public class JavaCVController {
 
-    private String host = "http://ali.hepengju.com:8083/images/";
+    private String host = "http://ali.hepengju.com:8083/image/";
     private String path = "/root/nginx/html/image/";
 
     @ApiOperation("图片清晰度检测")

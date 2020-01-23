@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * SpringMVC的配置
  */
 @Configuration
-public class SpringMVCConfig implements WebMvcConfigurer {
+public class SpringMvcConfig implements WebMvcConfigurer {
 
     /**
      * fastjson提高 @RestController @ResponseBody @RequestBody 注解的 JSON序列化速度

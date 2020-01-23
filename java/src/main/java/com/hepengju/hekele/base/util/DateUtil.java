@@ -60,8 +60,6 @@ public class DateUtil {
         return date;
     }
 
-
-
     public static final String yyyMMddHHmmss() {
         return yyyyMMddHHmmssPattern.format(LocalDateTime.now());
     }

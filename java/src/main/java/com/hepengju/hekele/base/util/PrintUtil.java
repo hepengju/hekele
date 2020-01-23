@@ -24,7 +24,7 @@ public class PrintUtil {
         for (List<Object> rowList : dataList) {
             String row = rowList.stream().map(PrintUtil::format).collect(Collectors.joining(separator));
             sb.append(row);
-           sb.append("\n");
+            sb.append("\n");
         }
         return sb.toString();
     }

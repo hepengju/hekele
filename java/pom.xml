@@ -203,7 +203,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- JavaCV 图片清晰度检测 -->
+        <!-- JavaCV 图片清晰度检测
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>javacv-platform</artifactId>
@@ -214,6 +214,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        -->
+
         <!-- 开发便捷工具
         <dependency>
             <groupId>org.springframework.boot</groupId>

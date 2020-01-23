@@ -5,17 +5,19 @@ import com.hepengju.hekele.data.generator.date.DateGenerator;
 import com.hepengju.hekele.data.generator.number.AutoIncrementGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
-import com.hepengju.hekele.data.generator.string.address.AddressGenerator;
-import com.hepengju.hekele.data.generator.string.card.IdCardGenerator;
-import com.hepengju.hekele.data.generator.string.computer.EmailGenerator;
-import com.hepengju.hekele.data.generator.string.computer.IPv4Generator;
-import com.hepengju.hekele.data.generator.string.name.ChineseNameGenerator;
-import com.hepengju.hekele.data.generator.string.name.CompanyNameGenerator;
-import com.hepengju.hekele.data.generator.string.name.EnglishNameGenerator;
-import com.hepengju.hekele.data.generator.string.phone.MobileGenerator;
-import com.hepengju.hekele.data.generator.string.phone.TelePhoneGenerator;
-import com.hepengju.hekele.data.generator.string.random.RandomEmailGenerator;
-import com.hepengju.hekele.data.generator.string.random.RandomMobileGenerator;
+import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
+import com.hepengju.hekele.data.generator.custom.card.IdCardGenerator;
+import com.hepengju.hekele.data.generator.custom.computer.EmailGenerator;
+import com.hepengju.hekele.data.generator.custom.computer.IPv4Generator;
+import com.hepengju.hekele.data.generator.custom.name.ChineseNameGenerator;
+import com.hepengju.hekele.data.generator.custom.name.CompanyNameGenerator;
+import com.hepengju.hekele.data.generator.custom.name.EnglishNameGenerator;
+import com.hepengju.hekele.data.generator.custom.password.Md5Generator;
+import com.hepengju.hekele.data.generator.custom.password.Sha256Generator;
+import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
+import com.hepengju.hekele.data.generator.custom.phone.TelePhoneGenerator;
+import com.hepengju.hekele.data.generator.string.RandomEmailGenerator;
+import com.hepengju.hekele.data.generator.string.RandomMobileGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
@@ -32,6 +34,13 @@ import java.util.stream.IntStream;
 public class GeneratorTest {
 
     int COUNT = 10;
+
+    @Test
+    public void testPassword(){
+        //printN(new PasswordGenerator());
+        printN(new Md5Generator());
+        printN(new Sha256Generator());
+    }
 
     @Test
     public void testOne() {
@@ -78,7 +87,7 @@ public class GeneratorTest {
         printN(new RandomMobileGenerator());
 
         System.out.println("地址");
-        printN(new AddressGenerator());
+        printN(new ChinaAddressGenerator());
 
         System.out.println("电话号码");
         printN(new TelePhoneGenerator());

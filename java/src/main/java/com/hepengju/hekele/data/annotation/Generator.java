@@ -1,6 +1,6 @@
 package com.hepengju.hekele.data.annotation;
 
-import com.hepengju.hekele.data.generator.string.random.RandomStringGenerator;
+import com.hepengju.hekele.data.generator.string.RandomStringGenerator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

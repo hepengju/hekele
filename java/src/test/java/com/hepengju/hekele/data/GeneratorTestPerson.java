@@ -7,9 +7,9 @@ import com.hepengju.hekele.data.generator.date.DateGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
 import com.hepengju.hekele.data.generator.string.CodeGenerator;
-import com.hepengju.hekele.data.generator.string.address.AddressGenerator;
-import com.hepengju.hekele.data.generator.string.name.ChineseNameGenerator;
-import com.hepengju.hekele.data.generator.string.phone.MobileGenerator;
+import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
+import com.hepengju.hekele.data.generator.custom.name.ChineseNameGenerator;
+import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;
@@ -42,7 +42,7 @@ public class GeneratorTestPerson {
 		populationGenerator.setMax(10);
 		
 		//家庭地址
-		AddressGenerator addressGenerator = new AddressGenerator();
+		ChinaAddressGenerator addressGenerator = new ChinaAddressGenerator();
 		
 		//手机号
 		MobileGenerator mobileGenerator = new MobileGenerator();

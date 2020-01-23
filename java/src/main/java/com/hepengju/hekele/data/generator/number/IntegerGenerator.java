@@ -1,17 +1,13 @@
 package com.hepengju.hekele.data.generator.number;
 
 import com.hepengju.hekele.data.generator.NumberGenerator;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
 
-/**
- * 整数生成器
- * 
- * @author hepengju
- *
- */
+@ApiModel("整数生成器")
 @Data @NoArgsConstructor @AllArgsConstructor
 public class IntegerGenerator implements NumberGenerator {
 

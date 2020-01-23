@@ -37,16 +37,15 @@ public class RandomUtil {
 	}
 
 	/**
-	 * 数组中随机取一个
+	 * 随机取一个
 	 */
 	public static String randomOne(String[] array) {
 		return array[RandomUtils.nextInt(0, array.length)];
 	}
-	
 	public static String randomOne(List<String> list) {
 		return list.get(RandomUtils.nextInt(0, list.size()));
 	}
-	
+
 	/**
 	 * 数组中随机取N个
 	 */
@@ -79,4 +78,22 @@ public class RandomUtil {
 		return chanceMap.keySet().iterator().next();
 	}
 
+	public static String randomNum(int startInclusive, int endExclusive, String... strs){
+		StringBuilder all = new StringBuilder();
+		for (String str : strs) {
+			all.append(str);
+		}
+		String allStr = all.toString();
+		char[] allChars = allStr.toCharArray();
+
+
+		StringBuilder result = new StringBuilder();
+		int num = RandomUtils.nextInt(startInclusive, endExclusive);
+		for (int i = 0; i < num; i++) {
+			int position = RandomUtils.nextInt(0, allStr.length());
+			result.append(allChars[position]);
+		}
+
+		return result.toString();
+	}
 }

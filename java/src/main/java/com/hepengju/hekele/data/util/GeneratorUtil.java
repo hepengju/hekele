@@ -6,8 +6,8 @@ import com.hepengju.hekele.base.util.StringUtil;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.string.NullGenerator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -21,17 +21,17 @@ public class GeneratorUtil {
     /**
      * 获取表名称
      */
-    public static String getTableName(Class<?> clazz) {
-        TableName tableName = clazz.getAnnotation(TableName.class);
-        return tableName == null ? StringUtil.camelToUnderline(clazz.getSimpleName()).toUpperCase() : tableName.value().toUpperCase();
+    public static String getTableName(Class<?> boClass) {
+        TableName tableName = boClass.getAnnotation(TableName.class);
+        return tableName == null ? StringUtil.camelToUnderline(boClass.getSimpleName()).toUpperCase() : tableName.value().toUpperCase();
     }
 
     /**
      * 获取列名称列表
      */
-    public static List<String> getColumnNameList(Class<?> clazz) {
+    public static List<String> getColumnNameList(Class<?> boCLass) {
         List<String> columnNameList = new ArrayList<>();
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = boCLass.getDeclaredFields();
         for (Field field : fields) {
             String columnName = StringUtil.camelToUnderline(field.getName());
             TableField tableField = field.getAnnotation(TableField.class);
@@ -44,8 +44,8 @@ public class GeneratorUtil {
     /**
      * 生成批量数据
      */
-    public static List<List<Object>> getDataList(Class<?> clazz, int count) {
-        List<Generator> generatorList = getGeneratorList(clazz);
+    public static List<List<Object>> getDataList(Class<?> boClass, int count) {
+        List<Generator> generatorList = getGeneratorList(boClass);
         return getDataList(generatorList, count);
     }
 
@@ -62,10 +62,10 @@ public class GeneratorUtil {
         return dataList;
     }
 
-    public static List<Generator> getGeneratorList(Class<?> clazz) {
+    public static List<Generator> getGeneratorList(Class<?> boClass) {
         List<Generator> genList = new ArrayList<>();
 
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = boClass.getDeclaredFields();
         for (Field field : fields) {
             com.hepengju.hekele.data.annotation.Generator gn = field.getAnnotation(com.hepengju.hekele.data.annotation.Generator.class);
             if (gn != null) {
@@ -74,7 +74,7 @@ public class GeneratorUtil {
                 metaGen.setMax(gn.max());
                 metaGen.setCode(gn.code());
                 metaGen.setScale(gn.scale());
-                genList.add(getGenerator(gn.value(), metaGen));
+                genList.add(metaGen.toGenerator());
             } else {
                 genList.add(new NullGenerator());
             }
@@ -83,14 +83,18 @@ public class GeneratorUtil {
         return genList;
     }
 
-    public static Generator getGenerator(Class<? extends Generator> clazz, MetaGenerator metaGenerator) {
-        try {
-            Generator generator = clazz.newInstance();
-            BeanUtils.copyProperties(metaGenerator, generator);
-            return generator;
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public static List<Object> getSampleData(Generator generator, int size) {
+        List<Object> sampleData = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            sampleData.add(generator.generate());
         }
+        return sampleData;
+    }
+
+    @SneakyThrows
+    public static Generator getGeneratorByClassName(String genClassName) {
+        return (Generator) Class.forName(genClassName).newInstance();
     }
 
 }

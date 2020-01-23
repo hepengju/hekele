@@ -3,16 +3,13 @@ package com.hepengju.hekele.data.generator.date;
 import com.hepengju.hekele.base.util.DateUtil;
 import com.hepengju.hekele.base.util.RandomUtil;
 import com.hepengju.hekele.data.generator.Generator;
+import io.swagger.annotations.ApiModel;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * 日期生成器
- * 
- * @author hepengju
- */
+@ApiModel("日期生成器")
 public class DateGenerator implements Generator<Date> {
 
 	private String min = "1900-01-01";

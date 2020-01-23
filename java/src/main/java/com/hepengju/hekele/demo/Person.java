@@ -10,10 +10,10 @@ import com.hepengju.hekele.data.generator.date.LocalDateGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
 import com.hepengju.hekele.data.generator.string.CodeGenerator;
-import com.hepengju.hekele.data.generator.string.address.AddressGenerator;
-import com.hepengju.hekele.data.generator.string.computer.UUIDGenerator;
-import com.hepengju.hekele.data.generator.string.name.ChineseNameGenerator;
-import com.hepengju.hekele.data.generator.string.phone.MobileGenerator;
+import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
+import com.hepengju.hekele.data.generator.custom.computer.UUIDGenerator;
+import com.hepengju.hekele.data.generator.custom.name.ChineseNameGenerator;
+import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -70,7 +70,7 @@ public class Person {
     private String orgNo;
 
     @ApiModelProperty("家庭地址")
-    @Generator(AddressGenerator.class)
+    @Generator(ChinaAddressGenerator.class)
     private String familyAddr;
 
 }

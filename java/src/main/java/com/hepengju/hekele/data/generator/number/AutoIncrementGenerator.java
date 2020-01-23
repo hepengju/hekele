@@ -2,16 +2,13 @@ package com.hepengju.hekele.data.generator.number;
 
 
 import com.hepengju.hekele.data.generator.NumberGenerator;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * 自增生成器
- * @author hepengju
- *
- */
+@ApiModel("自增生成器")
 public class AutoIncrementGenerator implements NumberGenerator {
 
 	@Getter @Setter

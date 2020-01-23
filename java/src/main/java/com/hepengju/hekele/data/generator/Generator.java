@@ -1,5 +1,7 @@
 package com.hepengju.hekele.data.generator;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 数据生成器
  * 
@@ -8,6 +10,7 @@ package com.hepengju.hekele.data.generator;
  * @author hepengju
  *
  */
+@Component
 @FunctionalInterface
 public interface Generator<T>{
 	T generate();

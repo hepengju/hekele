@@ -187,9 +187,8 @@ public class WebUtil implements ApplicationContextAware {
 		return getHttpServletRequest().getServletContext().getRealPath(path);
 	}
 	public static Object getBean(String beanName){ return applicationContext.getBean(beanName); }
-	public static <T> T  getBean(Class<T> requiredType){
-		return applicationContext.getBean(requiredType);
-	}
+	public static <T> T  getBean(Class<T> requiredType){ return applicationContext.getBean(requiredType);}
+	public static <T> T  getBean(String beanName, Class<T> requiredType){ return applicationContext.getBean(beanName, requiredType);}
 	public static <T> Map<String, T> getBeansOfType(Class<T> requiredType){ return applicationContext.getBeansOfType(requiredType); }
 	public static HttpServletRequest getHttpServletRequest() { return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();}
 	public static HttpServletResponse getHttpServletResponse() { return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();}

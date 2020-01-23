@@ -3,19 +3,15 @@ package com.hepengju.hekele.data.generator.string;
 
 import com.hepengju.hekele.base.util.RandomUtil;
 import com.hepengju.hekele.data.generator.StringGenerator;
+import io.swagger.annotations.ApiModel;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * 代码列表
- * 
- * @author hepengju
- *
- */
+@ApiModel("枚举值生成器")
 public class CodeGenerator implements StringGenerator {
 
-	private String code = "";
+	private String code = "M,F";
 	private List<String> codeList;
 
 	@Override

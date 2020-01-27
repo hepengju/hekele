@@ -26,7 +26,8 @@ import java.util.Date;
  * 5、校验码（第十八位数）
  * 		（1）十七位数字本体码加权求和公式 S = Sum(Ai * Wi), i = 0, ... , 16 ，先对前17位数字的权求和
  * 			Ai:表示第i位置上的身份证号码数字值 Wi:表示第i位置上的加权因子 Wi: 7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 	
- *      （2）计算模 Y = mod(S, 11) （3）通过模得到对应的校验码 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8 7 6 5 4 3 2
+ *      （2）计算模 Y = mod(S, 11)
+ *      （3）通过模得到对应的校验码 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8 7 6 5 4 3 2
  */
 @Data @ApiModel("身份证号生成器")
 public class IdCardGenerator implements StringGenerator {

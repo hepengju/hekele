@@ -59,7 +59,8 @@ public class GeneratorService{
                     genClassNameList.add(className);
                     GeneratorDTO dto = new GeneratorDTO();
                     dto.setClassName(clazz.getName());
-                    dto.setDesc(apiModel.value());
+                    String desc = apiModel.value();
+                    dto.setDesc(desc.replace("生成器",""));
                     dto.setSampleData(getSampleData(getGeneratorByClassName(className), SAMPLE_SIZE));
 
                     String packageName = clazz.getPackage().getName();

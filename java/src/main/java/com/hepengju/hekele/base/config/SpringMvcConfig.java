@@ -7,6 +7,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * SpringMVC的配置
  */
@@ -18,17 +21,23 @@ public class SpringMvcConfig implements WebMvcConfigurer {
      */
     @Bean
     public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.setAllowCredentials(true);
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        config.addExposedHeader("*");
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        List<String> allowedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+        List<String> exposedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+        List<String> allowedMethods = Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS");
+        List<String> allowedOrigins = Arrays.asList("*");
+        corsConfig.setAllowedHeaders(allowedHeaders);
+        corsConfig.setAllowedMethods(allowedMethods);
+        corsConfig.setAllowedOrigins(allowedOrigins);
+        corsConfig.setExposedHeaders(exposedHeaders);
+        corsConfig.setMaxAge(36000L);
+        corsConfig.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
-        configSource.registerCorsConfiguration("/**", config);
+        configSource.registerCorsConfiguration("/**", corsConfig);
         return new CorsFilter(configSource);
     }
+
     /**
      * fastjson提高 @RestController @ResponseBody @RequestBody 注解的 JSON序列化速度
      *

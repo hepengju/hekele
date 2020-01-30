@@ -23,9 +23,42 @@ public class DateUtil {
     public static final String DATE_TIME_FORMAT = HeConst.DATE_TIME_FORMAT;
     public static final String DATE_FORMAT = HeConst.DATE_FORMAT;
 
+    public static final DateTimeFormatter yyyy_MM_ddPattern = DateTimeFormatter.ofPattern(HeConst.DATE_FORMAT);
+    public static final DateTimeFormatter yyyy_MM_dd_HH_mm_ssPattern = DateTimeFormatter.ofPattern(HeConst.DATE_TIME_FORMAT);
+
     public static final DateTimeFormatter yyyyMMPattern = DateTimeFormatter.ofPattern("yyyyMM");
     public static final DateTimeFormatter yyyyMMddPattern = DateTimeFormatter.ofPattern("yyyyMMdd");
     public static final DateTimeFormatter yyyyMMddHHmmssPattern = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+    /**
+     * 日期格式化为字符串
+     */
+    public static String dateToString(Date date, String format) {
+        return new SimpleDateFormat(format).format(date);
+    }
+
+    public static String dateToString(Date date) {
+        return new SimpleDateFormat(DATE_TIME_FORMAT).format(date);
+    }
+
+    public static String dateToString(LocalDate date) {
+        return yyyy_MM_ddPattern.format(date);
+    }
+
+    public static String dateToString(LocalDateTime date) {
+        return yyyy_MM_dd_HH_mm_ssPattern.format(date);
+    }
+
+    /**
+     * 解析常用的日期字符串
+     *
+     * @see com.hepengju.hekele.base.config.springmvc.DateConverter
+     */
+    public static Date stringToDate(String source) {
+        String dateStr = JSON.toJSONString(source);
+        Date date = JSON.parseObject(dateStr, Date.class);
+        return date;
+    }
 
     public static final String yyyMMddHHmmss() {
         return yyyyMMddHHmmssPattern.format(LocalDateTime.now());
@@ -110,25 +143,5 @@ public class DateUtil {
         return set;
     }
 
-    /**
-     * 日期格式化为字符串
-     */
-    public static String dateToString(Date date) {
-        return new SimpleDateFormat(DATE_TIME_FORMAT).format(date);
-    }
 
-    public static String dateToString(Date date, String format) {
-        return new SimpleDateFormat(format).format(date);
-    }
-
-    /**
-     * 解析常用的日期字符串
-     *
-     * @see DateConverter
-     */
-    public static Date stringToDate(String source) {
-        String dateStr = JSON.toJSONString(source);
-        Date date = JSON.parseObject(dateStr, Date.class);
-        return date;
-    }
 }

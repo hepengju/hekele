@@ -34,12 +34,12 @@ public class HttpUtil {
 	/**
 	 * 发送get请求
 	 */
-	public static String sendGet(String url,Map<String,String> paramMap){
-		try(CloseableHttpClient client = HttpClients.createDefault()){
+	public static String sendGet(String url, Map<String, String> paramMap) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			URI uri = new URIBuilder(url).addParameters(mapToNameValueList(paramMap)).build();
 			HttpGet get = new HttpGet(uri);
-			try(CloseableHttpResponse response = client.execute(get)){
-				return EntityUtils.toString(response.getEntity(),"UTF-8");
+			try (CloseableHttpResponse response = client.execute(get)) {
+				return EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (Exception e) {
 			throw new HeException(e);
@@ -49,13 +49,13 @@ public class HttpUtil {
 	/**
 	 * 发送post请求
 	 */
-	public static String sendPost(String url,Map<String,String> paramMap){
-		try(CloseableHttpClient client = HttpClients.createDefault()){
+	public static String sendPost(String url, Map<String, String> paramMap) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpPost post = new HttpPost(url);
 			post.setEntity(new UrlEncodedFormEntity(mapToNameValueList(paramMap), "UTF-8"));
 			post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-			try(CloseableHttpResponse response = client.execute(post)){
-				return EntityUtils.toString(response.getEntity(),"UTF-8");
+			try (CloseableHttpResponse response = client.execute(post)) {
+				return EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (IOException e) {
 			throw new HeException(e);
@@ -65,13 +65,13 @@ public class HttpUtil {
 	/**
 	 * 发送post请求,格式为json
 	 */
-	public static String sendPostJson(String url,String json) {
-		try(CloseableHttpClient client = HttpClients.createDefault()){
+	public static String sendPostJson(String url, String json) {
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
 			HttpPost post = new HttpPost(url);
 			post.setEntity(new StringEntity(json, "UTF-8"));
 			post.setHeader("Content-Type", "application/json; charset=utf-8");
-			try(CloseableHttpResponse response = client.execute(post)){
-				return EntityUtils.toString(response.getEntity(),"UTF-8");
+			try (CloseableHttpResponse response = client.execute(post)) {
+				return EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (IOException e) {
 			throw new HeException(e);
@@ -79,10 +79,10 @@ public class HttpUtil {
 	}
 	
 	// 请求参数Map,转换为http-client所需的名值对列表
-	private static List<NameValuePair> mapToNameValueList(Map<String,String> paramMap){
+	private static List<NameValuePair> mapToNameValueList(Map<String, String> paramMap) {
 		List<NameValuePair> params = new ArrayList<>();
-		if(Objects.nonNull(paramMap))
-			paramMap.forEach((k,v) -> params.add(new BasicNameValuePair(k, v)));
+		if (Objects.nonNull(paramMap))
+			paramMap.forEach((k, v) -> params.add(new BasicNameValuePair(k, v)));
 		return params;
 	}
 	

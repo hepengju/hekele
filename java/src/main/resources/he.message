@@ -90,7 +90,7 @@
  10903 : util.compress.format.notSupport : 【%s】压缩格式暂不支持
  10904 : seq.realSizeGtFormatLength      : 序列值【%d】的长度大于需要格式化的长度【%d】
 
-# 通用验证
+# 通用验证 11000
  11010 : phoneNo.formatError    : 手机号码格式错误
  11011 : identityNo.formatError : 身份证号格式错误
  11012 : bankCardNo.formatError : 银行卡号格式错误
@@ -109,3 +109,6 @@
  12010 : file.os.osPermForbidden      : OS系统权限不足
 
 ######################### message #########################
+######################### data #########################
+ 14001: data.className.notExist : 【%s】生成器不存在
+ 14002: data.columnCount.error  : 列数量和数据生成器的数量不匹配

@@ -4,6 +4,7 @@ import com.p6spy.engine.common.P6Util;
 import org.springframework.util.PropertyPlaceholderHelper;
 
 import java.util.Properties;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
@@ -282,5 +283,9 @@ public class StringUtil {
 	 */
 	public static String multiLineRmN(String str) {
 		return str == null ? str : str.replaceAll("\\\\n","\n");
+	}
+
+	public static String uuid(){
+		return UUID.randomUUID().toString().replace("-","");
 	}
 }

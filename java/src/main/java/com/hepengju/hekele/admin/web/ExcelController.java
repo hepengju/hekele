@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Excel下载模板, 导入, 导出的通用处理
@@ -52,7 +51,7 @@ public class ExcelController {
 
     @ApiOperation("根据配置导入Excel")
     @PostMapping("importByConfigBeanId")
-    public R importByConfigBeanId(@RequestParam("file") MultipartFile multipartFile, @RequestParam String configBeanId) throws SQLException, IOException {
+    public R importByConfigBeanId(@RequestParam("file") MultipartFile multipartFile, @RequestParam String configBeanId) {
         excelService.importByConfigBeanId(multipartFile, configBeanId);
         return R.ok();
     }

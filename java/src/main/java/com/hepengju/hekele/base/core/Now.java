@@ -28,5 +28,6 @@ public class Now {
     // 当前时间
     public static Date date() { return new Date(); }
     public static String yyyyMMddHHmmss() { return DateUtil.yyyMMddHHmmss();}
+    public static String yyyyMMdd() { return DateUtil.yyyyMMdd();}
 
 }

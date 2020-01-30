@@ -69,7 +69,8 @@ import java.util.*;
 public class ExcelUtil {
 
 	private static final DecimalFormat decimalFormat = new DecimalFormat("####################.###########"); // 整数20位, 小数11位
-	private static final int MAX_ROW = 100_0000; //一百万
+	private static final int    MAX_ROW   = 100_0000; //一百万
+	private static final String FONT_NAME = "等线";
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// 输出Excel
@@ -94,9 +95,17 @@ public class ExcelUtil {
 			ResultSetMetaData metaData = rst.getMetaData();
 			int rowNum = 0, count = metaData.getColumnCount();
 
+			// 20200113 hepengju WPS中默认为宋体, 比较难看
+			Font titleFont = wb.createFont();
+			titleFont.setBold(true);
+			titleFont.setFontName(FONT_NAME);
+
+			Font commonFont = wb.createFont();
+			commonFont.setFontName(FONT_NAME);
+
 			// 2.创建标题行
 			Row titleRow = sheet.createRow(rowNum++);
-			CellStyle titleCellStyle = buildTitleCellStyle(wb);
+			CellStyle titleCellStyle = buildTitleCellStyle(wb, titleFont);
 			for (int i = 0; i < count; i++) {
 				String label = metaData.getColumnLabel(i + 1); // 列标签
 				Cell cell = titleRow.createCell(i);
@@ -108,7 +117,7 @@ public class ExcelUtil {
 			sheet.createFreezePane(0, 1);
 
 			// 3.写入结果集
-			CellStyle commonCellStyle = buildCommonCellStyle(wb);
+			CellStyle commonCellStyle = buildCommonCellStyle(wb, commonFont);
 			while (rst.next()) {
 				Row row = sheet.createRow(rowNum++);
 				for (int i = 0; i < count; i++) {
@@ -699,16 +708,11 @@ public class ExcelUtil {
 	 * <br> 参考: 阿里的easyExcel的com.alibaba.excel.write.context.GenerateContextImpl.buildDefaultCellStyle()
 	 */
 
-	private static CellStyle buildTitleCellStyle(Workbook workbook) {
-		CellStyle newCellStyle = buildCommonCellStyle(workbook);
-
-		//字体加粗
-		Font font = workbook.createFont();
-		font.setBold(true);
+	private static CellStyle buildTitleCellStyle(Workbook workbook, Font font) {
+		CellStyle newCellStyle = buildCommonCellStyle(workbook, font);
 
 		// 20190701 何鹏举 由于标题需要加粗, 因此创建了字体, 默认为Calibri, 比较难看, 而buildCommonCellStyle不设置加粗, 默认字体是等线, 因此修改此处
-		font.setFontName("等线");
-		newCellStyle.setFont(font);
+		// 20200113 字体调整到外面设置, 避免new很多个
 
 		//水平垂直居中
 		newCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -720,7 +724,7 @@ public class ExcelUtil {
 
 		return newCellStyle;
 	}
-	private static CellStyle buildCommonCellStyle(Workbook workbook) {
+	private static CellStyle buildCommonCellStyle(Workbook workbook, Font font) {
 		CellStyle newCellStyle = workbook.createCellStyle();
 
 		//四周边框
@@ -728,6 +732,9 @@ public class ExcelUtil {
 		newCellStyle.setBorderBottom(BorderStyle.THIN);
 		newCellStyle.setBorderLeft(BorderStyle.THIN);
 		newCellStyle.setBorderRight(BorderStyle.THIN);
+
+		// 字体
+		newCellStyle.setFont(font);
 		return newCellStyle;
 	}
 
@@ -777,10 +784,18 @@ public class ExcelUtil {
 			sheet = wb.createSheet(name);
 		}
 
+		// 20200113 hepengju WPS中默认为宋体, 比较难看
+		Font titleFont = wb.createFont();
+		titleFont.setBold(true);
+		titleFont.setFontName(FONT_NAME);
+
+		Font commonFont = wb.createFont();
+		commonFont.setFontName(FONT_NAME);
+
 		// 2.创建标题行
 		int rowNum = 0;
 		Row titleRow = sheet.createRow(rowNum++);
-		CellStyle titleCellStyle = buildTitleCellStyle(wb);
+		CellStyle titleCellStyle = buildTitleCellStyle(wb, titleFont);
 		if (title != null && title.size() > 0) {
 			for (int i = 0; i < title.size(); i++) {
 				Cell cell = titleRow.createCell(i);
@@ -793,7 +808,8 @@ public class ExcelUtil {
 		sheet.createFreezePane(0, 1);
 
 		// 3.写入结果集
-		CellStyle commonCellStyle = buildCommonCellStyle(wb);
+		CellStyle commonCellStyle = buildCommonCellStyle(wb, commonFont);
+		commonCellStyle.setFont(commonFont);
 		if (data != null && data.size() > 0) {
 			for (int i = 0; i < data.size(); i++) {
 				Row row = sheet.createRow(rowNum++);

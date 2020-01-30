@@ -32,14 +32,14 @@ public class RoleController {
     @ApiOperation("查询所有")
     @GetMapping("list")
     public R<Role> list(Long pageNum, Long pageSize, Role role){
-        LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<>();
-        wrapper .eq(StringUtils.isNotBlank(role.getRoleType()), Role::getRoleType, role.getRoleType())
-                .eq(StringUtils.isNotBlank(role.getEnableFlag()), Role::getEnableFlag, role.getEnableFlag())
-                .and(w -> w.like(StringUtils.isNotBlank(role.getRoleCodeOrName()), Role::getRoleCode, role.getRoleCodeOrName())
-                           .or()
-                           .like(StringUtils.isNotBlank(role.getRoleCodeOrName()), Role::getRoleName, role.getRoleCodeOrName())
-                )
-                .orderByDesc(Role::getCreateTime);
+        LambdaQueryWrapper<Role> wrapper = new LambdaQueryWrapper<Role>()
+            .eq(StringUtils.isNotBlank(role.getRoleType()), Role::getRoleType, role.getRoleType())
+            .eq(StringUtils.isNotBlank(role.getEnableFlag()), Role::getEnableFlag, role.getEnableFlag())
+            .and(w -> w.like(StringUtils.isNotBlank(role.getRoleCodeOrName()), Role::getRoleCode, role.getRoleCodeOrName())
+                       .or()
+                       .like(StringUtils.isNotBlank(role.getRoleCodeOrName()), Role::getRoleName, role.getRoleCodeOrName())
+            )
+            .orderByDesc(Role::getCreateTime);
         return roleService.listR(pageNum, pageSize, wrapper);
     }
 

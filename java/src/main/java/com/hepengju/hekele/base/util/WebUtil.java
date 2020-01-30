@@ -1,6 +1,5 @@
 package com.hepengju.hekele.base.util;
 
-import com.hepengju.hekele.base.core.exception.HeException;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.AllArgsConstructor;
@@ -69,7 +68,7 @@ public class WebUtil implements ApplicationContextAware {
 	public static void handleFileDownload(String attachment, InputStream inputStream) {
 		handleFileDownload(attachment);
 		try (InputStream is = inputStream) {
-			IOUtils.copy(inputStream, WebUtil.getHttpServletResponse().getOutputStream());
+			IOUtils.copy(is, WebUtil.getHttpServletResponse().getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -83,7 +82,7 @@ public class WebUtil implements ApplicationContextAware {
 				outputStream.write(byteArray);
 				outputStream.flush();
 			} catch (IOException e) {
-				throw new HeException(e);
+				throw new RuntimeException(e);
 			}
 		}
 	}
@@ -188,9 +187,8 @@ public class WebUtil implements ApplicationContextAware {
 		return getHttpServletRequest().getServletContext().getRealPath(path);
 	}
 	public static Object getBean(String beanName){ return applicationContext.getBean(beanName); }
-	public static <T> T  getBean(Class<T> requiredType){
-		return applicationContext.getBean(requiredType);
-	}
+	public static <T> T  getBean(Class<T> requiredType){ return applicationContext.getBean(requiredType);}
+	public static <T> T  getBean(String beanName, Class<T> requiredType){ return applicationContext.getBean(beanName, requiredType);}
 	public static <T> Map<String, T> getBeansOfType(Class<T> requiredType){ return applicationContext.getBeansOfType(requiredType); }
 	public static HttpServletRequest getHttpServletRequest() { return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();}
 	public static HttpServletResponse getHttpServletResponse() { return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();}

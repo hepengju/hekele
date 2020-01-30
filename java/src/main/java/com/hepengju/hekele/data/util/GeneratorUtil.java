@@ -74,6 +74,7 @@ public class GeneratorUtil {
                 metaGen.setMax(gn.max());
                 metaGen.setCode(gn.code());
                 metaGen.setScale(gn.scale());
+                metaGen.setClassName(gn.value().getName());
                 genList.add(metaGen.toGenerator());
             } else {
                 genList.add(new NullGenerator());

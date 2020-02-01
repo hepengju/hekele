@@ -216,7 +216,7 @@
         </dependency>
         -->
 
-        <!-- 开发便捷工具
+        <!-- 开发便捷工具 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -224,6 +224,7 @@
             <optional>true</optional>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>

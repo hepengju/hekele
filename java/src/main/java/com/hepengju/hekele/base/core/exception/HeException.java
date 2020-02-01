@@ -1,16 +1,19 @@
 package com.hepengju.hekele.base.core.exception;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 自定义异常
  *
  * @author he_pe 2019-12-23
  */
-@Data
 public class HeException extends RuntimeException {
 
-    protected Object[] errFormatArr;
+	private static final long serialVersionUID = 1L;
+	
+	@Getter @Setter
+	protected Object[] errFormatArr;
 
     public HeException(String message, Object... obj) {
         super(message);

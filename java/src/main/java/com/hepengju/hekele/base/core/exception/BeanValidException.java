@@ -6,7 +6,10 @@ package com.hepengju.hekele.base.core.exception;
  * @author he_pe 2019-12-23
  */
 public class BeanValidException extends RuntimeException {
-    public BeanValidException(String message) {
+
+	private static final long serialVersionUID = 1L;
+
+	public BeanValidException(String message) {
         super(message);
     }
 }

@@ -76,6 +76,7 @@ public class GeneratorService{
         } catch (ClassNotFoundException e) {
         }
 
+        log.info("auto find generator count: {}", count);
         genMap = genList.stream().collect(Collectors.groupingBy(GeneratorDTO::getType));
     }
 

@@ -8,8 +8,10 @@ import java.util.List;
  * @author he_pe 2019-12-23
  */
 public class ExcelCheckException extends RuntimeException {
-
-    private List<String> errList;
+	
+	private static final long serialVersionUID = 1L;
+	
+	private List<String> errList;
 
     public ExcelCheckException(List<String> errList) {
         this.errList = errList;

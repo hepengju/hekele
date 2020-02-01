@@ -1,25 +1,34 @@
 package com.hepengju.hekele.base.core;
 
-import com.hepengju.hekele.base.constant.HeConst;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.hepengju.hekele.base.constant.HeConst;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 中文提示信息均提取到文件
  *
  * @author hepengju 2018-02-05
  */
-@Slf4j
 public class M {
 
     private static ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -48,7 +57,7 @@ public class M {
                     String value = arr[2].trim();
 
                     if (codeList.contains(code)) throw new RuntimeException("file [" + MESSAGE_NAME + "] code repeat: " + line);
-                    if (keyList .contains(code)) throw new RuntimeException("file [" + MESSAGE_NAME + "] key  repeat: " + line);
+                    if (keyList .contains(key )) throw new RuntimeException("file [" + MESSAGE_NAME + "] key  repeat: " + line);
 
                     codeList.add(code);
                     keyList.add(key);

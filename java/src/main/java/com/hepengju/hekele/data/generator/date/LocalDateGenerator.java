@@ -16,10 +16,20 @@ public class LocalDateGenerator implements Generator<LocalDate> {
     }
 
     public LocalDateGenerator() {
-        this.dateTimeGenerator = new DateTimeGenerator();
+        this.dateTimeGenerator = new DateTimeGenerator(this.min, this.max);
     }
 
     public LocalDateGenerator(String min, String max) {
+    	this.min = min;
+    	this.max = max;
         this.dateTimeGenerator = new DateTimeGenerator(min, max);
     }
+    
+    public void setMin(String min) {
+		this.min = min;
+	}
+    
+    public void setMax(String max) {
+		this.max = max;
+	}
 }

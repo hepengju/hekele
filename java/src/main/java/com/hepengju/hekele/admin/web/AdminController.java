@@ -1,13 +1,10 @@
 package com.hepengju.hekele.admin.web;
 
 
-import com.hepengju.hekele.base.core.Now;
-import com.hepengju.hekele.base.core.R;
-import com.hepengju.hekele.base.util.ExecUtil;
-import com.hepengju.hekele.base.util.WebUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -15,8 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.hepengju.hekele.base.core.Now;
+import com.hepengju.hekele.base.core.R;
+import com.hepengju.hekele.base.util.ExecUtil;
+import com.hepengju.hekele.base.util.WebUtil;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 管理员控制
@@ -24,7 +26,7 @@ import java.io.IOException;
  * @author he_pe 2019-12-25
  */
 @Api(tags = "超级管理员操作")
-@RestController @Slf4j
+@RestController
 @RequestMapping("/admin/super")
 public class AdminController {
 

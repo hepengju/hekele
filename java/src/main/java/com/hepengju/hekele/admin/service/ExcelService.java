@@ -1,16 +1,15 @@
 package com.hepengju.hekele.admin.service;
 
-import com.hepengju.hekele.base.constant.HeConst;
-import com.hepengju.hekele.base.core.Now;
-import com.hepengju.hekele.base.core.excel.ExcelBookConfig;
-import com.hepengju.hekele.base.core.excel.ExcelSheetCheck;
-import com.hepengju.hekele.base.core.excel.ExcelSheetConfig;
-import com.hepengju.hekele.base.core.exception.ExcelCheckException;
-import com.hepengju.hekele.base.core.exception.HeException;
-import com.hepengju.hekele.base.util.ExcelUtil;
-import com.hepengju.hekele.base.util.StringUtil;
-import com.hepengju.hekele.base.util.WebUtil;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,11 +20,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.*;
+import com.hepengju.hekele.base.constant.HeConst;
+import com.hepengju.hekele.base.core.Now;
+import com.hepengju.hekele.base.core.excel.ExcelBookConfig;
+import com.hepengju.hekele.base.core.excel.ExcelSheetCheck;
+import com.hepengju.hekele.base.core.excel.ExcelSheetConfig;
+import com.hepengju.hekele.base.core.exception.ExcelCheckException;
+import com.hepengju.hekele.base.core.exception.HeException;
+import com.hepengju.hekele.base.util.ExcelUtil;
+import com.hepengju.hekele.base.util.StringUtil;
+import com.hepengju.hekele.base.util.WebUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service @Slf4j
 public class ExcelService {
@@ -158,7 +164,7 @@ public class ExcelService {
         // 配置的校验
         if(excelSheetCheck != null) {
             log.info("check begin: " + excelSheetCheck.getClass());
-            Map<String,Integer> titleIndexMap = this.getTitleMap(titleList);
+            Map<String,Integer> titleIndexMap = ExcelService.getTitleMap(titleList);
             List<String> errList = excelSheetCheck.checkResult(sheetName, columnCount, dataBeginRow, titleIndexMap, dataList);
             if(errList != null && errList.size() > 0) throw new ExcelCheckException(errList);
             log.info("check over");

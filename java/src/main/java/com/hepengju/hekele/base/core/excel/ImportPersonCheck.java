@@ -1,9 +1,12 @@
 package com.hepengju.hekele.base.core.excel;
 
-import com.hepengju.hekele.base.core.exception.ExcelCheckException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.text.DecimalFormat;
-import java.util.*;
+import com.hepengju.hekele.base.core.exception.ExcelCheckException;
 
 /**
  * 导入Excel文件检查的示例
@@ -14,7 +17,7 @@ public class ImportPersonCheck implements ExcelSheetCheck {
 
     private final String VALUE = "VALUE";
     private final List<String> genderEnumList = Arrays.asList("M", "F");
-    private final DecimalFormat decimalFormat = new DecimalFormat("0");
+    //private final DecimalFormat decimalFormat = new DecimalFormat("0");
 
     @Override
     public List<String> checkResult(String sheetName, Integer columnCount, Integer dataBeginRow, Map<String, Integer> titleIndexMap, List<List<Object>> dataList) throws ExcelCheckException {
@@ -33,7 +36,7 @@ public class ImportPersonCheck implements ExcelSheetCheck {
             Object salaryYear       = rowList.get(titleIndexMap.get("年收入"));
             Object managerNo        = rowList.get(titleIndexMap.get("经理编号"));
             Object orgNo            = rowList.get(titleIndexMap.get("机构编号"));
-            Object familyAddr       = rowList.get(titleIndexMap.get("家庭地址"));
+            //Object familyAddr       = rowList.get(titleIndexMap.get("家庭地址"));
 
             // 非空判断
             if (userName  == null) errList.add("姓名不能为空，错误行：" + curRow);

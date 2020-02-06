@@ -34,6 +34,13 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
     </properties>
 
+    <dependencies>
+        <!-- https://cloud.spring.io/spring-cloud-netflix/reference/html/#jdk-11-support -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+    </dependencies>
     <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>

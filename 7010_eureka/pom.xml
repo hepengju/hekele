@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <artifactId>eureka</artifactId>
+    <artifactId>spring-eureka</artifactId>
 
     <dependencies>
         <dependency>
@@ -24,11 +24,6 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
 
-        <!-- https://cloud.spring.io/spring-cloud-netflix/reference/html/#jdk-11-support -->
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

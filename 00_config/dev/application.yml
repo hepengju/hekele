@@ -1,0 +1,71 @@
+# 调试测试
+#debug: true
+
+# hekele的自定义配置
+hekele:
+  restart:
+    shell: "sh /root/app/gitPullThenRestart.sh"
+
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://mysql.hepengju.com:3306/hekele?serverTimezone=Asia/Shanghai
+    username: hekele
+    password: hekele123
+
+    druid:
+      stat-view-servlet:  # 监控页面, 访问路径为 /druid
+        enabled: true
+        allow: 0.0.0.0/0
+      web-stat-filter:    # 菜单: web应用, URI监控
+        enabled: true
+      filters: stat       # 开启统计过滤
+
+  # 还是默认配置, 只是调整下顺序, 原因是: knife4j的jar包中有个favicon.ico导致自己的失效.
+  # BTW, Spring官方说他们也无能为力. https://github.com/spring-projects/spring-boot/issues/19485
+  resources:
+    static-locations: ["classpath:/resources/", "classpath:/static/", "classpath:/public/" , "classpath:/META-INF/resources/"]
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB
+
+  # 开发工具
+  devtools:
+    restart:
+      trigger-file: .reloadtrigger
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+# 暴露actuator监控, 开启远程关闭, 关闭健康检查
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: "*"
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+  health:
+    defaults:
+      enabled: false
+
+# 日志管理
+logging:
+  level:
+    # 没事你显示什么一堆 Generating unique operation named: handleUsingGET_1 这东西!!
+    springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator: warn
+
+
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://mysql.hepengju.com:3306/hekele

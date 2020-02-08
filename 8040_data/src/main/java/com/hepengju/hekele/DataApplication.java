@@ -1,4 +1,4 @@
-package com.hepengju.hekele.data;
+package com.hepengju.hekele;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

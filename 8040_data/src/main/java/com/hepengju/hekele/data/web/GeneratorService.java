@@ -6,7 +6,7 @@ import com.hepengju.hekele.base.core.exception.HeException;
 import com.hepengju.hekele.base.util.ExcelUtil;
 import com.hepengju.hekele.base.util.PrintUtil;
 import com.hepengju.hekele.base.util.WebUtil;
-import com.hepengju.hekele.data.DataApplication;
+import com.hepengju.hekele.DataApplication;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
 import com.hepengju.hekele.data.util.GeneratorUtil;

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hepengju.hekele.base.annotation.Code;
+import com.hepengju.hekele.base.common.service.CodeService;
 import com.hepengju.hekele.base.core.exception.HeException;
 import org.springframework.beans.factory.annotation.Autowired;
 

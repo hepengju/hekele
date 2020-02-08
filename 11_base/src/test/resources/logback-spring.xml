@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 动态修改日志级别: jconsole连接后, MBean里面的ch.qos.logback.classic的操作setLoggerLevel, 动态修改日志级别 -->
+    <jmxConfigurator/>
+
+    <!-- SpringBoot的日志基础配置, 及变量设置 -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <springProperty scope="context" name="appname" source="spring.application.name"/>
+    <springProperty scope="context" name="loghome" source="log.home" defaultValue="/usr/web/log"/>
+    <springProperty scope="context" name="pattern" source="pattern"  defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n"/>
+
+    <!-- INFO级别日志: 保留60天, 文件最大为100MB, 滚动压缩为zip -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${loghome}/${appname}/${appname}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${loghome}/${appname}/${appname}.%d.%i.log.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ERROR级别日志 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${loghome}/${appname}/err-${appname}.log</File>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${loghome}/${appname}/err-${appname}.%d.%i.log.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 自定义部分类的日志级别 -->
+    <!-- 后置处理器检查, 总报部分依赖的bean(feign调用的)没有被全部后置处理器处理, 我又不能做什么, 因此设置为警告级别-->
+    <logger name="org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker" level="WARN"/>
+
+    <!-- 日志级别 -->
+    <root level="info">
+        <appender-ref ref="file"/>
+        <appender-ref ref="error"/>
+    </root>
+
+    <!--
+    ELK停用
+    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>47.98.43.198:4569</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="stash"/>
+    </appender>
+    <root level="info">
+        <appender-ref ref="async"/>
+    </root>
+    -->
+</configuration>

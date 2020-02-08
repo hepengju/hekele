@@ -11,13 +11,19 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>data</artifactId>
+    <artifactId>demo</artifactId>
 
     <!-- 依赖管理 -->
     <dependencies>
         <dependency>
             <groupId>com.hepengju.hekele</groupId>
             <artifactId>base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hepengju.hekele</groupId>
+            <artifactId>data</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -29,12 +35,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
-                <!-- 因为此工程要被其他功能依赖, 因此此处加入可执行的 -->
-                <!-- 参考: https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/htmlsingle/#boot-features-cors -->
-                <configuration>
-                    <classifier>exec</classifier>
-                </configuration>
             </plugin>
 
             <!-- Maven编译插件: 保留参数名称 -->

@@ -25,7 +25,7 @@ public class PreferLocalRule extends RoundRobinRule {
 
     private static final List<String> LOCAL_IP_LIST = Arrays.asList("localhost", "127.0.0.1", "0:0:0:0:0:0:0:1");
 
-    @Value("${hekele.ribbion.prefer.ip:}")
+    @Value("${hekele.ribbon.prefer.ip:}")
     private String perferId               ; // 优先访问公共服务
     private String remoteAddr         = ""; // 请求IP地址
     private String requestDescription = ""; // 请求描述（内部调用/外部请求）

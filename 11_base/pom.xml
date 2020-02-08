@@ -68,11 +68,21 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
-        <!-- API文档 -->
+        <!-- API文档: 和SpringCloud整合后, guava版本冲突, 因此手动设置版本. 修改后OK, 暂不知是否会有其他影响!
+            springfox.documentation.spring.web.scanners.ApiListingScanner.scan(ApiListingScanner.java:117)
+                The following method did not exist:
+            'com.google.common.collect.FluentIterable com.google.common.collect.FluentIterable.append(java.lang.Iterable)'
+         -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.1</version>
         </dependency>
 
         <!-- 数据库组件与驱动 -->

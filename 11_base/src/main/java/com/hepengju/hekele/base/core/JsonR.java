@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hepengju.hekele.base.constant.HeConst;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -37,27 +39,29 @@ import static java.util.Arrays.asList;
  * @see HeConst.ErrorCode
  * @author he_pe 2019-12-21
  */
+@ApiModel("JSON规范返回值")
 @Data @Accessors(chain = true)
 public class JsonR<T> {
 
     // 必选
-    private int    errCode   ;  // 错误代码
-    private String errMessage;  // 错误信息
+    @ApiModelProperty("错误代码") private int    errCode   ;
+    @ApiModelProperty("错误信息") private String errMessage;
 
     // 可选
-    @JsonInclude(JsonInclude.Include.NON_NULL) private String                          errDetail ;  // 错误详细
-    @JsonInclude(JsonInclude.Include.NON_NULL) private Object                          data      ;  // 数据
-    @JsonInclude(JsonInclude.Include.NON_NULL) private Map<String, Map<String,String>> code      ;  // 数据中的枚举值含义
-    @JsonInclude(JsonInclude.Include.NON_NULL) private Page                            page      ;  // 分页
-    @JsonInclude(JsonInclude.Include.NON_NULL) private Object                          extra     ;  // 扩展信息: 其他需要临时添加的内容
+    @ApiModelProperty("错误详细") @JsonInclude(JsonInclude.Include.NON_NULL) private String errDetail ;
+    @ApiModelProperty("数据")    @JsonInclude(JsonInclude.Include.NON_NULL) private Object data      ;
+    @ApiModelProperty("分页信息") @JsonInclude(JsonInclude.Include.NON_NULL) private Page   page      ;
+    @ApiModelProperty("扩展信息") @JsonInclude(JsonInclude.Include.NON_NULL) private Object extra     ;  // 扩展信息: 其他需要临时添加的内容
+    @ApiModelProperty("枚举代码") @JsonInclude(JsonInclude.Include.NON_NULL) private Map<String, Map<String,String>> code ;
 
     // 分页信息
+    @ApiModel("分页信息")
     @Data @Accessors(chain = true)
     private class Page {
-        private long pageNum  ; // 当前页
-        private long pageSize ; // 每页大小
-        private long pages    ; // 总页数
-        private long total    ; // 总记录数
+        @ApiModelProperty("当前页")   private long pageNum  ;
+        @ApiModelProperty("每页大小") private long pageSize ;
+        @ApiModelProperty("总页数")   private long pages    ;
+        @ApiModelProperty("总记录数") private long total    ;
     }
 
     // 静态"返回成功"和"返回错误"方法, 服务内部调用判断是否成功的方法 (由于微服务的内部调用, 需要json的反序列化, 所以不能私有化构造函数)

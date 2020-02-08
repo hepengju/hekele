@@ -43,6 +43,7 @@ public class P6SpyConfig {
         @Override
         public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
             if (bean instanceof DataSource) {
+                P6SpyPropertyConfig.init();
                 return new P6DataSource((DataSource) bean);
             }
             return bean;

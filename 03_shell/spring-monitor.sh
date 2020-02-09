@@ -1,12 +1,14 @@
-appName=spring-monitor.jar
+appName=spring-monitor
+jarName=$appName.jar
 
-ps -ef | grep $appName | awk '{print $2}' | while read pid
+ps -ef | grep $jarName | awk '{print $2}' | while read pid
 do
   kill $pid
   sleep 2
 done
 
-nohup java  -jar -Xms256M -Xmx512M $appName --eureka.instance.ip-address=101.132.97.183 >> /dev/null 2>&1 &
+nohup java  -jar -Xms256M -Xmx512M $jarName --eureka.instance.ip-address=101.132.97.183 >> /dev/null 2>&1 &
 
-tail -f ~/app/log/spring-monitor/spring-monitor.log
+tail -f ~/app/log/$appName/$appName.log
+
 

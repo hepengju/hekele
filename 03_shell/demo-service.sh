@@ -1,4 +1,4 @@
-appName=spring-eureka
+appName=demo-service
 jarName=$appName.jar
 
 ps -ef | grep $jarName | awk '{print $2}' | while read pid

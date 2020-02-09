@@ -1,6 +1,5 @@
 package com.hepengju.hekele.base.util;
 
-import com.p6spy.engine.common.P6Util;
 import org.springframework.util.PropertyPlaceholderHelper;
 
 import java.util.Properties;
@@ -264,7 +263,7 @@ public class StringUtil {
 	/**
 	 * 转换为单行
 	 * 
-	 * @see P6Util#singleLine(String)
+	 * @see //P6Util#singleLine(String)
 	 */
 	public static String singleLine(String str) {
 		return str == null ? str : lineBreakPattern.matcher(str).replaceAll(" ");

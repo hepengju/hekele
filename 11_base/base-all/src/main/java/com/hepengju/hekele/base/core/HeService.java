@@ -39,6 +39,7 @@ public class HeService<M extends HeMapper<T>, T> extends ServiceImpl<M,T> {
         long count = heMapper.countByColumnValue(columnName, columnValue, idValue);
         if (count > 0) throw new HeException(err);
     }
+
     public void validUnique(String columnName1, String columnValue1, String columnName2, String columnValue2, String idValue, String err, String... args) {
         long count = heMapper.countByTwoColumnValue(columnName1, columnValue1, columnName2, columnValue2, idValue);
         if (count > 0) throw new HeException(err, args);

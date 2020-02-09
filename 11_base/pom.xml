@@ -16,6 +16,7 @@
     <!-- 依赖管理 -->
     <dependencies>
 
+
         <!-- Spring Cloud组件
             eureka:    配置中心注册
             config:    配置远程获取
@@ -275,7 +276,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
             <exclusions>
                 <exclusion>
                     <groupId>org.junit.vintage</groupId>

@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * 优先调用本机服务 (顺带区分浏览器调用还是Feign调用)
+ *
+ * @author hepengju
  */
 @Component @Scope("prototype") @Slf4j
 public class PreferLocalRule extends RoundRobinRule {

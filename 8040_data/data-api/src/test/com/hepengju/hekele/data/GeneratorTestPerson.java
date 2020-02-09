@@ -3,13 +3,13 @@ package com.hepengju.hekele.data;
 
 import com.hepengju.hekele.base.core.Now;
 import com.hepengju.hekele.data.generator.Generator;
+import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
+import com.hepengju.hekele.data.generator.custom.name.ChineseNameGenerator;
+import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
 import com.hepengju.hekele.data.generator.date.DateGenerator;
 import com.hepengju.hekele.data.generator.number.DoubleGenerator;
 import com.hepengju.hekele.data.generator.number.IntegerGenerator;
 import com.hepengju.hekele.data.generator.string.CodeGenerator;
-import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
-import com.hepengju.hekele.data.generator.custom.name.ChineseNameGenerator;
-import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormat;

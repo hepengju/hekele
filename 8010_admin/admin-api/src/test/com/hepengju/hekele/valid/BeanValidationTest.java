@@ -1,17 +1,15 @@
 package com.hepengju.hekele.valid;
 
-import java.util.Set;
+import com.hepengju.hekele.admin.bo.Role;
+import com.hepengju.hekele.base.util.ValidUtil;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import com.hepengju.hekele.admin.bo.Role;
-import com.hepengju.hekele.base.util.ValidUtil;
+import java.util.Set;
 
 /**
  * Bean验证

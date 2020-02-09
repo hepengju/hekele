@@ -1,10 +1,6 @@
 package com.hepengju.hekele.data;
 
 import com.hepengju.hekele.data.generator.Generator;
-import com.hepengju.hekele.data.generator.date.DateGenerator;
-import com.hepengju.hekele.data.generator.number.AutoIncrementGenerator;
-import com.hepengju.hekele.data.generator.number.DoubleGenerator;
-import com.hepengju.hekele.data.generator.number.IntegerGenerator;
 import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
 import com.hepengju.hekele.data.generator.custom.card.IdCardGenerator;
 import com.hepengju.hekele.data.generator.custom.computer.EmailGenerator;
@@ -16,6 +12,10 @@ import com.hepengju.hekele.data.generator.custom.password.Md5Generator;
 import com.hepengju.hekele.data.generator.custom.password.Sha256Generator;
 import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
 import com.hepengju.hekele.data.generator.custom.phone.TelePhoneGenerator;
+import com.hepengju.hekele.data.generator.date.DateGenerator;
+import com.hepengju.hekele.data.generator.number.AutoIncrementGenerator;
+import com.hepengju.hekele.data.generator.number.DoubleGenerator;
+import com.hepengju.hekele.data.generator.number.IntegerGenerator;
 import com.hepengju.hekele.data.generator.string.RandomEmailGenerator;
 import com.hepengju.hekele.data.generator.string.RandomMobileGenerator;
 import org.junit.jupiter.api.Test;

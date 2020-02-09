@@ -32,11 +32,6 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <!-- Maven编译插件: 保留参数名称 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

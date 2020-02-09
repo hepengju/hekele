@@ -1,0 +1,28 @@
+### 查询所有
+GET {{host}}/list?pageNum=1&pageSize=2&userCodeOrName=万&birthStart=2000-01-01&birthEnd=2020-12-31
+
+### 根据主键查询
+GET {{host}}/getById?userId=0005f0b2d84e43fc8ace11ce1b0c6dd7
+
+### 新增代码
+POST {{host}}/add
+Content-Type: application/x-www-form-urlencoded
+
+userCode=haha&userName=哈哈&gender=F&phone=15121038610&birth=1991-01-10&familyPopulation=2&salaryYear=999999.99
+
+### 编辑
+POST {{host}}/edit
+Content-Type: application/x-www-form-urlencoded
+
+userId=65d1f840c8be9e7e2e9de20fc5b62414&userCode=haa&userName=哈哈&gender=F&phone=15121038610&birth=1991-01-10&familyPopulation=2&salaryYear=999999.99
+
+### 删除
+POST {{host}}/delete
+Content-Type: application/x-www-form-urlencoded
+
+userId=47663d074f8347ea03d4948daf012367
+
+### Feign远程调用DataClient的getGenList
+GET {{host}}/getGenList
+
+###

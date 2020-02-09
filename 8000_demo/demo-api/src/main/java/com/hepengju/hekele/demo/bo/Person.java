@@ -1,4 +1,4 @@
-package com.hepengju.hekele.demo;
+package com.hepengju.hekele.demo.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,6 +14,7 @@ import com.hepengju.hekele.data.generator.custom.address.ChinaAddressGenerator;
 import com.hepengju.hekele.data.generator.custom.computer.UUIDGenerator;
 import com.hepengju.hekele.data.generator.custom.name.ChineseNameGenerator;
 import com.hepengju.hekele.data.generator.custom.phone.MobileGenerator;
+import com.hepengju.hekele.data.generator.string.RandomStringNumberGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -35,6 +36,10 @@ public class Person {
     @ApiModelProperty("主键")
     @Generator(UUIDGenerator.class)
     private String userId;
+
+    @ApiModelProperty("账号")
+    @Generator(value = RandomStringNumberGenerator.class, min = "5", max = "5")
+    private String userCode;
 
     @ApiModelProperty("姓名")
     @Generator(ChineseNameGenerator.class)

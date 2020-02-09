@@ -16,7 +16,7 @@
                     <property name="columnTitle" value="姓名,性别,手机号,出生日期,家庭人口,年收入,经理编号,机构编号,家庭地址"/>
                     <property name="insertSql"   value="INSERT INTO IMP_PERSON (USER_NAME, GENDER, PHONE, BIRTH, FAMILY_POPULATION, SALARY_YEAR, MANAGER_NO, ORG_NO, FAMILY_ADDR, IMP_CREATE_TIME, IMP_CREATE_USER_CODE, IMP_CREATE_USER_NAME, IMP_FILE_NAME, IMP_CHECK_ERROR_INFO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"/>
                     <property name="excelSheetCheck">
-                        <bean class="com.hepengju.hekele.base.core.excel.ImportPersonCheck"/>
+                        <bean class="com.hepengju.hekele.demo.check.ImportPersonCheck"/>
                     </property>
                     <!--
                     <property name="afterSqls"><value><![CDATA[

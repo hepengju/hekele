@@ -1,4 +1,4 @@
-package com.hepengju.hekele.demo;
+package com.hepengju.hekele.demo.check;
 
 import com.hepengju.hekele.base.core.excel.ExcelSheetCheck;
 import com.hepengju.hekele.base.core.exception.ExcelCheckException;

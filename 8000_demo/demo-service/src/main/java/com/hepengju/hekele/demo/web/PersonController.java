@@ -1,7 +1,11 @@
-package com.hepengju.hekele.demo;
+package com.hepengju.hekele.demo.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hepengju.hekele.base.core.JsonR;
+import com.hepengju.hekele.data.client.DataClient;
+import com.hepengju.hekele.demo.bo.Person;
+import com.hepengju.hekele.demo.dto.PersonDTO;
+import com.hepengju.hekele.demo.service.PersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -22,14 +26,19 @@ import java.util.List;
 public class PersonController {
 
     @Autowired private PersonService personService;
+    @Autowired private DataClient dataClient;
 
     //----------------------增删改查-------------------------------
     @ApiOperation("查询所有")
     @GetMapping("list")
-    public JsonR<Person> list(Long pageNum, Long pageSize, Person person) {
-        // 姓名模糊查询
+    public JsonR<Person> list(Long pageNum, Long pageSize, PersonDTO personDTO) {
+        // 用户账号和名称模糊查询，生日开始和结束日期限制查询； 如果再复杂一些，请自行编写SQL语句实现
         LambdaQueryWrapper<Person> wrapper = new LambdaQueryWrapper<Person>()
-            .like(StringUtils.isNotBlank(person.getUserName()), Person::getUserName, person.getUserName());
+                .ge(personDTO.getBirthStart() != null, Person::getBirth, personDTO.getBirthStart())
+                .le(personDTO.getBirthEnd() != null, Person::getBirth, personDTO.getBirthEnd());
+        wrapper.and(w -> w.like(StringUtils.isNotBlank(personDTO.getUserCodeOrName()), Person::getUserCode, personDTO.getUserCodeOrName())
+                          .or()
+                          .like(StringUtils.isNotBlank(personDTO.getUserCodeOrName()), Person::getUserName, personDTO.getUserCodeOrName()));
         return personService.listR(pageNum, pageSize, wrapper);
     }
 
@@ -55,4 +64,10 @@ public class PersonController {
         return personService.deleteR(idList);
     }
 
+    //------------------------------------------------------------
+    @ApiOperation("Feign远程调用DataClient的getGenList")
+    @GetMapping("getGenList")
+    public JsonR getGenList(){
+        return dataClient.getGenList();
+    }
 }

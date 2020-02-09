@@ -1,4 +1,4 @@
-package com.hepengju.hekele.data.web;
+package com.hepengju.hekele.data.service;
 
 import com.alibaba.fastjson.JSON;
 import com.hepengju.hekele.base.core.Now;
@@ -6,7 +6,8 @@ import com.hepengju.hekele.base.core.exception.HeException;
 import com.hepengju.hekele.base.util.ExcelUtil;
 import com.hepengju.hekele.base.util.PrintUtil;
 import com.hepengju.hekele.base.util.WebUtil;
-import com.hepengju.hekele.DataApplication;
+import com.hepengju.hekele.DataServiceApplication;
+import com.hepengju.hekele.data.dto.GeneratorDTO;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
 import com.hepengju.hekele.data.util.GeneratorUtil;
@@ -46,7 +47,7 @@ public class GeneratorService{
         // 1.找出所有Generator接口的实现类
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AssignableTypeFilter(Generator.class));
-        Set<BeanDefinition> generators = provider.findCandidateComponents(DataApplication.class.getPackage().getName());
+        Set<BeanDefinition> generators = provider.findCandidateComponents(DataServiceApplication.class.getPackage().getName());
 
         // 2. 仅仅注入含有ApiModel注解的类
         int count = 0;

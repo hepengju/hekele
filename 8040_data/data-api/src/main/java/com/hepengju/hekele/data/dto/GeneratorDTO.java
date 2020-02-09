@@ -1,4 +1,4 @@
-package com.hepengju.hekele.data.web;
+package com.hepengju.hekele.data.dto;
 
 import lombok.Data;
 

@@ -14,6 +14,6 @@ public class RandomStringNumberGenerator implements StringGenerator {
 
 	@Override
 	public String generate() {
-		return RandomStringUtils.randomAlphanumeric(min, max + 1);
+		return RandomStringUtils.randomNumeric(min, max + 1);
 	}
 }

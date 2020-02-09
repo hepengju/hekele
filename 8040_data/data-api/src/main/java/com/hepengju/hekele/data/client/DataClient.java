@@ -6,7 +6,6 @@ import com.hepengju.hekele.data.meta.MetaGenerator;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
@@ -14,8 +13,7 @@ import javax.validation.Valid;
 /**
  * 参看: com.hepengju.hekele.data.web.GeneratorController
  */
-@FeignClient(value = FeignClientConst.DATA_SERVICE, fallbackFactory = DataClientFallbackFactory.class)
-@RequestMapping("/data/")
+@FeignClient(value = FeignClientConst.DATA_SERVICE, path = "/data", fallbackFactory = DataClientFallbackFactory.class)
 public interface DataClient {
 
     @GetMapping("getGenList")

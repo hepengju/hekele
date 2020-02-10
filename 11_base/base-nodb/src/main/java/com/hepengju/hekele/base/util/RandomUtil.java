@@ -3,9 +3,11 @@ package com.hepengju.hekele.base.util;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 随机工具类
@@ -44,6 +46,16 @@ public class RandomUtil {
 	}
 	public static String randomOne(List<String> list) {
 		return list.get(RandomUtils.nextInt(0, list.size()));
+	}
+
+	public static String randomNumComma(List<String> list, long startInclusive, long endExclusive) {
+		return randomNumSeperator(list, startInclusive, endExclusive, ",");
+	}
+
+	public static String randomNumSeperator(List<String> list, long startInclusive, long endExclusive, String seperator){
+		Collections.shuffle(list);
+		long num = RandomUtils.nextLong(startInclusive, endExclusive);
+		return list.stream().limit(num).collect(Collectors.joining(seperator));
 	}
 
 	/**

@@ -12,8 +12,9 @@ import java.lang.annotation.Target;
 public @interface Generator {
 
     Class<? extends com.hepengju.hekele.data.generator.Generator> value() default RandomStringGenerator.class;
-    String min()  default ""; // 最小值 (或最小长度)
-    String max()  default ""; // 最大值 (或最大长度)
-    String code() default ""; // 代码值: 逗号分隔
-    int scale()   default 2 ; // 小数位数
+    String min()        default ""; // 最小值 (或最小长度)
+    String max()        default ""; // 最大值 (或最大长度)
+    int scale()         default 2 ; // 小数位数
+    String code()       default ""; // 代码值: 逗号分隔
+    boolean codeMulti() default false; // 20200210 代码值, 可以选择是否多选
 }

@@ -2,10 +2,9 @@ package com.hepengju.hekele;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.zuul.EnableZuulServer;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
-//@EnableZuulProxy --> 先不编写其他的，直接启用默认的Zuul服务
-@EnableZuulServer
+@EnableZuulProxy
 @SpringBootApplication
 public class SpringZuulApplication {
 

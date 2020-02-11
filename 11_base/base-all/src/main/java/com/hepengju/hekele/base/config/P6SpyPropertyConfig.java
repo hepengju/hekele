@@ -4,6 +4,9 @@ import java.util.Properties;
 
 /**
  * 不想在每次微服务下都放置一个spy.properties, 因此在base中中用环境变量集中配置
+ *
+ * @see P6SpyConfig 在发现数据源的时候, 调用init方法初始化下系统属性
+ * @author hepengju
  */
 public class P6SpyPropertyConfig {
 

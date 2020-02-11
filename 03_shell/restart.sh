@@ -26,7 +26,7 @@ fi
 
 pid=`ps -ef | grep $jarName | grep -v grep | grep -v $scriptName | awk '{print $2}'`
 if [[ -n $pid ]]; then
-  echo "3秒内没有正常停止应用："$appName", pid:"$pid"，下面进行强制停止"
+  echo "3秒内没有正常停止应用："$appName", 进程号:"$pid"，下面进行强制停止"
   kill -9 $pid
 fi
 

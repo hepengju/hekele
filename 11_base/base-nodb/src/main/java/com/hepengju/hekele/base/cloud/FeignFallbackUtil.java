@@ -20,15 +20,16 @@ public class FeignFallbackUtil {
     public static <T> T get(Class<T> feignClientInterface, Throwable cause) {
         FeignClient annotation = feignClientInterface.getAnnotation(FeignClient.class);
         String serviceName = annotation.value();
-        return (T) Proxy.newProxyInstance(feignClientInterface.getClass().getClassLoader()
-                    , new Class[]{feignClientInterface}
-                    , new InvocationHandler() {
-                        @Override
-                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                            log.error("当你看到这条信息，说明服务[{}]已经停止或不可访问，参数为：[{}]", serviceName, args, cause);
-                            return null;
-                        }
-                    });
+        return (T) Proxy.newProxyInstance(feignClientInterface.getClassLoader()
+                , new Class[]{feignClientInterface}
+                , new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        log.error("当你看到这条信息，说明服务[{}.{}.{}]已经停止或不可访问，参数为：{}",
+                                serviceName, feignClientInterface.getSimpleName(), method.getName(), args, cause);
+                        return null;
+                    }
+                });
     }
 
 }

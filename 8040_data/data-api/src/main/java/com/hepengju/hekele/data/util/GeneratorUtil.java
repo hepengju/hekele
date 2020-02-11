@@ -70,10 +70,11 @@ public class GeneratorUtil {
             com.hepengju.hekele.data.annotation.Generator gn = field.getAnnotation(com.hepengju.hekele.data.annotation.Generator.class);
             if (gn != null) {
                 MetaGenerator metaGen = new MetaGenerator();
-                metaGen.setMin(gn.min());
-                metaGen.setMax(gn.max());
-                metaGen.setCode(gn.code());
+                if(StringUtils.isNotBlank(gn.min())) metaGen.setMin(gn.min());
+                if(StringUtils.isNotBlank(gn.max())) metaGen.setMax(gn.max());
+                if(StringUtils.isNotBlank(gn.code())) metaGen.setCode(gn.code());
                 metaGen.setScale(gn.scale());
+                metaGen.setCodeMulti(gn.codeMulti());
                 metaGen.setClassName(gn.value().getName());
                 genList.add(metaGen.toGenerator());
             } else {

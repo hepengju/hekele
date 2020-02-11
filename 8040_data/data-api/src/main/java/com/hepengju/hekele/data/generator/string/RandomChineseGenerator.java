@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data @ApiModel("随机中文字生成器")
-public class RandomNameGenerator implements StringGenerator {
+public class RandomChineseGenerator implements StringGenerator {
 	
 	private int min = 2;
 	private int max = 4;

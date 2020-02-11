@@ -1,6 +1,5 @@
 package com.hepengju.hekele.spring;
 
-import com.hepengju.hekele.HekeleApplication;
 import com.hepengju.hekele.data.generator.Generator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -19,8 +18,4 @@ public class ClassPathScanTest {
         beanDefinitions.forEach(System.out::println);
     }
 
-    @Test
-    public void testMainApp() {
-        System.out.println(HekeleApplication.class.getPackage().getName());
-    }
 }

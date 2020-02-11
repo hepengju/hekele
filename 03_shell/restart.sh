@@ -11,19 +11,20 @@ if [ -z $1 ]; then
 fi
 
 # 变量名字
+scriptName=$0
 jarName=$1
 appName=${jarName%.*}
 logFile=$HOME/app/log/$appName/$appName.log
 
-# 找到进程号并关闭应用
-pid=`ps -ef | grep $jarName | grep -v grep | awk '{print $2}'`
+# 找到进程号并关闭应用, 注意需要去掉grep命令和脚本本身命令的进程
+pid=`ps -ef | grep $jarName | grep -v grep | grep -v $scriptName | awk '{print $2}'`
 if [[ -n $pid ]]; then
   echo "找到应用"$appName"的进程号："$pid"，尝试正常停止应用"
   kill $pid
   sleep 3
 fi
 
-pid=`ps -ef | grep $jarName | grep -v grep | awk '{print $2}'`
+pid=`ps -ef | grep $jarName | grep -v grep | grep -v $scriptName | awk '{print $2}'`
 if [[ -n $pid ]]; then
   echo "3秒内没有正常停止应用："$appName"，下面进行强制停止"
   kill -9 $pid

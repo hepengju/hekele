@@ -2,7 +2,12 @@ package com.hepengju.hekele.data.util;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.hepengju.hekele.base.core.Now;
+import com.hepengju.hekele.base.core.exception.HeException;
+import com.hepengju.hekele.base.util.ExcelUtil;
+import com.hepengju.hekele.base.util.PrintUtil;
 import com.hepengju.hekele.base.util.StringUtil;
+import com.hepengju.hekele.base.util.WebUtil;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.string.NullGenerator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
@@ -10,6 +15,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +48,8 @@ public class GeneratorUtil {
     }
 
     /**
-     * 生成批量数据
+     * 根据生成器生成批量数据
      */
-    public static List<List<Object>> getDataList(Class<?> boClass, int count) {
-        List<Generator> generatorList = getGeneratorList(boClass);
-        return getDataList(generatorList, count);
-    }
-
     public static List<List<Object>> getDataList(List<Generator> genList, int count) {
         List<List<Object>> dataList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -58,10 +59,20 @@ public class GeneratorUtil {
             }
             dataList.add(rowList);
         }
-
         return dataList;
     }
 
+    /**
+     * 根据实体类生成批量数据
+     */
+    public static List<List<Object>> getDataList(Class<?> boClass, int count) {
+        List<Generator> generatorList = getGeneratorList(boClass);
+        return getDataList(generatorList, count);
+    }
+
+    /**
+     * 根据实体类获得生成器列表
+     */
     public static List<Generator> getGeneratorList(Class<?> boClass) {
         List<Generator> genList = new ArrayList<>();
 
@@ -86,17 +97,48 @@ public class GeneratorUtil {
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static List<Object> getSampleData(Generator generator, int size) {
-        List<Object> sampleData = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            sampleData.add(generator.generate());
-        }
-        return sampleData;
+
+    /**
+     * 下载测试数据
+     */
+    public static void downloadDataList(Class<?> clazz, int count, String dataFormat) {
+        List<List<Object>> dataList = GeneratorUtil.getDataList(clazz, count);
+
+        String tableName = GeneratorUtil.getTableName(clazz);
+        List<String> columnNameList = GeneratorUtil.getColumnNameList(clazz);
+        handleDataList(dataList, dataFormat, tableName, columnNameList);
     }
 
+    /**
+     * 处理下载数据
+     */
     @SneakyThrows
-    public static Generator getGeneratorByClassName(String genClassName) {
-        return (Generator) Class.forName(genClassName).newInstance();
-    }
+    public static void handleDataList(List<List<Object>> dataList, String dataFormat, String tableName, List<String> columnNameList){
+        String fileName = tableName + "-" + Now.yyyyMMddHHmmss();
+        if ("sql".equals(dataFormat)) {
+            String result = PrintUtil.printInsert(tableName, columnNameList, dataList, true);
+            WebUtil.handleFileDownload(fileName + ".sql", result.getBytes(StandardCharsets.UTF_8));
+            return;
+        }
 
+        if ("csv".equals(dataFormat)) {
+            String result = PrintUtil.printCSV(dataList);
+            WebUtil.handleFileDownload(fileName + ".csv", result.getBytes(StandardCharsets.UTF_8));
+            return;
+        }
+
+        if ("tsv".equals(dataFormat)) {
+            String result = PrintUtil.printTSV(dataList);
+            WebUtil.handleFileDownload(fileName + ".tsv", result.getBytes(StandardCharsets.UTF_8));
+            return;
+        }
+
+        if ("excel".equals(dataFormat)) {
+            WebUtil.handleFileDownload(fileName + ".xlsx");
+            ExcelUtil.exportFromList(columnNameList, dataList, WebUtil.getHttpServletResponse().getOutputStream());
+            return;
+        }
+
+        throw new HeException("格式暂不支持");
+    }
 }

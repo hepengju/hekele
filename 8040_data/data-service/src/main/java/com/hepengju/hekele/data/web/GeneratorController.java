@@ -54,30 +54,4 @@ public class GeneratorController {
         genService.downloadSampleDataTable(metaGeneratorJsonArr, sampleSize, dataFormat, tableName, columnNames);
     }
 
-    // 工程拆分，Person类已经不在此工程中了
-//    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//    /**
-//     * 生成数据
-//     * @param classFullName  全类名
-//     * @param count          个数
-//     * @param dataFormat     格式(csv, tsv, sql, excel)
-//     */
-//    @ApiOperation("根据全类名生成数据")
-//    @GetMapping("/getDataByClassFullName")
-//    public JsonR getDataByClassFullName(@RequestParam(defaultValue = "com.hepengju.hekele.demo.Person") String classFullName,
-//                     @RequestParam(defaultValue = "10") Integer count,
-//                     @RequestParam(defaultValue = "csv") String dataFormat) throws ClassNotFoundException {
-//        List<List<Object>> dataList = GeneratorUtil.getDataList(Class.forName(classFullName), count);
-//        String result = PrintUtil.printCSV(dataList);
-//        return JsonR.ok().addData(result);
-//    }
-//
-//    @ApiOperation("根据全类名下载数据")
-//    @GetMapping("/downloadDataByClassFullName")
-//    public void downloadDataByClassFullName(@RequestParam(defaultValue = "com.hepengju.hekele.demo.Person") String classFullName,
-//                     @RequestParam(defaultValue = "1050") Integer count,
-//                     @RequestParam(defaultValue = "csv") String dataFormat) {
-//        genService.downloadDataByClassFullName(classFullName, count, dataFormat);
-//    }
-
 }

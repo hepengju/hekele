@@ -1,12 +1,8 @@
 package com.hepengju.hekele.data.service;
 
 import com.alibaba.fastjson.JSON;
-import com.hepengju.hekele.base.core.Now;
-import com.hepengju.hekele.base.core.exception.HeException;
-import com.hepengju.hekele.base.util.ExcelUtil;
-import com.hepengju.hekele.base.util.PrintUtil;
-import com.hepengju.hekele.base.util.WebUtil;
 import com.hepengju.hekele.DataServiceApplication;
+import com.hepengju.hekele.base.core.exception.HeException;
 import com.hepengju.hekele.data.dto.GeneratorDTO;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
@@ -21,12 +17,8 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.hepengju.hekele.data.util.GeneratorUtil.getGeneratorByClassName;
-import static com.hepengju.hekele.data.util.GeneratorUtil.getSampleData;
 
 @Service @Slf4j
 public class GeneratorService{
@@ -62,7 +54,8 @@ public class GeneratorService{
                     dto.setClassName(clazz.getName());
                     String desc = apiModel.value();
                     dto.setDesc(desc.replace("生成器",""));
-                    dto.setSampleData(getSampleData(getGeneratorByClassName(className), SAMPLE_SIZE));
+                    Generator generator = (Generator) Class.forName(className).newInstance();
+                    dto.setSampleData(generator.generateList(SAMPLE_SIZE));
 
                     String packageName = clazz.getPackage().getName();
                     if (packageName.endsWith(TYPE_DATE)) {          dto.setType(TYPE_DATE);
@@ -74,7 +67,7 @@ public class GeneratorService{
                     count++;
                 }
             }
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
         }
 
         log.info("auto find generator count: {}", count);
@@ -84,9 +77,11 @@ public class GeneratorService{
     /**
      * 刷新样例数据
      */
+    @SneakyThrows
     public void refreshSampleData() {
         for (GeneratorDTO dto : genList) {
-            dto.setSampleData(getSampleData(getGeneratorByClassName(dto.getClassName()), SAMPLE_SIZE));
+            Generator generator = (Generator) Class.forName(dto.getClassName()).newInstance();
+            dto.setSampleData(generator.generateList(SAMPLE_SIZE));
         }
         genMap = genList.stream().collect(Collectors.groupingBy(GeneratorDTO::getType));
     }
@@ -96,7 +91,7 @@ public class GeneratorService{
      */
     public List<Object> getSampleDataByMeta(MetaGenerator metaGenerator, int sampleSize) {
         if (!genClassNameList.contains(metaGenerator.getClassName())) throw new HeException("data.className.notExist", metaGenerator.getClassName());
-        return getSampleData(metaGenerator.toGenerator(), sampleSize);
+        return metaGenerator.toGenerator().generateList(sampleSize);
     }
 
     /**
@@ -106,7 +101,7 @@ public class GeneratorService{
         List<MetaGenerator> metaGeneratorList = JSON.parseArray(metaGeneratorJsonArr, MetaGenerator.class);
         List<List<Object>> result = new ArrayList<>();
         for (MetaGenerator metaGenerator : metaGeneratorList) {
-            result.add(getSampleDataByMeta(metaGenerator, sampleSize));
+            result.add(metaGenerator.toGenerator().generateList(sampleSize));
         }
         return result;
     }
@@ -121,47 +116,6 @@ public class GeneratorService{
             if(metaGeneratorList.size() != columnNameList.size()) throw new HeException("data.columnCount.error");
         }
         List<List<Object>> dataList = getSampleDataTableByMeta(metaGeneratorJsonArr, sampleSize);
-        handleDataList(dataList, dataFormat, tableName, columnNameList);
-    }
-
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    @SneakyThrows
-    public void downloadDataByClassFullName(String classFullName, Integer count, String dataFormat) {
-        Class<?> clazz = Class.forName(classFullName);
-        List<List<Object>> dataList = GeneratorUtil.getDataList(clazz, count);
-
-        String tableName = GeneratorUtil.getTableName(clazz);
-        List<String> columnNameList = GeneratorUtil.getColumnNameList(clazz);
-        handleDataList(dataList, dataFormat, tableName, columnNameList);
-    }
-
-    @SneakyThrows
-    private void handleDataList(List<List<Object>> dataList, String dataFormat, String tableName, List<String> columnNameList){
-        String fileName = tableName + "-" + Now.yyyyMMddHHmmss();
-        if ("sql".equals(dataFormat)) {
-            String result = PrintUtil.printInsert(tableName, columnNameList, dataList, true);
-            WebUtil.handleFileDownload(fileName + ".sql", result.getBytes(StandardCharsets.UTF_8));
-            return;
-        }
-
-        if ("csv".equals(dataFormat)) {
-            String result = PrintUtil.printCSV(dataList);
-            WebUtil.handleFileDownload(fileName + ".csv", result.getBytes(StandardCharsets.UTF_8));
-            return;
-        }
-
-        if ("tsv".equals(dataFormat)) {
-            String result = PrintUtil.printTSV(dataList);
-            WebUtil.handleFileDownload(fileName + ".tsv", result.getBytes(StandardCharsets.UTF_8));
-            return;
-        }
-
-        if ("excel".equals(dataFormat)) {
-            WebUtil.handleFileDownload(fileName + ".xlsx");
-            ExcelUtil.exportFromList(columnNameList, dataList, WebUtil.getHttpServletResponse().getOutputStream());
-            return;
-        }
-
-        throw new HeException("格式暂不支持");
+        GeneratorUtil.handleDataList(dataList, dataFormat, tableName, columnNameList);
     }
 }

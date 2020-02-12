@@ -2,7 +2,9 @@ package com.hepengju.hekele.demo.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hepengju.hekele.base.core.JsonR;
+import com.hepengju.hekele.base.util.PrintUtil;
 import com.hepengju.hekele.data.client.DataClient;
+import com.hepengju.hekele.data.util.GeneratorUtil;
 import com.hepengju.hekele.demo.bo.Person;
 import com.hepengju.hekele.demo.dto.PersonDTO;
 import com.hepengju.hekele.demo.service.PersonService;
@@ -69,5 +71,21 @@ public class PersonController {
     @GetMapping("getGenList")
     public JsonR getGenList(){
         return dataClient.getGenList();
+    }
+    //------------------------------------------------------------
+    @ApiOperation("获取测试数据")
+    @GetMapping("getMockData")
+    public JsonR getMockData(@RequestParam(defaultValue = "10") Integer count,
+                     @RequestParam(defaultValue = "csv") String dataFormat){
+        List<List<Object>> dataList = GeneratorUtil.getDataList(Person.class, count);
+        String result = PrintUtil.printCSV(dataList);
+        return JsonR.ok().addData(result);
+    }
+
+    @ApiOperation("下载测试数据")
+    @GetMapping("downloadMockData")
+    public void downloadMockData(@RequestParam(defaultValue = "10") Integer count,
+                             @RequestParam(defaultValue = "csv") String dataFormat){
+        GeneratorUtil.downloadDataList(Person.class, count, dataFormat);
     }
 }

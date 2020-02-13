@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 优先调用本机服务 (顺带区分浏览器调用还是Feign调用)
+ * 优先调用本机服务 (顺带区分前端js经过Zuul代理直接调用还是Feign调用)
  *
  * <pre>
  *     举例: 在demo-service中访问

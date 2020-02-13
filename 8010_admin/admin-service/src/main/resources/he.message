@@ -1,0 +1,114 @@
+# 格式说明:
+# 1. 数字代号:英文代号:中文提示
+# 2. 数字代号为整数, 共五位
+#       < 10000 以下为预定义提示
+#       = 10000 登录会话失效, 请重新登录
+#       > 10000 分模块编码(XX为模块编号, YY为一个模块内的编号)
+#            * 公共模块
+#                1XXYY: admin
+#                120YY: file
+#                130YY: message
+#            * 系统模块
+#                2XXYY: 业务A
+#                3XXYY: 业务B
+# 3. 提示方式:
+#       正数: 重要提示, 需要用户点击才消失
+#       负数: 普通提示, 两秒后自动关闭 (-1除外)
+#       零: 成功, 不提示
+# 4. 英文代码: 写在代码中
+#      role.roleName.exist
+# 5. 中文代码: 显示给用户看的, 可以写入String.format方法支持的格式化, 整数【%5d】,小数【%5.2f】,文本【%s】
+#      角色代码已经存在
+# 6. 数字代号和英文代码不能重复, 否则启动抛出异常
+
+######################### 系统预定义 #########################
+     0 : success                    : 成功
+    -1 : unknown_error              : 系统异常, 请联系管理员
+ 10000 : no_login                   : 登录会话失效，请重新登录
+ 10001 : springmvc_form_bind_error  : SpringMVC数据绑定异常(application/x-www-form-urlencoded)
+ 10002 : springmvc_json_bind_error  : SpringMVC数据绑定异常(application-json)
+ 10003 : hibernate_bean_valid_error : Hibernate Bean Validation验证异常
+ 10004 : missing_parameter_exception: 类型为[%s]的参数[%s]为必传项
+######################### admin #########################
+# 登录模块 10100
+ 10101 : login.usernamePasswordNonBlank      : 账号和密码不能为空
+ 10102 : login.usernameError                 : 账号或密码错误
+ 10103 : login.passwordError                 : 账号或密码错误
+ 10104 : login.passwordReadyExpiry           : 您的密码已经失效，请修改密码后登录
+ 10105 : login.accountUnlockInMinutes        : 您的账户还有%d分钟解锁，请稍候再试
+ 10106 : login.menuCountZeroByUserId         : 权限不足，无法登录系统
+ 10107 : login.authenticationFailure         : 登录认证失败
+ 10108 : login.initPassword                  : 您的密码为初始密码，请修改密码后登录
+ 10109 : login.passwordCloserExpiry          : 您的密码还有%d天失效，请尽快修改密码
+ 10110 : login.oldAndNewPasswordCannotBeSame : 旧密码不能和新密码相同
+ 10111 : login.oldPasswordError              : 旧密码错误
+ 10112 : login.passwordMustbeMd5Value        : 密码必须加密传输
+ 10113 : login.captchaError                  : 验证码错误
+
+# 用户模块 10200
+ 10201 : user.userCode.formatError : 账号必须为字母，数字和下划线，长度必须为6-12位
+ 10202 : user.password.formatError : 密码必须为字母，数字和下划线，长度必须为6-12位
+ 10203 : user.userCode.exist       : 账号已经存在
+ 10204 : user.userToken.noExist    : 令牌不存在
+ 10205 : user.userToken.noValid    : 令牌无效
+ 10206 : user.userToken.noPerm     : 令牌权限不足
+ 10207 : user.userToken.noBlank    : 令牌已经存在，请删除后重新生成
+
+# 角色模块 10300
+ 10301 : role.roleCode.exist : 角色代码已经存在
+ 10302 : role.roleName.exist : 角色名称已经存在
+
+# 部门模块 10400
+
+# 菜单模块 10500
+
+# 日志模块 10600
+
+# 代码, 序列等基础模块 10700
+ 10701: code.typeAndItem.noneNull    : 类型代码和名称, 条目代码和名称不能为空
+ 10702: code.typeCodeItemCode.exist  : 类型代码[%s],条目代码[%s]已经存在
+ 10703: code.typeCodeItemCode.repeat : 类型代码[%s],条目代码[%s]重复
+
+
+# Word, Excel, PDF等处理 10800
+ 10801 : excel.extNameWrong              : Excel的后缀名错误，只能是xls或xlsx
+ 10802 : excel.fileReadException         : Excel文件读取异常
+ 10803 : excel.titleIsNull               : 没有标题数据
+ 10804 : excel.dataIsNull                : 没有内容数据
+ 10805 : excel.configException           : Excel导入配置异常
+ 10806 : excel.columnTitle.wrong         : Excel工作表【%s】的标题与配置不符，请重新下载导入模板
+ 10807 : excel.sheetNameMustExist        : Excel工作表【%s】必须存在
+ 10808 : excel.sheetNameDataMustExist    : Excel工作表【%s】没有数据
+ 10809 : excel.import.failure            : Excel导入失败
+ 10810 : excel.import.checkErr           : Excel导入检查异常
+ 10811 : excel.download.excelTitleIsNull : 标题字段为空
+ 10812 : excel.download.dataIsNotList    : 数据区域不是List
+
+# 其他模块 10900
+ 10901 : sql.sqlContentBlank             : SQL语句为空
+ 10902 : sql.successAndEffectRows        : 运行成功，影响行数: %d
+ 10903 : util.compress.format.notSupport : 【%s】压缩格式暂不支持
+ 10904 : seq.realSizeGtFormatLength      : 序列值【%d】的长度大于需要格式化的长度【%d】
+
+# 通用验证 11000
+ 11010 : phoneNo.formatError    : 手机号码格式错误
+ 11011 : identityNo.formatError : 身份证号格式错误
+ 11012 : bankCardNo.formatError : 银行卡号格式错误
+ 11013 : email.formatError      : 邮箱格式错误
+
+######################### file #########################
+ 12001 : file.uploadNonNull           : 上传文件不能为空
+ 12002 : file.sizeTooBig              : 文件上传大小超过限制，上传文件最大为:%d M
+ 12003 : file.downloadIdNoneNull      : 文件主键不能为空
+ 12004 : file.downloadIdFileNull      : 文件不存在
+ 12005 : file.os.dirNotExists         : 文件目录不存在
+ 12006 : file.os.fileNotExists        : 文件不存在
+ 12007 : file.os.fileDeleteFailure    : 文件删除失败
+ 12008 : file.os.folderCreateFailure  : 文件夹创建失败
+ 12009 : file.os.dirCanNotBeDeleted   : 文件夹不允许删除
+ 12010 : file.os.osPermForbidden      : OS系统权限不足
+
+######################### message #########################
+######################### data #########################
+ 14001: data.className.notExist : 【%s】生成器不存在
+ 14002: data.columnCount.error  : 列数量和数据生成器的数量不匹配

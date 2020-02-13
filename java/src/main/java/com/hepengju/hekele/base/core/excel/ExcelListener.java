@@ -6,6 +6,8 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.hepengju.hekele.base.constant.HeConst;
 import com.hepengju.hekele.base.core.exception.HeException;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
  *
  * @author he_pe 2019-12-25
  */
-@Data
+@Data @EqualsAndHashCode(callSuper=false)
 public class ExcelListener extends AnalysisEventListener<Object> {
     private static List<String> excelExtNameList = HeConst.EXCEL_EXT_NAME_LIST;
 
@@ -67,7 +69,6 @@ public class ExcelListener extends AnalysisEventListener<Object> {
     private void readDataNormal(Object object) {
         // 正常读取数据
         if (object != null ) {
-            @SuppressWarnings("unchecked")
             List<String> srcList = (List<String>) object;
             
             if(this.lastColumnIndex == null || srcList.size() == this.lastColumnIndex) { // 没有指定最后列或长度正好相等

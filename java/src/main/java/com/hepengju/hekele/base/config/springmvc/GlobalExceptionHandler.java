@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
 /**
  * 全局的异常处理器
  */
-@RestControllerAdvice
-@Slf4j
+@RestControllerAdvice @Slf4j
 public class GlobalExceptionHandler {
 
 

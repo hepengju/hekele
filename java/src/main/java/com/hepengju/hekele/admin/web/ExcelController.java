@@ -1,23 +1,28 @@
 package com.hepengju.hekele.admin.web;
 
+import java.io.IOException;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.hepengju.hekele.admin.service.DbService;
 import com.hepengju.hekele.admin.service.ExcelService;
 import com.hepengju.hekele.base.core.Now;
 import com.hepengju.hekele.base.core.R;
 import com.hepengju.hekele.base.util.ExcelUtil;
 import com.hepengju.hekele.base.util.WebUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * Excel下载模板, 导入, 导出的通用处理
@@ -25,7 +30,7 @@ import java.io.IOException;
  * @author he_pe
  */
 @Api(tags = "Excel文件操作")
-@RestController @Slf4j
+@RestController
 @RequestMapping("/admin/excel")
 public class ExcelController {
 

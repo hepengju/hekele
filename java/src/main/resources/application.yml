@@ -29,6 +29,12 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 50MB
+
+  # 开发工具
+  devtools:
+    restart:
+      trigger-file: .reloadtrigger
+
 mybatis-plus:
   global-config:
     db-config:
@@ -62,4 +68,4 @@ logging:
 spring:
   profiles: prod
   datasource:
-    url: jdbc:mysql://mysql.hepengju.cn:3306/hekele
+    url: jdbc:mysql://mysql.hepengju.com:3306/hekele

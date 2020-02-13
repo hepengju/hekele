@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 父工程 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <!-- GAV及描述-->
+    <groupId>com.hepengju.hekele</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <description>【喝可乐】基于SpringCloud的通用标准Java后台管理系统</description>
+
+    <!-- 描述信息和开发人员信息 -->
+    <developers>
+        <developer>
+            <name>何鹏举</name>
+            <email>he_pengju@163.com</email>
+        </developer>
+    </developers>
+
+    <!-- 属性 -->
+    <properties>
+        <java.version>8</java.version>
+        <spring-boot-admin.version>2.2.1</spring-boot-admin.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+
+        <!--
+            DB模块需要排除，多次使用，所以抽取出来。
+            1.mybatis-plus的版本与starter一致，所以使用一个
+            2.pagehelper的版本与starter不一致，所以使用两个
+         -->
+        <mybatis-plus.version>3.3.0</mybatis-plus.version>
+        <pagehelper.version>5.1.11</pagehelper.version>
+        <pagehelper-starter.version>1.2.13</pagehelper-starter.version>
+    </properties>
+
+    <dependencies>
+        <!-- https://cloud.spring.io/spring-cloud-netflix/reference/html/#jdk-11-support -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+        -->
+    </dependencies>
+
+    <!-- 依赖管理 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring-boot-admin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 项目发布管理 -->
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://nexus.hepengju.com:8081/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+</project>

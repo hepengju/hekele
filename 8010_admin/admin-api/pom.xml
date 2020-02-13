@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.hepengju.hekele</groupId>
-            <artifactId>base</artifactId>
+            <artifactId>base-all</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

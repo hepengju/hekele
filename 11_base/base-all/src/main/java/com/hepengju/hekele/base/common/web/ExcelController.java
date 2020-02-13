@@ -24,7 +24,7 @@ import java.io.IOException;
  *
  * @author he_pe
  */
-@Api(tags = "Excel文件操作")
+@Api(tags = "Excel操作")
 @RestController
 @RequestMapping("/base/excel")
 public class ExcelController {

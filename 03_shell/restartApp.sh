@@ -5,7 +5,7 @@
 # 作者：何鹏举
 # 说明：根据传入参数的jar包名称，重启SpringBoot应用并查看日志
 ############################################################
-if [ -z $1 ]; then
+if [[ -z $1 ]]; then
   echo "Usage: ./restartApp.sh jarName [jenkins]"
   echo "    第二个参数用于jenkins自动打包时, 不自动查看日志"
   exit 1
@@ -37,7 +37,6 @@ fi
 nohup java  -jar -Xms256M -Xmx512M $jarName --eureka.instance.ip-address=101.132.97.183 >> /dev/null 2>&1 &
 echo "正在启动应用..."
 
-
 # jenkins启动的时候不查看日志(简单判断, 第二个参数不为空则是jenkins启动的)
 if [[ -n $2 ]]; then
   echo "jenkins启动, 不自动查看日志"
@@ -45,7 +44,7 @@ if [[ -n $2 ]]; then
 fi
 
 # 查看日志(日志文件不存在（首次启动），则休息下再tail)
-if [ ! -f $logFile ]; then
+if [[ ! -f $logFile ]]; then
   sleep 2
 fi
 tail -f $logFile

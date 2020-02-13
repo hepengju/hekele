@@ -6,8 +6,8 @@ import com.hepengju.hekele.base.util.PrintUtil;
 import com.hepengju.hekele.data.client.DataClient;
 import com.hepengju.hekele.data.util.GeneratorUtil;
 import com.hepengju.hekele.demo.bo.Person;
-import com.hepengju.hekele.demo.dto.PersonDTO;
 import com.hepengju.hekele.demo.service.PersonService;
+import com.hepengju.hekele.demo.vo.PersonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -33,14 +33,14 @@ public class PersonController {
     //----------------------增删改查-------------------------------
     @ApiOperation("查询所有")
     @GetMapping("list")
-    public JsonR<Person> list(Long pageNum, Long pageSize, PersonDTO personDTO) {
+    public JsonR<Person> list(Long pageNum, Long pageSize, PersonVO personVO) {
         // 用户账号和名称模糊查询，生日开始和结束日期限制查询； 如果再复杂一些，请自行编写SQL语句实现
         LambdaQueryWrapper<Person> wrapper = new LambdaQueryWrapper<Person>()
-                .ge(personDTO.getBirthStart() != null, Person::getBirth, personDTO.getBirthStart())
-                .le(personDTO.getBirthEnd() != null, Person::getBirth, personDTO.getBirthEnd());
-        wrapper.and(w -> w.like(StringUtils.isNotBlank(personDTO.getUserCodeOrName()), Person::getUserCode, personDTO.getUserCodeOrName())
+                .ge(personVO.getBirthStart() != null, Person::getBirth, personVO.getBirthStart())
+                .le(personVO.getBirthEnd() != null, Person::getBirth, personVO.getBirthEnd());
+        wrapper.and(w -> w.like(StringUtils.isNotBlank(personVO.getUserCodeOrName()), Person::getUserCode, personVO.getUserCodeOrName())
                           .or()
-                          .like(StringUtils.isNotBlank(personDTO.getUserCodeOrName()), Person::getUserName, personDTO.getUserCodeOrName()));
+                          .like(StringUtils.isNotBlank(personVO.getUserCodeOrName()), Person::getUserName, personVO.getUserCodeOrName()));
         return personService.listR(pageNum, pageSize, wrapper);
     }
 

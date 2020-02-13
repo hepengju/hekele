@@ -1,4 +1,4 @@
-package com.hepengju.hekele.demo.dto;
+package com.hepengju.hekele.demo.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,7 +24,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel("人员传输对象")
-public class PersonDTO /*extends Person*/ {
+public class PersonVO /*extends Person*/ {
 
     @ApiModelProperty("用户账号或姓名")
     private String userCodeOrName;

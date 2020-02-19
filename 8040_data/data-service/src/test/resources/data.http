@@ -21,7 +21,7 @@ Content-Type: application/x-www-form-urlencoded
 metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5
 
 ### 下载定制化的样例数据表格
-POST {{host}}/getSampleDataTable
+POST {{host}}/downloadSampleDataTable
 Content-Type: application/x-www-form-urlencoded
 
 metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5&format=excel

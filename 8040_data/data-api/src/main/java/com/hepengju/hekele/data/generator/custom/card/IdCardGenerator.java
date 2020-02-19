@@ -10,7 +10,6 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -48,7 +47,7 @@ public class IdCardGenerator implements StringGenerator {
 		StringBuffer result = new StringBuffer(18);
 		result.append(RandomUtil.randomOne(areas))                                                                           //地区:前两位
 		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 9999) + "", 4, '0'))                     //地区:后四位
-		      .append(new SimpleDateFormat("yyyy-MM-dd").format(RandomUtil
+		      .append(new SimpleDateFormat("yyyyMMdd").format(RandomUtil
 					  .randomDate(minDate.getTime(), maxDate.getTime())))  //出生日期
 		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 999) + "", 3, '0'))                      //顺序码
 		      ;
@@ -64,6 +63,11 @@ public class IdCardGenerator implements StringGenerator {
 		int modValue = sum % 11;
 		String strVerifyCode = ValCodeArr[modValue];
 		return strVerifyCode;
+	}
+
+	public IdCardGenerator() {
+		this.setMin(this.min);
+		this.setMax(this.max);
 	}
 
 	public void setMin(String min) {

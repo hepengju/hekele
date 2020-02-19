@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -32,8 +33,11 @@ import java.util.Date;
 @Data @ApiModel("身份证号生成器")
 public class IdCardGenerator implements StringGenerator {
 
-	private Date min = DateUtil.stringToDate("1900-01-01");
-	private Date max = DateUtil.stringToDate("2100-12-31");
+	private String min = "1900-01-01";
+	private String max = "2100-12-31";
+
+	private Date minDate;
+	private Date maxDate;
 
 	private String[] areas = DataConst.idCardAreas;
 	private static String[] ValCodeArr = { "1", "0", "X", "9", "8", "7", "6", "5", "4","3", "2" };
@@ -44,7 +48,8 @@ public class IdCardGenerator implements StringGenerator {
 		StringBuffer result = new StringBuffer(18);
 		result.append(RandomUtil.randomOne(areas))                                                                           //地区:前两位
 		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 9999) + "", 4, '0'))                     //地区:后四位
-		      .append(new SimpleDateFormat("yyyyMMdd").format(RandomUtil.randomDate(min.getTime(), max.getTime())))  //出生日期
+		      .append(new SimpleDateFormat("yyyy-MM-dd").format(RandomUtil
+					  .randomDate(minDate.getTime(), maxDate.getTime())))  //出生日期
 		      .append(StringUtils.leftPad(RandomUtils.nextInt(0, 999) + "", 3, '0'))                      //顺序码
 		      ;
 		String verifyCode = getVerifyCode(result.toString());                                                                 //验证码
@@ -60,4 +65,17 @@ public class IdCardGenerator implements StringGenerator {
 		String strVerifyCode = ValCodeArr[modValue];
 		return strVerifyCode;
 	}
+
+	public void setMin(String min) {
+		this.min = min;
+		this.minDate = DateUtil.stringToDate(min);
+	}
+
+	public void setMax(String max) {
+		this.max = max;
+		maxDate = DateUtil.stringToDate(max);
+	}
+
+	public String getMin() { return min; }
+	public String getMax() { return max; }
 }

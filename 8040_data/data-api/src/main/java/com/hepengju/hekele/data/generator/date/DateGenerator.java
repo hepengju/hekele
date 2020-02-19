@@ -42,5 +42,8 @@ public class DateGenerator implements Generator<Date> {
 		this.max = max;
 		maxDate = DateUtil.stringToDate(max);
 	}
+
+	public String getMin() { return min; }
+	public String getMax() { return max; }
 }
 

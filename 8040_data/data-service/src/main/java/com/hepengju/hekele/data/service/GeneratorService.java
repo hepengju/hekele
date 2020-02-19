@@ -3,17 +3,14 @@ package com.hepengju.hekele.data.service;
 import com.alibaba.fastjson.JSON;
 import com.hepengju.hekele.DataServiceApp;
 import com.hepengju.hekele.base.core.exception.HeException;
-import com.hepengju.hekele.data.dto.GeneratorDTO;
+import com.hepengju.hekele.data.filter.GeneratorFilter;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.meta.MetaGenerator;
 import com.hepengju.hekele.data.util.GeneratorUtil;
-import io.swagger.annotations.ApiModel;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -23,22 +20,19 @@ import java.util.stream.Collectors;
 @Service @Slf4j
 public class GeneratorService{
 
-    private final String TYPE_DATE   = "date";
-    private final String TYPE_NUMBER = "number";
-    private final String TYPE_STRING = "string";
-    private final String TYPE_CUSTOM = "custom";
-
-    private final int SAMPLE_SIZE = 10;
-
-    private List<String>                            genClassNameList = new ArrayList<>();
-    @Getter private List<GeneratorDTO>              genList = new ArrayList<>();
-    @Getter private Map<String, List<GeneratorDTO>> genMap;
+    private List<String>                             genClassNameList = new ArrayList<>();
+    @Getter private List<MetaGenerator>              genList = new ArrayList<>();
+    @Getter private Map<String, List<MetaGenerator>> genMap;
 
     @PostConstruct
     public void init() {
         // 1.找出所有Generator接口的实现类
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-        provider.addIncludeFilter(new AssignableTypeFilter(Generator.class));
+        //provider.addIncludeFilter(new AssignableTypeFilter(Generator.class));
+        //provider.addIncludeFilter(new AnnotationTypeFilter(ApiModel.class));
+        // 以上两个包含过滤器是并集的关系，此处的需求是交集
+        provider.addIncludeFilter(new GeneratorFilter());
+
         Set<BeanDefinition> generators = provider.findCandidateComponents(DataServiceApp.class.getPackage().getName());
 
         // 2. 仅仅注入含有ApiModel注解的类
@@ -47,43 +41,27 @@ public class GeneratorService{
             for (BeanDefinition beanDefinition : generators) {
                 String className = beanDefinition.getBeanClassName();
                 Class<?> clazz = Class.forName(className);
-                ApiModel apiModel = clazz.getAnnotation(ApiModel.class);
-                if (apiModel != null) {
-                    genClassNameList.add(className);
-                    GeneratorDTO dto = new GeneratorDTO();
-                    dto.setClassName(clazz.getName());
-                    String desc = apiModel.value();
-                    dto.setDesc(desc.replace("生成器",""));
-                    Generator generator = (Generator) Class.forName(className).newInstance();
-                    dto.setSampleData(generator.generateList(SAMPLE_SIZE));
-
-                    String packageName = clazz.getPackage().getName();
-                    if (packageName.endsWith(TYPE_DATE)) {          dto.setType(TYPE_DATE);
-                    } else if (packageName.endsWith(TYPE_NUMBER)) { dto.setType(TYPE_NUMBER);
-                    } else if (packageName.endsWith(TYPE_STRING)) { dto.setType(TYPE_STRING);
-                    } else {                                        dto.setType(TYPE_CUSTOM);
-                    }
-                    genList.add(dto);
-                    count++;
-                }
+                Generator generator = (Generator) clazz.newInstance();
+                MetaGenerator metaGenerator = generator.toMetaGenerator();
+                genList.add(metaGenerator);
+                count++;
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
         }
 
         log.info("auto find generator count: {}", count);
-        genMap = genList.stream().collect(Collectors.groupingBy(GeneratorDTO::getType));
+        genClassNameList = genList.stream().map(MetaGenerator::getClassName).collect(Collectors.toList());
+        genMap = genList.stream().collect(Collectors.groupingBy(MetaGenerator::getType));
     }
 
     /**
      * 刷新样例数据
      */
-    @SneakyThrows
     public void refreshSampleData() {
-        for (GeneratorDTO dto : genList) {
-            Generator generator = (Generator) Class.forName(dto.getClassName()).newInstance();
-            dto.setSampleData(generator.generateList(SAMPLE_SIZE));
+        for (MetaGenerator metaGenerator : genList) {
+            metaGenerator.setSampleData(metaGenerator.toGenerator().generateList(MetaGenerator.SAMPLE_SIZE));
         }
-        genMap = genList.stream().collect(Collectors.groupingBy(GeneratorDTO::getType));
+        genMap = genList.stream().collect(Collectors.groupingBy(MetaGenerator::getType));
     }
 
     /**

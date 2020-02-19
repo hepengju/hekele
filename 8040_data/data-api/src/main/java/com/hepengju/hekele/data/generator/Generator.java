@@ -1,5 +1,9 @@
 package com.hepengju.hekele.data.generator;
 
+import com.hepengju.hekele.data.meta.GeneratorType;
+import com.hepengju.hekele.data.meta.MetaGenerator;
+import io.swagger.annotations.ApiModel;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +27,32 @@ public interface Generator<T>{
 	 * 生成数据
 	 */
 	T generate();
+
+	default MetaGenerator toMetaGenerator(){
+		MetaGenerator meta = new MetaGenerator();
+
+		meta.setClassName(this.getClass().getName());
+
+		ApiModel apiModel = this.getClass().getAnnotation(ApiModel.class);
+		meta.setDesc(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));
+
+		String packageName = this.getClass().getPackage().getName();
+		if        (packageName.endsWith(GeneratorType.DATE.name()))   { meta.setType(GeneratorType.DATE.name());
+		} else if (packageName.endsWith(GeneratorType.NUMBER.name())) { meta.setType(GeneratorType.NUMBER.name());
+		} else if (packageName.endsWith(GeneratorType.STRING.name())) { meta.setType(GeneratorType.STRING.name());
+		} else {                                                        meta.setType(GeneratorType.CUSTOM.name());
+		}
+
+		meta.setSampleData((List<Object>) generateList(10));
+
+		try {meta.setMin(BeanUtils.getSimpleProperty(this, "min"));}catch (Exception e){};
+		try {meta.setMax(BeanUtils.getSimpleProperty(this, "max"));}catch (Exception e){};
+		try {meta.setScale(Integer.parseInt(BeanUtils.getSimpleProperty(this, "scale")));}catch (Exception e){};
+		try {meta.setCode(BeanUtils.getSimpleProperty(this, "code"));}catch (Exception e){};
+		try {meta.setCodeMulti(Boolean.parseBoolean(BeanUtils.getSimpleProperty(this, "codeMulti")));}catch (Exception e){};
+
+		return meta;
+	}
 
 	/**
 	 * 生成数据列表

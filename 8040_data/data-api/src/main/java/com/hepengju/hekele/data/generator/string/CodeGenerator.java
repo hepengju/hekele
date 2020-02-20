@@ -12,7 +12,7 @@ import java.util.List;
 public class CodeGenerator implements StringGenerator {
 
 	private boolean codeMulti = false;
-	private String code = "M,F";
+	private String code = "H,M,L";
 	private List<String> codeList;
 
 	@Override
@@ -37,4 +37,7 @@ public class CodeGenerator implements StringGenerator {
 		this.setCode(code);
 		this.codeMulti = codeMulti;
 	}
+
+	public String getCode() { return code; }
+	public boolean getCodeMulti(){ return codeMulti; }
 }

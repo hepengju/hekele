@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>造数小程序</title>
+    <link rel="stylesheet" type="text/css" href="./css/iview.css">
+    <script type="text/javascript" src="./js/vue.min.js"></script>
+    <script type="text/javascript" src="./js/iview.min.js"></script>
+    <script type="text/javascript" src="./js/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/data.css">
+
+</head>
+<body>
+<div id="app">
+    <div class="title">
+        <div class="title_config">
+            <i-form ref="configForm" :model="configForm" :label-width="110">
+                <Form-item label="最小值" prop="min">
+                    <i-input class="title_config_input" :disabled="disabled" v-model="configForm.min" clearable></i-input>
+                </Form-item>
+                <Form-item label="最大值" prop="max">
+                    <i-input class="title_config_input" :disabled="disabled" v-model="configForm.max" clearable></i-input>
+                </Form-item>
+                <Form-item label="保留小数位数" prop="scale">
+                    <i-input class="title_config_input" :disabled="disabled" v-model="configForm.scale" clearable></i-input>
+                </Form-item>
+                <Form-item label="枚举值" prop="code">
+                    <i-input class="title_config_input" :disabled="disabled" v-model="configForm.code" clearable></i-input>
+                </Form-item>
+                <Form-item label="枚举值是否多选" prop="codeMulti">
+                    <Radio-group v-model="configForm.codeMulti" >
+                        <Radio label="Y" :disabled="disabled">是</Radio>
+                        <Radio label="N" :disabled="disabled">否</Radio>
+                    </Radio-group>
+                </Form-item>
+            </i-form>
+            <div class="title_config_button">
+                <i-button type="dashed" @click="restore" >还原</i-button>
+                <i-button type="dashed" @click="save">保存</i-button>
+            </div>
+        </div>
+        <div class="title_inner">
+            <div class="title_div title_character">
+                <h4>字符生成器</h4>
+                <div class="title_div_li" v-for="(item , index) in characterList" @click="genClick">
+                    <Tooltip placement="right" theme="light" max-width="300">
+                        {{item.title}}
+                        <div slot="content" style="white-space: normal; word-break:break-all">
+                            <p>{{item.demo}}</p>
+                        </div>
+                    </Tooltip>
+                </div>
+            </div>
+            <div class="title_div title_date">
+                <h4>日期生成器</h4>
+                <div class="title_div_li" v-for="(item , index) in dateList" @click="genClick">
+                    <Tooltip placement="right" theme="light" max-width="300">
+                        {{item.title}}
+                        <div slot="content" style="white-space: normal; word-break:break-all">
+                            <p>{{item.demo}}</p>
+                        </div>
+                    </Tooltip>
+                </div>
+            </div>
+            <div class="title_div title_number">
+                <h4>数字生成器</h4>
+                <div class="title_div_li" v-for="(item , index) in numberList" @click="genClick">
+                    <Tooltip placement="right" theme="light" max-width="300">
+                        {{item.title}}
+                        <div slot="content" style="white-space: normal; word-break:break-all">
+                            <p>{{item.demo}}</p>
+                        </div>
+                    </Tooltip>
+                </div>
+            </div>
+            <div class="title_div title_custom">
+                <h4>定制生成器</h4>
+                <div class="title_div_li title_div_li_custom" v-for="(item , index) in customList" @click="genClick">
+                    <Tooltip placement="right" theme="light" max-width="300">
+                        {{item.title}}
+                        <div slot="content" style="white-space: normal; word-break:break-all">
+                            <p>{{item.demo}}</p>
+                        </div>
+                    </Tooltip>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="button">
+        <i-button class="button_item" v-for="(item, index) in btnList" :type="item.type" @click="btnClick">{{item.label}}</i-button>
+        <Dropdown @on-click="downloadFile">
+            <i-button type="success">
+                下载
+                <Icon type="ios-arrow-down"></Icon>
+            </i-button>
+            <DropdownMenu slot="list">
+                <Dropdown-item v-for="(item,index) in downloadMode" :name="item">{{item}}</Dropdown-item>
+            </DropdownMenu>
+        </Dropdown>
+        <section class="download_input">
+            <span class="download_span">下载行数</span>
+            <i-input v-model="downloadNumber" style="width: 100px"></i-input>
+        </section>
+    </div>
+    <div class="prompt" v-if="showTable">
+        <span>请选择生成器生成所需数据...</span>
+    </div>
+    <div class="content" v-else>
+        <i-table :columns="columns" :data="data" size="small" ref="table" draggable @on-drag-drop="drag"></i-table>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+                showTable:true,
+                disabled:false,
+                btnList:[
+                    {label: '保存',       type:'info'},
+                    {label: '刷新',       type:'primary'},
+                    {label: '删除全部',   type:'warning'},
+                    // {label: '下载',       type:'success'},
+                    // {label: '详细配置区', type:'warning'},
+                ],
+                downloadMode:[
+                    'csv',
+                    'tsv',
+                    'sql',
+                    'excel'
+                ],
+                configForm:{
+                    min: null,
+                    max: null,
+                    code: null,
+                    scale: null,
+                    codeMulti: null
+                },
+                downloadNumber:10000,
+                columns: [],
+                data: [],
+                dataTmp:[],
+                dataList:[],
+                characterList: [],
+                dateList: [],
+                numberList: [],
+                customList: [],
+                isDelete:false,
+                selectColumn:{}, //选中的列
+                UUID: 0, // 列的唯一键
+            }
+        },
+        methods: {
+            btnClick(event) {
+                let val = event.target.innerText;
+                switch (val) {
+                    case '保存':
+                        break;
+                    case '刷新':
+                        this.refresh();
+                        break;
+                    case '删除全部':
+                        this.columns = [];
+                        this.showTable = true;
+                        break;
+                }
+            },
+
+            // 显示配置
+            showConfig(item) {
+                console.log(item.column);
+                for (let key in this.configForm){
+                    this.configForm[key] = item.column[key];
+                    if (item.column[key] == null) {
+                        // this.disabled = true
+                    }
+                }
+                this.selectColumn = item.column;
+            },
+            // 保存配置
+            save() {
+                console.log(this.data);
+                for (let item in this.configForm){
+                    if( this.configForm[item] == null) {
+                        this.configForm[item] = ''
+                    }
+                }
+                let key = this.selectColumn.title;
+                let _this = this;
+                let params = `className=${this.selectColumn.className}&code=${this.configForm.code}&min=${this.configForm.min}&max=${this.configForm.max}&scale=${this.configForm.scale}&codeMulti=${this.configForm.codeMulti}&sampleSize=10`;
+                axios.post('http://ali.hepengju.com:8040/data/getSampleData',params)
+                    .then(function (res) {
+                        let newData = res.data.data;
+                        for (let i = 0 ; i < newData.length ; i++) {
+                            _this.data[i][key] = newData[i]
+                        }
+                    })
+            },
+            // 还原配置
+            restore() {
+                for (let item in this.configForm){
+                    this.configForm[item] = this.selectColumn[item]
+                }
+            },
+
+            // 拖拽
+            drag(a,b) {
+                console.log(a, b);
+                this.data.splice(b, 1, ...this.data.splice(a, 1, this.data[b]));
+            },
+
+            // 刷新样例数据
+            refresh() {
+                let _this = this;
+                axios.post('http://ali.hepengju.com:8040/data/refreshSampleData')
+                    .then(function (data) {
+                        _this.dataList = data.data.data;
+                        _this.packageData()
+                    })
+            },
+
+            // 点击各个生成器生成样例数据
+            genClick(event){
+                this.showTable = false;
+                let name = event.target.innerText;
+                let dataArr = this.dateList.concat(this.numberList, this.customList, this.characterList);
+                dataArr.forEach(item => {
+                    if(name == item.title) {
+                        this.columns.push({
+                            title: name,
+                            key: name,
+                            UUID: this.UUID++,
+                            renderHeader:(h,params) => {
+                                return h('div',[
+                                    h('span',{
+                                        style:{
+                                            cursor:'pointer'
+                                        },
+                                        on: {
+                                            click: ()=>{
+                                                this.showConfig(params)
+                                            },
+                                            mouseover:()=>{
+                                                this.isDelete = true
+                                            },
+                                        }
+                                    }, params.column.title),
+                                    this.isDelete == true?
+                                        (h('icon',{
+                                            props: {
+                                                type: 'ios-close',
+                                                size: '18',
+                                            },
+                                            style:{
+                                                cursor:'pointer'
+                                            },
+                                            on: {
+                                                click: () => {
+                                                    this.deleteCol(params)
+                                                },
+                                            }
+                                        })) : ''
+                                ])
+                            },
+                            min: item.min,
+                            max: item.max,
+                            code: item.code,
+                            scale: item.scale,
+                            codeMulti: item.codeMulti,
+                            className: item.className,
+                            ellipsis:true,
+                            tooltip:true,
+                            minWidth:100,
+                        });
+                    }
+                });
+            },
+
+            // 删除列
+            deleteCol(params) {
+                this.$Modal.confirm({
+                    title: `系统提示`,
+                    content: `确认删除 ${'<b style="color:red">'+params.column.title+'</b>'} 这一列吗？`,
+                    onOk: ()=>{
+                        this.columns.splice(params.index,1);
+                        this.isDelete = false;
+                        if (this.columns.length == 0){
+                            this.showTable = true
+                        }
+                    },
+                    onCancel: ()=>{
+                        this.isDelete = false;
+                    }
+                });
+            },
+
+            // 生成 dataTmp 空对象
+            makeData () {
+                for (let i = 0 ; i < 10 ; i++) {
+                    let obj = {};
+                    this.dataTmp.push(obj)
+                }
+            },
+
+            //封装各个模板数据
+            packageData() {
+                // 避免刷新时重复增加
+                this.dateList = [];
+                this.numberList = [];
+                this.characterList = [];
+                this.customList = [];
+                // 日期生成器
+                for (let i = 0 ; i < this.dataList.date.length ; i++) {
+                    this.dateList.push({
+                        title: this.dataList.date[i].desc,
+                        demo: this.dataList.date[i].sampleData.slice(0,5).toString(),
+                        sampleList: this.dataList.date[i].sampleData,
+                        min: this.dataList.date[i].min,
+                        max: this.dataList.date[i].max,
+                        scale: this.dataList.date[i].scale,
+                        code: this.dataList.date[i].code,
+                        codeMulti: this.dataList.date[i].codeMulti,
+                        className: this.dataList.date[i].className
+                    });
+                    // 向dataTmp 10条对象里添加属性名值对
+                    for (let j = 0 ; j < this.dataList.date[i].sampleData.length; j++) {
+                        this.dataTmp[j][this.dataList.date[i].desc] = this.dataList.date[i].sampleData[j]
+                    }
+                }
+                // 数字生成器
+                for (let i = 0 ; i < this.dataList.number.length ; i++) {
+                    this.numberList.push({
+                        title: this.dataList.number[i].desc,
+                        demo: this.dataList.number[i].sampleData.slice(0,5).toString(),
+                        sampleList: this.dataList.number[i].sampleData,
+                        min: this.dataList.number[i].min,
+                        max: this.dataList.number[i].max,
+                        scale: this.dataList.number[i].scale,
+                        code: this.dataList.number[i].code,
+                        codeMulti: this.dataList.number[i].codeMulti,
+                        className: this.dataList.number[i].className
+                    });
+                    for (let j = 0 ; j < this.dataList.number[i].sampleData.length; j++) {
+                        this.dataTmp[j][this.dataList.number[i].desc] = this.dataList.number[i].sampleData[j]
+                    }
+                }
+                // 字符生成器
+                for (let i = 0 ; i < this.dataList.string.length ; i++) {
+                    this.characterList.push({
+                        title: this.dataList.string[i].desc,
+                        demo:this.dataList.string[i].sampleData.slice(0,5).toString(),
+                        sampleList: this.dataList.string[i].sampleData,
+                        min: this.dataList.string[i].min,
+                        max: this.dataList.string[i].max,
+                        scale: this.dataList.string[i].scale,
+                        code: this.dataList.string[i].code,
+                        codeMulti: this.dataList.string[i].codeMulti,
+                        className: this.dataList.string[i].className
+                    });
+                    for (let j = 0 ; j < this.dataList.string[i].sampleData.length; j++) {
+                        this.dataTmp[j][this.dataList.string[i].desc] = this.dataList.string[i].sampleData[j]
+                    }
+                }
+                // 定制生成器
+                for (let i = 0 ; i < this.dataList.custom.length ; i++) {
+                    this.customList.push({
+                        title: this.dataList.custom[i].desc,
+                        demo: this.dataList.custom[i].sampleData.slice(0,5).toString(),
+                        sampleList: this.dataList.custom[i].sampleData,
+                        min: this.dataList.custom[i].min,
+                        max: this.dataList.custom[i].max,
+                        scale: this.dataList.custom[i].scale,
+                        code: this.dataList.custom[i].code,
+                        codeMulti: this.dataList.custom[i].codeMulti,
+                        className: this.dataList.custom[i].className
+                    });
+                    for (let j = 0 ; j < this.dataList.custom[i].sampleData.length; j++) {
+                        this.dataTmp[j][this.dataList.custom[i].desc] = this.dataList.custom[i].sampleData[j]
+                    }
+                }
+                this.data = JSON.parse(JSON.stringify(this.dataTmp));
+            },
+
+            // 下载表格
+            downloadFile(val) {
+                let params = 'metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},' +
+                    '{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=10&format=excel'
+                axios.post('http://ali.hepengju.com:8040/data/downloadSampleDataTable',params)
+                    .then(function (data) {
+                        let resData = data.data.data;
+                        let blob = new Blob([resData],{type: 'application/json'});
+                        console.log(blob);
+                        let fr = new FileReader();
+                        fr.readAsDataURL(blob); // 转换为base64，可以直接放入a标签href
+                        fr.onload = function() {
+                            // 转换完成，创建一个a标签用于下载
+                            let downloadElement = document.createElement("a");
+                            // downloadElement.href = e.target.result;
+                            let href = window.URL.createObjectURL(blob);  // 创建下载的链接
+                            console.log(href);
+                            downloadElement.href = href;
+                            downloadElement.download = "测试1234.csv";  //下载的文件名
+                            document.body.appendChild(downloadElement);
+                            downloadElement.click();
+                            document.body.removeChild(downloadElement);
+                            window.URL.revokeObjectURL(href) // 释放掉blob对象
+                        };
+                    })
+            },
+
+            //获取所有数据
+            getData() {
+                let _this = this;
+                axios.get('http://ali.hepengju.com:8040/data/getGenMap')
+                    .then(function (data) {
+                        _this.dataList = data.data.data;
+                        _this.packageData()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+            }
+        },
+        mounted: function () {
+            this.makeData();
+            this.getData()
+        }
+    })
+</script>
+</body>
+</html>

@@ -63,6 +63,10 @@ public class WebUtil implements ApplicationContextAware {
 		// 以下两个也加入, 以便可能的使用
 		response.setHeader("Original-Filename-Java", attachment);
 		response.setHeader("Original-Filename-Encode", fileName);
+
+		// 暴露响应头
+		response.setHeader("Access-Control-Expose-Headers","*");
+
 	}
 
 	public static void handleFileDownload(String attachment, InputStream inputStream) {

@@ -20,6 +20,6 @@ public class DoubleGenerator implements NumberGenerator {
 	@Override
 	public Double generate() {
 		double doubleValue = RandomUtils.nextDouble(min, max);
-		return new BigDecimal(doubleValue).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return new BigDecimal(doubleValue).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 }

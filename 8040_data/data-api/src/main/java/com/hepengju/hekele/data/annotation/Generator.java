@@ -16,5 +16,5 @@ public @interface Generator {
     String max()        default ""; // 最大值 (或最大长度)
     int scale()         default 2 ; // 小数位数
     String code()       default ""; // 代码值: 逗号分隔
-    boolean codeMulti() default false; // 20200210 代码值, 可以选择是否多选
+    String codeMulti()  default "N"; // 20200210 代码值, 可以选择是否多选
 }

@@ -51,9 +51,9 @@ public class GeneratorUtil {
      * 根据生成器生成批量数据
      */
     public static List<List<Object>> getDataList(List<Generator> genList, int count) {
-        List<List<Object>> dataList = new ArrayList<>();
+        List<List<Object>> dataList = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
-            List<Object> rowList = new ArrayList<>();
+            List<Object> rowList = new ArrayList<>(genList.size());
             for (Generator generator : genList) {
                 rowList.add(generator.generate());
             }
@@ -84,8 +84,8 @@ public class GeneratorUtil {
                 if(StringUtils.isNotBlank(gn.min())) metaGen.setMin(gn.min());
                 if(StringUtils.isNotBlank(gn.max())) metaGen.setMax(gn.max());
                 if(StringUtils.isNotBlank(gn.code())) metaGen.setCode(gn.code());
+                if(StringUtils.isNotBlank(gn.codeMulti())) metaGen.setCodeMulti(gn.codeMulti());
                 metaGen.setScale(gn.scale());
-                metaGen.setCodeMulti(gn.codeMulti());
                 metaGen.setClassName(gn.value().getName());
                 genList.add(metaGen.toGenerator());
             } else {

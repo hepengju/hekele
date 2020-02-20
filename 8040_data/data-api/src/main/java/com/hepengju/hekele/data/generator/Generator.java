@@ -49,7 +49,7 @@ public interface Generator<T>{
 		try {meta.setMax(BeanUtils.getSimpleProperty(this, "max"));}catch (Exception e){};
 		try {meta.setScale(Integer.parseInt(BeanUtils.getSimpleProperty(this, "scale")));}catch (Exception e){};
 		try {meta.setCode(BeanUtils.getSimpleProperty(this, "code"));}catch (Exception e){};
-		try {meta.setCodeMulti(Boolean.parseBoolean(BeanUtils.getSimpleProperty(this, "codeMulti")));}catch (Exception e){};
+		try {meta.setCodeMulti(BeanUtils.getSimpleProperty(this, "codeMulti"));}catch (Exception e){};
 
 		return meta;
 	}

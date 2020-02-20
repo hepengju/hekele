@@ -77,11 +77,9 @@ public class GeneratorService{
      */
     public List<List<Object>> getSampleDataTableByMeta(String metaGeneratorJsonArr, int sampleSize) {
         List<MetaGenerator> metaGeneratorList = JSON.parseArray(metaGeneratorJsonArr, MetaGenerator.class);
-        List<List<Object>> result = new ArrayList<>();
-        for (MetaGenerator metaGenerator : metaGeneratorList) {
-            result.add(metaGenerator.toGenerator().generateList(sampleSize));
-        }
-        return result;
+        List<Generator> generatorList = metaGeneratorList.stream().map(MetaGenerator::toGenerator).collect(Collectors.toList());
+        List<List<Object>> dataList = GeneratorUtil.getDataList(generatorList, sampleSize);
+        return dataList;
     }
 
     /**

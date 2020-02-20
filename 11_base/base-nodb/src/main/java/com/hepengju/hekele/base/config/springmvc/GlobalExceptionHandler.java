@@ -1,14 +1,13 @@
 package com.hepengju.hekele.base.config.springmvc;
 
 import com.hepengju.hekele.base.constant.HeConst;
-import com.hepengju.hekele.base.core.M;
 import com.hepengju.hekele.base.core.JsonR;
+import com.hepengju.hekele.base.core.M;
 import com.hepengju.hekele.base.core.exception.BeanValidException;
 import com.hepengju.hekele.base.core.exception.ExcelCheckException;
 import com.hepengju.hekele.base.core.exception.HeException;
 import com.hepengju.hekele.base.util.StackUtil;
 import com.hepengju.hekele.base.util.ValidUtil;
-import com.hepengju.hekele.base.util.WebUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -98,7 +97,9 @@ public class GlobalExceptionHandler {
     public JsonR handleHeException(HeException e) {
         log.error(e.getMessage(), e);
         JsonR result = M.getErrR(e.getMessage(), e.getErrFormatArr());
-        return WebUtil.isComputer() ? result.setErrDetail(StackUtil.getStackTrace(e)) : result;
+        //return WebUtil.isComputer() ? result.setErrDetail(StackUtil.getStackTrace(e)) : result;
+        result.setErrDetail(StackUtil.getStackTrace(e));
+        return result;
     }
 
     /**

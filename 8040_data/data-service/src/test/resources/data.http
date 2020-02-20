@@ -7,21 +7,21 @@ GET {{host}}/getGenMap
 ### 刷新所有的样例数据
 POST {{host}}/refreshSampleData
 
-### 获取定制化的样例数据
+### 单个生成器重新获取数据
 POST {{host}}/getSampleData
 Content-Type: application/x-www-form-urlencoded
 
 className=com.hepengju.hekele.data.generator.string.CodeGenerator&code=A,B,C,D,E&sampleSize=5
 ### className=com.hepengju.hekele.data.generator.number.IntegerGenerator&min=0&max=100&sampleSize=5
 
-### 获取定制化的样例数据表格
+### 多个生成器重新获取数据
 POST {{host}}/getSampleDataTable
 Content-Type: application/x-www-form-urlencoded
 
 metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5
 
 ### 下载定制化的样例数据表格
-POST {{host}}/downloadSampleDataTable
+GET {{host}}/downloadSampleDataTable
 Content-Type: application/x-www-form-urlencoded
 
 metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5&format=excel

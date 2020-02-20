@@ -11,13 +11,13 @@ import java.util.List;
 @ApiModel("枚举值生成器")
 public class CodeGenerator implements StringGenerator {
 
-	private boolean codeMulti = false;
+	private String codeMulti = "N";
 	private String code = "H,M,L";
 	private List<String> codeList;
 
 	@Override
 	public String generate() {
-		return codeMulti ? RandomUtil.randomNumComma(codeList, 0, codeList.size()) : RandomUtil.randomOne(codeList);
+		return "Y".equals(codeMulti) ? RandomUtil.randomNumComma(codeList, 0, codeList.size()) : RandomUtil.randomOne(codeList);
 	}
 
 	public void setCode(String code) {
@@ -33,11 +33,11 @@ public class CodeGenerator implements StringGenerator {
 		this.setCode(code);
 	}
 
-	public CodeGenerator(String code, boolean codeMulti) {
+	public CodeGenerator(String code, String codeMulti) {
 		this.setCode(code);
 		this.codeMulti = codeMulti;
 	}
 
 	public String getCode() { return code; }
-	public boolean getCodeMulti(){ return codeMulti; }
+	public String getCodeMulti(){ return codeMulti; }
 }

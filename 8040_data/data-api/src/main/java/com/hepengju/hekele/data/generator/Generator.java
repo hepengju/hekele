@@ -37,10 +37,10 @@ public interface Generator<T>{
 		meta.setDesc(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));
 
 		String packageName = this.getClass().getPackage().getName();
-		if        (packageName.endsWith(GeneratorType.DATE.name()))   { meta.setType(GeneratorType.DATE.name());
-		} else if (packageName.endsWith(GeneratorType.NUMBER.name())) { meta.setType(GeneratorType.NUMBER.name());
-		} else if (packageName.endsWith(GeneratorType.STRING.name())) { meta.setType(GeneratorType.STRING.name());
-		} else {                                                        meta.setType(GeneratorType.CUSTOM.name());
+		if        (packageName.endsWith(GeneratorType.DATE.name().toLowerCase()))   { meta.setType(GeneratorType.DATE.name().toLowerCase());
+		} else if (packageName.endsWith(GeneratorType.NUMBER.name().toLowerCase())) { meta.setType(GeneratorType.NUMBER.name().toLowerCase());
+		} else if (packageName.endsWith(GeneratorType.STRING.name().toLowerCase())) { meta.setType(GeneratorType.STRING.name().toLowerCase());
+		} else {                                                        meta.setType(GeneratorType.CUSTOM.name().toLowerCase());
 		}
 
 		meta.setSampleData((List<Object>) generateList(10));

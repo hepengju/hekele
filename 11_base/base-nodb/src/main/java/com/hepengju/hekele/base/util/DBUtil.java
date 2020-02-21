@@ -142,14 +142,14 @@ public class DBUtil {
 	 */
 	public static Object handleJdbcType(Object obj, boolean doubleTwoScale) {
 		//日期/时间的格式化处理
-		if (obj instanceof Time) {
-			return DateFormatUtils.format((java.util.Date) obj, "yyyy-MM-dd HH:mm:ss");
+		if (obj instanceof java.sql.Time) {
+			return DateFormatUtils.format((java.sql.Time) obj, "yyyy-MM-dd HH:mm:ss");
 		} else if (obj instanceof java.sql.Date) {
 			return DateFormatUtils.format((java.sql.Date) obj, "yyyy-MM-dd");
-		} else if (obj instanceof Timestamp) {
-			return DateFormatUtils.format((Timestamp) obj, "yyyy-MM-dd HH:mm:ss");
+		} else if (obj instanceof java.sql.Timestamp) {
+			return DateFormatUtils.format((java.sql.Timestamp) obj, "yyyy-MM-dd HH:mm:ss");
 		} else if (obj instanceof java.util.Date) {
-			return DateFormatUtils.format((Time) obj, "yyyy-MM-dd HH:mm:ss");
+			return DateFormatUtils.format((java.util.Date) obj, "yyyy-MM-dd HH:mm:ss");
 
 			//Clob,Blob处理	20190214 情人节 何鹏举 处理Clob到字符串
 		} else if (obj instanceof Blob) {

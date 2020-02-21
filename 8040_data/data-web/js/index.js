@@ -2,6 +2,7 @@ window.onload = function() {
 
 	// 配置项目地址及响应拦截器
 	axios.defaults.baseURL = 'http://ali.hepengju.com:8040/data/';
+	//axios.defaults.baseURL = 'http://localhost:8040/data/';
 	axios.interceptors.response.use(function(response) {
 		// 下载文件的处理
 		if (response.config.responseType == 'blob') {

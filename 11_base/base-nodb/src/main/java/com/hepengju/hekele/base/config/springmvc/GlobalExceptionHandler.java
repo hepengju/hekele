@@ -117,6 +117,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public JsonR handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return JsonR.err(e.getMessage()).setErrCode(HeConst.ErrorCode.UNKNOWN_ERROR);
+        return JsonR.err(e.getMessage())
+                .setErrCode(HeConst.ErrorCode.UNKNOWN_ERROR)
+                .setErrDetail(StackUtil.getStackTrace(e));
     }
 }

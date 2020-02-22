@@ -23,13 +23,13 @@ public class GeneratorController {
     @GetMapping("getGenMap")
     public JsonR getGenMap(){ return JsonR.ok().addData(genService.getGenMap()); }
 
-    @ApiOperation("生成器重新获取数据")
+    @ApiOperation("获取表格数据")
     @PostMapping("fetchDataByGenMeta")
     public JsonR fetchDataByGenMeta(@RequestBody GeneratorParam param) {
         return JsonR.ok().addData(genService.fetchDataByGenMeta(param));
     }
 
-    @ApiOperation("下载定制化的样例数据表格")
+    @ApiOperation("下载表格数据")
     @PostMapping("downloadByGenMeta")
     public void downloadByGenMeta(@RequestBody GeneratorParam param) {
         genService.downloadByGenMeta(param);

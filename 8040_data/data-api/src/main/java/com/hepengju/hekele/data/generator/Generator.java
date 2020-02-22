@@ -1,15 +1,17 @@
 package com.hepengju.hekele.data.generator;
 
+import com.hepengju.hekele.base.util.BeanUtil;
+import com.hepengju.hekele.data.meta.GeneratorMeta;
 import com.hepengju.hekele.data.meta.GeneratorType;
-import com.hepengju.hekele.data.meta.MetaGenerator;
 import io.swagger.annotations.ApiModel;
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.*;
 
 /**
  * 数据生成器
@@ -28,37 +30,37 @@ public interface Generator<T>{
 	 */
 	T generate();
 
-	default MetaGenerator toMetaGenerator(){
-		MetaGenerator meta = new MetaGenerator();
+	default String generateString() {
+		T value = generate();
+		if (value == null) return "";
 
-		meta.setClassName(this.getClass().getName());
+		String result = value.toString();
 
-		ApiModel apiModel = this.getClass().getAnnotation(ApiModel.class);
-		meta.setDesc(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));
-
-		String packageName = this.getClass().getPackage().getName();
-		if        (packageName.endsWith(GeneratorType.DATE.name().toLowerCase()))   { meta.setType(GeneratorType.DATE.name().toLowerCase());
-		} else if (packageName.endsWith(GeneratorType.NUMBER.name().toLowerCase())) { meta.setType(GeneratorType.NUMBER.name().toLowerCase());
-		} else if (packageName.endsWith(GeneratorType.STRING.name().toLowerCase())) { meta.setType(GeneratorType.STRING.name().toLowerCase());
-		} else {                                                        meta.setType(GeneratorType.CUSTOM.name().toLowerCase());
+		// 格式化: 日期, 数字
+		String format = BeanUtil.getProperty(this, "format");
+		if(StringUtils.isNotBlank(format)){
+			if (value instanceof Date) {
+				result = new SimpleDateFormat(format).format(value);
+			} else if (value instanceof TemporalAccessor) {
+				result = DateTimeFormatter.ofPattern(format).format((TemporalAccessor) value);
+			} else if (value instanceof Double) {
+				result = new DecimalFormat(format).format(value);
+			}
 		}
 
-		meta.setSampleData((List<Object>) generateList(10));
+		String prefix = BeanUtil.getProperty(this, "prefix");
+		String suffix = BeanUtil.getProperty(this, "suffix");
 
-		try {meta.setMin(BeanUtils.getSimpleProperty(this, "min"));}catch (Exception e){};
-		try {meta.setMax(BeanUtils.getSimpleProperty(this, "max"));}catch (Exception e){};
-		try {meta.setScale(Integer.parseInt(BeanUtils.getSimpleProperty(this, "scale")));}catch (Exception e){};
-		try {meta.setCode(BeanUtils.getSimpleProperty(this, "code"));}catch (Exception e){};
-		try {meta.setCodeMulti(BeanUtils.getSimpleProperty(this, "codeMulti"));}catch (Exception e){};
-
-		return meta;
+		return ( prefix == null ? "" : prefix)
+		  	  +  result
+			  +( suffix == null ? "" : suffix);
 	}
 
 	/**
 	 * 生成数据列表
 	 */
 	default List<T> generateList(int size){
-		List<T> sampleData = new ArrayList<>();
+		List<T> sampleData = new ArrayList<>(size);
 		for (int i = 0; i < size; i++) {
 			sampleData.add(this.generate());
 		}
@@ -66,18 +68,55 @@ public interface Generator<T>{
 	}
 
 	/**
-	 * 生成数据列表-不重复
+	 * 生成数据字符串列表
 	 */
-	default Set<T> generateSet(int size){
-		Set<T> sampleData = new HashSet<>();
+	default List<String> generateStringList(int size){
+		List<String> sampleData = new ArrayList<>(size);
 		for (int i = 0; i < size; i++) {
-			sampleData.add(this.generate());
-		}
-
-		while (sampleData.size() < size) {
-			sampleData.add(this.generate());
+			sampleData.add(this.generateString());
 		}
 		return sampleData;
 	}
 
+	/**
+	 * 转换为GeneratorMeta
+	 * @return
+	 */
+	default GeneratorMeta toGeneratorMeta(){
+		GeneratorMeta meta = new GeneratorMeta();
+		meta.setClassName(this.getClass().getName());
+
+		ApiModel apiModel = this.getClass().getAnnotation(ApiModel.class);
+		meta.setDesc(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));
+
+		String packageName = this.getClass().getPackage().getName();
+		if (packageName.endsWith(GeneratorType.DATE.name().toLowerCase())) {
+			meta.setType(GeneratorType.DATE.name().toLowerCase());
+		} else if (packageName.endsWith(GeneratorType.NUMBER.name().toLowerCase())) {
+			meta.setType(GeneratorType.NUMBER.name().toLowerCase());
+		} else if (packageName.endsWith(GeneratorType.STRING.name().toLowerCase())) {
+			meta.setType(GeneratorType.STRING.name().toLowerCase());
+		} else {
+			meta.setType(GeneratorType.CUSTOM.name().toLowerCase());
+		}
+
+		meta.setSampleData(generateStringList(GeneratorMeta.SAMPLE_SIZE));
+		BeanUtil.copyNotBlankProperties(this, meta);
+		return meta;
+	}
+
+//	/**
+//	 * 生成数据列表-不重复
+//	 */
+//	default Set<T> generateSet(int size){
+//		Set<T> sampleData = new HashSet<>();
+//		for (int i = 0; i < size; i++) {
+//			sampleData.add(this.generate());
+//		}
+//
+//		while (sampleData.size() < size) {
+//			sampleData.add(this.generate());
+//		}
+//		return sampleData;
+//	}
 }

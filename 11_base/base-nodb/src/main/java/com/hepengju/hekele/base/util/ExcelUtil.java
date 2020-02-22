@@ -138,10 +138,10 @@ public class ExcelUtil {
 			DBUtil.releaseConnection(conn);
 		}
 	}
-	public static void exportFromList(List<String> title, List<List<Object>> data, OutputStream os) {
+	public static void exportFromList(List<String> title, List<? extends List<? extends Object>> data, OutputStream os) {
 		exportFromList(title, data, os, null);
 	}
-	public static void exportFromList(List<String> title, List<List<Object>> data, OutputStream os, String sheetName) {
+	public static void exportFromList(List<String> title, List<? extends List<? extends Object>> data, OutputStream os, String sheetName) {
 		try (Workbook wb = new SXSSFWorkbook();) {
 			writeSheet(wb, sheetName, title, data);
 			wb.write(os);
@@ -757,7 +757,7 @@ public class ExcelUtil {
 	/**
 	 * 写入工作表: 内部包含数据量的判断
 	 */
-	private static void writeSheet(Workbook wb, String name, List<String> title, List<List<Object>> data) {
+	private static void writeSheet(Workbook wb, String name, List<String> title, List<? extends List<? extends Object>> data) {
 		name = StringUtils.isBlank(name) ? "Sheet" : name;
 
 		int count = data.size() / MAX_ROW; //整除
@@ -768,7 +768,7 @@ public class ExcelUtil {
 				String newName = name + "_" + i; //从Sheet0开始
 				int fromIndex = MAX_ROW * i;
 				int toIndex = Math.min(data.size(), MAX_ROW * (i + 1));
-				List<List<Object>> newData = data.subList(fromIndex, toIndex);
+				List<? extends List<? extends Object>> newData = data.subList(fromIndex, toIndex);
 				writeSingleSheet(wb, newName, title, newData);
 			}
 		}
@@ -777,7 +777,7 @@ public class ExcelUtil {
 	/**
 	 * 写入单个Sheet
 	 */
-	private static void writeSingleSheet(Workbook wb, String name, List<String> title, List<List<Object>> data) {
+	private static void writeSingleSheet(Workbook wb, String name, List<String> title, List<? extends List<? extends Object>> data) {
 		//1.创建工作表(不存在才创建,举例: 读取模板,写入一些数据时sheet已经存在)
 		Sheet sheet = wb.getSheet(name);
 		if (sheet == null) {
@@ -813,7 +813,7 @@ public class ExcelUtil {
 		if (data != null && data.size() > 0) {
 			for (int i = 0; i < data.size(); i++) {
 				Row row = sheet.createRow(rowNum++);
-				List<Object> rowData = data.get(i);
+				List<? extends Object> rowData = data.get(i);
 				for (int j = 0; j < rowData.size(); j++) {
 					Cell cell = row.createCell(j);
 					cell.setCellStyle(commonCellStyle);

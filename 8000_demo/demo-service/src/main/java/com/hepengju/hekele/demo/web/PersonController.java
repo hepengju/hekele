@@ -3,7 +3,7 @@ package com.hepengju.hekele.demo.web;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hepengju.hekele.base.core.JsonR;
 import com.hepengju.hekele.base.util.PrintUtil;
-import com.hepengju.hekele.data.client.DataClient;
+import com.hepengju.hekele.data.client.DataFeignClient;
 import com.hepengju.hekele.data.util.GeneratorUtil;
 import com.hepengju.hekele.demo.bo.Person;
 import com.hepengju.hekele.demo.service.PersonService;
@@ -28,7 +28,7 @@ import java.util.List;
 public class PersonController {
 
     @Autowired private PersonService personService;
-    @Autowired private DataClient dataClient;
+    @Autowired private DataFeignClient dataFeignClient;
 
     //----------------------增删改查-------------------------------
     @ApiOperation("查询所有")
@@ -67,17 +67,16 @@ public class PersonController {
     }
 
     //------------------------------------------------------------
-    @ApiOperation("Feign远程调用DataClient的getGenList")
-    @GetMapping("getGenList")
-    public JsonR getGenList(){
-        return dataClient.getGenList();
+    @ApiOperation("Feign远程调用DataClient的getGenMap")
+    @GetMapping("getGenMap")
+    public JsonR getGenMap(){
+        return dataFeignClient.getGenMap();
     }
     //------------------------------------------------------------
     @ApiOperation("获取测试数据")
     @GetMapping("getMockData")
-    public JsonR getMockData(@RequestParam(defaultValue = "10") Integer count,
-                     @RequestParam(defaultValue = "csv") String dataFormat){
-        List<List<Object>> dataList = GeneratorUtil.getDataList(Person.class, count);
+    public JsonR getMockData(@RequestParam(defaultValue = "10") Integer count){
+        List<List<String>> dataList = GeneratorUtil.getDataStringList(Person.class, count);
         String result = PrintUtil.printCSV(dataList);
         return JsonR.ok().addData(result);
     }
@@ -85,7 +84,7 @@ public class PersonController {
     @ApiOperation("下载测试数据")
     @GetMapping("downloadMockData")
     public void downloadMockData(@RequestParam(defaultValue = "10") Integer count,
-                             @RequestParam(defaultValue = "csv") String dataFormat){
-        GeneratorUtil.downloadDataList(Person.class, count, dataFormat);
+                             @RequestParam(defaultValue = "csv") String fileFormat){
+        GeneratorUtil.downloadDataList(Person.class, count, fileFormat);
     }
 }

@@ -49,13 +49,13 @@ public class RandomUtil {
 	}
 
 	public static String randomNumComma(List<String> list, long startInclusive, long endExclusive) {
-		return randomNumSeperator(list, startInclusive, endExclusive, ",");
+		return randomNumSeparator(list, startInclusive, endExclusive, ",");
 	}
 
-	public static String randomNumSeperator(List<String> list, long startInclusive, long endExclusive, String seperator){
+	public static String randomNumSeparator(List<String> list, long startInclusive, long endExclusive, String separator){
 		Collections.shuffle(list);
 		long num = RandomUtils.nextLong(startInclusive, endExclusive);
-		return list.stream().limit(num).collect(Collectors.joining(seperator));
+		return list.stream().limit(num).collect(Collectors.joining(separator));
 	}
 
 	/**

@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 public class PrintUtil {
 
     public static final int BATCH_SIZE = 500;
-    public static String printTSV(List<List<Object>> dataList){
+    public static String printTSV(List<? extends List<? extends Object>> dataList){
         return printWithSeparator(dataList,"\t");
     }
-    public static String printCSV(List<List<Object>> dataList){
+    public static String printCSV(List<? extends List<? extends Object>> dataList){
         return printWithSeparator(dataList,",");
     }
 
-    public static String printWithSeparator(List<List<Object>> dataList, String separator){
+    public static String printWithSeparator(List<? extends List<? extends Object>> dataList, String separator){
         StringBuilder sb = new StringBuilder();
-        for (List<Object> rowList : dataList) {
+        for (List<? extends Object> rowList : dataList) {
             String row = rowList.stream().map(PrintUtil::format).collect(Collectors.joining(separator));
             sb.append(row);
             sb.append("\n");
@@ -29,7 +29,7 @@ public class PrintUtil {
         return sb.toString();
     }
 
-    public static String printInsert(String tableName, List<String> columnNameList, List<List<Object>> dataList, boolean batchInsert) {
+    public static String printInsert(String tableName, List<String> columnNameList, List<? extends List<? extends Object>> dataList, boolean batchInsert) {
         String columnComma = columnNameList.stream().collect(Collectors.joining(", "));
 
         StringBuilder sb = new StringBuilder();
@@ -39,7 +39,7 @@ public class PrintUtil {
             String preSql = "INSERT INTO " + tableName + " (" + columnComma + ") \n     VALUES ";
             sb.append(preSql);
             for (int i = 1; i <= dataList.size(); i++) {
-                List<Object> rowList = dataList.get(i - 1);
+                List<? extends Object> rowList = dataList.get(i - 1);
                 String sufSql = rowList.stream().map(PrintUtil::formatForInsert).collect(Collectors.joining(", ", "(", ")"));
                 sb.append(sufSql);
                 if (i % BATCH_SIZE != 0 && i != dataList.size()) sb.append("\n          , ");
@@ -49,7 +49,7 @@ public class PrintUtil {
         } else {
             // 正常插入
             String preSql = "INSERT INTO " + tableName + " (" + columnComma + ") VALUES ";
-            for (List<Object> rowList : dataList) {
+            for (List<? extends Object> rowList : dataList) {
                 String sufSql = rowList.stream().map(PrintUtil::formatForInsert).collect(Collectors.joining(", ", "(", ")"));
                 sb.append(preSql).append(sufSql).append(";\n");
             }

@@ -2,7 +2,7 @@ package com.hepengju.hekele.data.selector;
 
 
 import com.hepengju.hekele.data.generator.Generator;
-import com.hepengju.hekele.data.meta.MetaColumn;
+import com.hepengju.hekele.data.meta.ColumnMeta;
 
 import java.util.List;
 
@@ -20,5 +20,5 @@ public interface Selector {
 	 * @param metaColumn  列元数据
 	 * @param sampleData  样例数据
 	 */
-	Generator<?> select(MetaColumn metaColumn, List<Object> sampleData);
+	Generator<?> select(ColumnMeta metaColumn, List<Object> sampleData);
 }

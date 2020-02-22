@@ -1,29 +1,51 @@
-### 获取生成器列表
-GET {{host}}/getGenList
-
 ### 获取生成器分类列表
 GET {{host}}/getGenMap
 
-### 刷新所有的样例数据
-POST {{host}}/refreshSampleData
-
-### 单个生成器重新获取数据
-POST {{host}}/getSampleData
-Content-Type: application/x-www-form-urlencoded
-
-className=com.hepengju.hekele.data.generator.string.CodeGenerator&code=A,B,C,D,E&sampleSize=5
-### className=com.hepengju.hekele.data.generator.number.IntegerGenerator&min=0&max=100&sampleSize=5
-
 ### 多个生成器重新获取数据
-POST {{host}}/getSampleDataTable
-Content-Type: application/x-www-form-urlencoded
+POST {{host}}/getDataByGenMeta
+Content-Type: application/json
 
-metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5
+{
+  "generatorMetaList": [
+    {
+      "className": "com.hepengju.hekele.data.generator.gen200_number.IntegerGenerator",
+      "min": 60,
+      "max": 100,
+      "columnKey": "ck0001"
+    },
+    {
+      "className": "com.hepengju.hekele.data.generator.gen300_string.CodeGenerator",
+      "code": "A,B,C,D,E",
+      "columnKey": "ck0002"
+    }
+  ],
+  "sampleSize": 2
+}
+
 
 ### 下载定制化的样例数据表格
-GET {{host}}/downloadSampleDataTable
-Content-Type: application/x-www-form-urlencoded
+POST {{host}}/downloadByGenMeta
+Content-Type: application/json
 
-metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5&format=excel
+{
+  "generatorMetaList": [
+    {
+      "className": "com.hepengju.hekele.data.generator.gen200_number.IntegerGenerator",
+      "min": 60,
+      "max": 100,
+      "columnKey": "ck0001",
+      "columnName": "分数"
+    },
+    {
+      "className": "com.hepengju.hekele.data.generator.gen300_string.CodeGenerator",
+      "code": "A,B,C,D,E",
+      "columnKey": "ck0002",
+      "columnName": "等级"
+    }
+  ],
+  "sampleSize": 5,
+  "fileFormat": "tsv",
+  "tableName": "测试"
+}
 
 ###

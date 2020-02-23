@@ -1,0 +1,10 @@
+server:
+  port: 8060
+
+wx:
+  mp:
+    configs:
+      - appId: wx6d192eac0c7e17c3
+        secret: 752ec16d51a44867f1afa9566cec18dc
+        token: hedata
+        aesKey: Wo6BEd4fBdMjqHfuvMyMwleNIlJ2H82HNhOf6692PsI

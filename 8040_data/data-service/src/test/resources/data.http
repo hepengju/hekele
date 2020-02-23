@@ -1,5 +1,5 @@
 ### 获取生成器
-GET {{host}}/getMap
+GET {{host}}/getGenMap
 
 ### 获取数据
 GET {{host}}/getData?name=chineseName&sampleSize=3

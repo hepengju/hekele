@@ -2,7 +2,7 @@ package com.hepengju.hekele.weixin.handler;
 
 import com.hepengju.hekele.base.core.JsonR;
 import com.hepengju.hekele.data.client.DataFeignClient;
-import com.hepengju.hekele.weixin.build.TextBuilder;
+import com.hepengju.hekele.weixin.builder.TextBuilder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.session.WxSessionManager;

@@ -1,4 +1,4 @@
-package com.hepengju.hekele.weixin.build;
+package com.hepengju.hekele.weixin.builder;
 
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;

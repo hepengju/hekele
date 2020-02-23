@@ -1,23 +1,21 @@
-package com.hepengju.hekele.weixin.build;
+package com.hepengju.hekele.weixin.builder;
 
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
-import me.chanjar.weixin.mp.bean.message.WxMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutTextMessage;
 
 /**
  * @author Binary Wang(https://github.com/binarywang)
  */
-public class ImageBuilder extends AbstractBuilder {
+public class TextBuilder extends AbstractBuilder {
 
     @Override
     public WxMpXmlOutMessage build(String content, WxMpXmlMessage wxMessage,
                                    WxMpService service) {
-
-        WxMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId(content)
-                .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
-                .build();
-
+        WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT().content(content)
+            .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
+            .build();
         return m;
     }
 

@@ -18,6 +18,8 @@ cd 8040_data/data-service  && mvn clean install && cd ../..
 cd 8000_demo/demo-api      && mvn clean install && cd ../..
 cd 8000_demo/demo-service  && mvn clean install && cd ../..
 
+cd 8060_weixin/      && mvn clean install && cd ..
+
 mv -f 7010_eureka/target/spring-eureka.jar                       ~/app/
 mv -f 7020_config/target/spring-config.jar                       ~/app/
 mv -f 7030_monitor/target/spring-monitor.jar                     ~/app/
@@ -27,6 +29,8 @@ mv -f 7100_zuul/target/spring-zuul.jar                           ~/app/
 
 mv -f 8040_data/data-service/target/data-service.jar ~/app/
 mv -f 8000_demo/demo-service/target/demo-service.jar ~/app/
+
+mv -f 8060_weixin/target/weixin-service.jar          ~/app/
 
 cd ~/app
 

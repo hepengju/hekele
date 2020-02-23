@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @see DataFeignClient
@@ -29,12 +30,6 @@ public class GeneratorController {
         return JsonR.ok().addData(genService.getGenMap());
     }
 
-    @ApiOperation("获取数据")
-    @GetMapping("getData")
-    public JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize) {
-        return JsonR.ok().addData(genService.getData(name, sampleSize));
-    }
-
     @ApiOperation("刷新表格")
     @PostMapping("refreshTable")
     public JsonR<List<Map<String,String>>> refreshTable(@RequestBody GeneratorParam param) {
@@ -46,5 +41,19 @@ public class GeneratorController {
     public void downTable(@RequestBody GeneratorParam param) {
         genService.downTable(param);
     }
+
+    // -------------------- 微信接口 --------------------
+    @ApiOperation("获取数据")
+    @GetMapping("getData")
+    public JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize) {
+        return JsonR.ok().addData(genService.getData(name, sampleSize));
+    }
+
+    @ApiOperation("获取可用生成器名称")
+    @GetMapping("getGenNameList")
+    public JsonR<Set<String>> getGenNameList() {
+        return JsonR.ok().addData(genService.getMetaMap().keySet());
+    }
+
 
 }

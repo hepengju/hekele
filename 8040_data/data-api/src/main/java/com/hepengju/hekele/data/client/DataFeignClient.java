@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @FeignClient(value = FeignClientConst.DATA_SERVICE, path = "/data", fallbackFactory = DataFeignClientFallbackFactory.class)
 public interface DataFeignClient {
@@ -19,12 +20,16 @@ public interface DataFeignClient {
     @GetMapping("getGenMap")
     JsonR<Map<String, List<GeneratorMeta>>> getGenMap();
 
-    @GetMapping("getData")
-    JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize);
-
     @PostMapping("refreshTable")
     JsonR<List<Map<String,String>>> refreshTable(@RequestBody GeneratorParam param);
 
     @PostMapping("downTable")
     byte[] downTable(@RequestBody GeneratorParam param);
+
+    // -------------------- 微信接口 --------------------
+    @GetMapping("getData")
+    JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize);
+
+    @GetMapping("getGenNameList")
+    JsonR<Set<String>> getGenNameList();
 }

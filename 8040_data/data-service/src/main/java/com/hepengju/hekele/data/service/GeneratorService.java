@@ -6,6 +6,7 @@ import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.meta.GeneratorMeta;
 import com.hepengju.hekele.data.param.GeneratorParam;
 import com.hepengju.hekele.data.util.GeneratorUtil;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-@Service @Slf4j
+@Service @Slf4j @Data
 public class GeneratorService{
 
     private List<Generator> genList;
@@ -63,7 +64,19 @@ public class GeneratorService{
      * 获取数据
      */
     public List<String> getData(String name, int sampleSize) {
-        GeneratorMeta meta = nameToMeta(name);
+        // GeneratorMeta meta = nameToMeta(name);
+
+        // 准确匹配
+        GeneratorMeta meta = metaMap.get(name);
+
+        // 模糊匹配
+        if (meta == null) {
+            for (String key : metaMap.keySet()) {
+                if(name.contains(key)) {
+                    meta = metaMap.get(key);
+                }
+            }
+        }
         return meta.toGenerator().generateStringList(sampleSize);
     }
 

@@ -1,9 +1,9 @@
 cd ~/hekele
 git pull
 
-cd 10_parent/        && mvn clean install && cd ..
-cd 11_base/base-nodb && mvn clean install && cd ../..
-cd 11_base/base-all  && mvn clean install && cd ../..
+cd 1000_parent/        && mvn clean install && cd ..
+cd 1010_base/base-nodb && mvn clean install && cd ../..
+cd 1010_base/base-all  && mvn clean install && cd ../..
 
 cd 7010_eureka/            && mvn clean install && cd ..
 cd 7020_config/            && mvn clean install && cd ..

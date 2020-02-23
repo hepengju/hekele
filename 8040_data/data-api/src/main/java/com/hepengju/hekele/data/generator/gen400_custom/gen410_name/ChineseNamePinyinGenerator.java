@@ -5,7 +5,7 @@ import com.hepengju.hekele.data.generator.AbstractStringGenerator;
 import io.swagger.annotations.ApiModel;
 import org.springframework.core.annotation.Order;
 
-@ApiModel("中文姓名生成器") @Order(412)
+@ApiModel("姓名拼音生成器") @Order(412)
 public class ChineseNamePinyinGenerator extends AbstractStringGenerator {
 
     private ChineseFirstNameGenerator firstName = new ChineseFirstNameGenerator();

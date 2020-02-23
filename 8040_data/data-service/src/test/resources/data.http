@@ -49,4 +49,7 @@ Content-Type: application/json
   "tableName": "down-data-now"
 }
 
+### 获取可用生成器名称
+GET {{host}}/getGenNameList
+
 ###

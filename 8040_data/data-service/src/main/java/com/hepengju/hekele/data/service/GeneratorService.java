@@ -72,7 +72,7 @@ public class GeneratorService{
         // 模糊匹配
         if (meta == null) {
             for (String key : metaMap.keySet()) {
-                if(name.contains(key)) {
+                if(name.toLowerCase().contains(key.toLowerCase())) {
                     meta = metaMap.get(key);
                 }
             }

@@ -35,8 +35,8 @@ public class MsgHandler implements WxMpMessageHandler {
             log.error(content);
             try {
                 String names = dataFeignClient.getGenNameList().getData().stream()
-                        .sorted()
-                        .collect(Collectors.joining(","));
+                        //.sorted()
+                        .collect(Collectors.joining("\n"));
                 content += "\n可尝试以下关键字: \n" + names;
             } catch (Exception e) {
             }

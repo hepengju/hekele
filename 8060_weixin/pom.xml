@@ -22,6 +22,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.hepengju.hekele</groupId>
+            <artifactId>data-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- 微信公众号: 包括订阅号和服务号 -->
         <dependency>
             <groupId>com.github.binarywang</groupId>

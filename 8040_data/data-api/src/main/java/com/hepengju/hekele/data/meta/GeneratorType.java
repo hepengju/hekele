@@ -6,5 +6,6 @@ package com.hepengju.hekele.data.meta;
  * @author hepengju
  */
 public enum GeneratorType {
-	DATE, NUMBER, STRING, CUSTOM
+	DATE, NUMBER, STRING, CUSTOM,
+	DATE_NUMBER // 日期和数字放在一起
 }

@@ -91,9 +91,9 @@ public interface Generator<T>{
 
 		String packageName = this.getClass().getPackage().getName();
 		if (packageName.endsWith(GeneratorType.DATE.name().toLowerCase())) {
-			meta.setType(GeneratorType.DATE.name().toLowerCase());
+			meta.setType(GeneratorType.DATE_NUMBER.name().toLowerCase());
 		} else if (packageName.endsWith(GeneratorType.NUMBER.name().toLowerCase())) {
-			meta.setType(GeneratorType.NUMBER.name().toLowerCase());
+			meta.setType(GeneratorType.DATE_NUMBER.name().toLowerCase());
 		} else if (packageName.endsWith(GeneratorType.STRING.name().toLowerCase())) {
 			meta.setType(GeneratorType.STRING.name().toLowerCase());
 		} else {

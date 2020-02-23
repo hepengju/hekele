@@ -11,7 +11,7 @@ import java.util.List;
 public class GeneratorParam {
 
     @ApiModelProperty("生成器元数据数组-必传")
-    private List<GeneratorMeta> generatorMetaList;
+    private List<GeneratorMeta> metaList;
 
     @ApiModelProperty("样例数量-可选")
     private int sampleSize = 10;

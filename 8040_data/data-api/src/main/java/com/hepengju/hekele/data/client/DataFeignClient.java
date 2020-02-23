@@ -8,22 +8,23 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * @see com.hepengju.hekele.data.web.GeneratorController
- */
 @FeignClient(value = FeignClientConst.DATA_SERVICE, path = "/data", fallbackFactory = DataFeignClientFallbackFactory.class)
 public interface DataFeignClient {
 
     @GetMapping("getGenMap")
     JsonR<Map<String, List<GeneratorMeta>>> getGenMap();
 
-    @PostMapping("fetchDataByGenMeta")
-    JsonR<List<Map<String,String>>> fetchDataByGenMeta(@RequestBody GeneratorParam param);
+    @GetMapping("getData")
+    JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize);
 
-    @PostMapping("downloadByGenMeta")
-    byte[] downloadByGenMeta(@RequestBody GeneratorParam param);
+    @PostMapping("refreshTable")
+    JsonR<List<Map<String,String>>> refreshTable(@RequestBody GeneratorParam param);
+
+    @PostMapping("downTable")
+    byte[] downTable(@RequestBody GeneratorParam param);
 }

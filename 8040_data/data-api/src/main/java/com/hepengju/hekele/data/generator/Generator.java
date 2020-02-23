@@ -11,7 +11,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 数据生成器
@@ -85,6 +87,7 @@ public interface Generator<T>{
 	default GeneratorMeta toGeneratorMeta(){
 		GeneratorMeta meta = new GeneratorMeta();
 		meta.setClassName(this.getClass().getName());
+		meta.setName(StringUtils.uncapitalize(this.getClass().getSimpleName().replace("Generator","")));
 
 		ApiModel apiModel = this.getClass().getAnnotation(ApiModel.class);
 		meta.setDesc(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));

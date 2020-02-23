@@ -1,51 +1,52 @@
-### 获取生成器分类列表
-GET {{host}}/getGenMap
+### 获取生成器
+GET {{host}}/getMap
 
-### 多个生成器重新获取数据
-POST {{host}}/getDataByGenMeta
+### 获取数据
+GET {{host}}/getData?name=chineseName&sampleSize=3
+
+### 刷新表格
+POST {{host}}/refreshTable
 Content-Type: application/json
 
 {
-  "generatorMetaList": [
+  "metaList": [
     {
-      "className": "com.hepengju.hekele.data.generator.gen200_number.IntegerGenerator",
+      "name": "integer",
       "min": 60,
       "max": 100,
       "columnKey": "ck0001"
     },
     {
-      "className": "com.hepengju.hekele.data.generator.gen300_string.CodeGenerator",
+      "name": "code",
       "code": "A,B,C,D,E",
       "columnKey": "ck0002"
     }
   ],
-  "sampleSize": 2
+  "sampleSize": 3
 }
 
 
-### 下载定制化的样例数据表格
-POST {{host}}/downloadByGenMeta
+### 下载表格
+POST {{host}}/downTable
 Content-Type: application/json
 
 {
-  "generatorMetaList": [
+  "metaList": [
     {
-      "className": "com.hepengju.hekele.data.generator.gen200_number.IntegerGenerator",
+      "name": "integer",
       "min": 60,
       "max": 100,
-      "columnKey": "ck0001",
-      "columnName": "分数"
+      "columnKey": "ck0001"
     },
     {
-      "className": "com.hepengju.hekele.data.generator.gen300_string.CodeGenerator",
+      "name": "code",
       "code": "A,B,C,D,E",
-      "columnKey": "ck0002",
-      "columnName": "等级"
+      "columnKey": "ck0002"
     }
   ],
-  "sampleSize": 5,
+  "sampleSize": 3,
   "fileFormat": "tsv",
-  "tableName": "测试"
+  "tableName": "down-data-now"
 }
 
 ###

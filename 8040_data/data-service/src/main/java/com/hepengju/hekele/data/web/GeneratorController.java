@@ -2,12 +2,16 @@ package com.hepengju.hekele.data.web;
 
 import com.hepengju.hekele.base.core.JsonR;
 import com.hepengju.hekele.data.client.DataFeignClient;
+import com.hepengju.hekele.data.meta.GeneratorMeta;
 import com.hepengju.hekele.data.param.GeneratorParam;
 import com.hepengju.hekele.data.service.GeneratorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @see DataFeignClient
@@ -19,20 +23,28 @@ public class GeneratorController {
 
     @Autowired private GeneratorService genService;
 
-    @ApiOperation("获取生成器分类列表")
+    @ApiOperation("获取生成器")
     @GetMapping("getGenMap")
-    public JsonR getGenMap(){ return JsonR.ok().addData(genService.getGenMap()); }
-
-    @ApiOperation("获取表格数据")
-    @PostMapping("fetchDataByGenMeta")
-    public JsonR fetchDataByGenMeta(@RequestBody GeneratorParam param) {
-        return JsonR.ok().addData(genService.fetchDataByGenMeta(param));
+    public JsonR<Map<String, List<GeneratorMeta>>> getGenMap(){
+        return JsonR.ok().addData(genService.getGenMap());
     }
 
-    @ApiOperation("下载表格数据")
-    @PostMapping("downloadByGenMeta")
-    public void downloadByGenMeta(@RequestBody GeneratorParam param) {
-        genService.downloadByGenMeta(param);
+    @ApiOperation("获取数据")
+    @GetMapping("getData")
+    public JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize) {
+        return JsonR.ok().addData(genService.getData(name, sampleSize));
+    }
+
+    @ApiOperation("刷新表格")
+    @PostMapping("refreshTable")
+    public JsonR<List<Map<String,String>>> refreshTable(@RequestBody GeneratorParam param) {
+        return JsonR.ok().addData(genService.refreshTable(param));
+    }
+
+    @ApiOperation("下载表格")
+    @PostMapping("downTable")
+    public void downTable(@RequestBody GeneratorParam param) {
+        genService.downTable(param);
     }
 
 }

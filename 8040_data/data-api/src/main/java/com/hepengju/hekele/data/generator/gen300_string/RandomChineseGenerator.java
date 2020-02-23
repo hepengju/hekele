@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.core.annotation.Order;
 
-@ApiModel("随机中文字生成器") @Data @Order(305)
+@ApiModel("随机汉字生成器") @Data @Order(306)
 public class RandomChineseGenerator extends AbstractStringGenerator {
 	
 	private int min = 2;

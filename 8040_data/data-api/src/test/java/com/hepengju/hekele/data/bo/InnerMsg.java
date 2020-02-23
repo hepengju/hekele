@@ -10,7 +10,7 @@ import com.hepengju.hekele.data.generator.gen400_custom.gen440_computer.UUIDGene
 import com.hepengju.hekele.data.generator.gen400_custom.gen410_name.ChineseNameGenerator;
 import com.hepengju.hekele.data.generator.gen300_string.CodeGenerator;
 import com.hepengju.hekele.data.generator.gen300_string.RandomChineseGenerator;
-import com.hepengju.hekele.data.generator.gen300_string.RandomStringNumberGenerator;
+import com.hepengju.hekele.data.generator.gen300_string.RandomNumberGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -57,7 +57,7 @@ public class InnerMsg {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date msgSendTime;
 
-    @GeneratorAnno(value = RandomStringNumberGenerator.class, min = "5",max = "5")
+    @GeneratorAnno(value = RandomNumberGenerator.class, min = "5",max = "5")
     @ApiModelProperty("消息发送人账号")
     private String msgSenderCode;
 
@@ -65,7 +65,7 @@ public class InnerMsg {
     @ApiModelProperty("消息发送人名称")
     private String msgSenderName;
 
-    @GeneratorAnno(value = RandomStringNumberGenerator.class, min = "5",max = "5")
+    @GeneratorAnno(value = RandomNumberGenerator.class, min = "5",max = "5")
     @ApiModelProperty("消息接收人账号")
     private String msgReceiverCode;
 

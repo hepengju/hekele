@@ -86,7 +86,7 @@ public class GeneratorTest {
         testGenerator(new RandomEmailGenerator());
         testGenerator(new RandomMobileGenerator());
         testGenerator(new RandomStringGenerator());
-        testGenerator(new RandomStringNumberGenerator());
+        testGenerator(new RandomNumberGenerator());
     }
 
     @Test

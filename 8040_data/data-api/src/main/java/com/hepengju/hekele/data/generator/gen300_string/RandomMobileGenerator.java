@@ -7,7 +7,7 @@ import com.hepengju.hekele.data.generator.AbstractStringGenerator;
 import io.swagger.annotations.ApiModel;
 import org.springframework.core.annotation.Order;
 
-@ApiModel("随机手机号生成器") @Order(306)
+@ApiModel("随机手机号生成器") @Order(307)
 public class RandomMobileGenerator extends AbstractStringGenerator {
 
 	@Override

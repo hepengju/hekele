@@ -14,7 +14,7 @@ import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaAddr
 import com.hepengju.hekele.data.generator.gen400_custom.gen440_computer.UUIDGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen410_name.ChineseNameGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen430_phone.MobileGenerator;
-import com.hepengju.hekele.data.generator.gen300_string.RandomStringNumberGenerator;
+import com.hepengju.hekele.data.generator.gen300_string.RandomNumberGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,7 +38,7 @@ public class Person {
     private String userId;
 
     @ApiModelProperty("账号")
-    @GeneratorAnno(value = RandomStringNumberGenerator.class, min = "5", max = "5")
+    @GeneratorAnno(value = RandomNumberGenerator.class, min = "5", max = "5")
     private String userCode;
 
     @ApiModelProperty("姓名")

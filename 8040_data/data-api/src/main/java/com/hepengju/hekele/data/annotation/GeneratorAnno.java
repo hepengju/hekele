@@ -1,6 +1,6 @@
 package com.hepengju.hekele.data.annotation;
 
-import com.hepengju.hekele.data.generator.gen300_string.RandomStringGenerator;
+import com.hepengju.hekele.data.generator.gen300_string.RandomAlphabeticGenerator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GeneratorAnno {
 
-    Class<? extends com.hepengju.hekele.data.generator.Generator> value() default RandomStringGenerator.class;
+    Class<? extends com.hepengju.hekele.data.generator.Generator> value() default RandomAlphabeticGenerator.class;
     String min()        default ""; // 最小值 (或最小长度)
     String max()        default ""; // 最大值 (或最大长度)
     String code()       default ""; // 代码值: 逗号分隔

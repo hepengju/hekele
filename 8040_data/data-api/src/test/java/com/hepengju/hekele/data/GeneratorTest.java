@@ -85,7 +85,7 @@ public class GeneratorTest {
         testGenerator(new RandomChineseGenerator());
         testGenerator(new RandomEmailGenerator());
         testGenerator(new RandomMobileGenerator());
-        testGenerator(new RandomStringGenerator());
+        testGenerator(new RandomAlphabeticGenerator());
         testGenerator(new RandomNumberGenerator());
     }
 

@@ -68,7 +68,7 @@ public class M {
     public static String get(String key, Object... args) {
         String value = Optional.ofNullable(keyHeMessageMap.get(key))
                 .map(HeMessage::getValue)
-                .orElse(null);
+                .orElse(key);
         if (value == null) return "";
 
         //配置文本

@@ -11,15 +11,22 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>data-service</artifactId>
+    <artifactId>weixin-service</artifactId>
 
     <!-- 依赖管理 -->
     <dependencies>
 
         <dependency>
             <groupId>com.hepengju.hekele</groupId>
-            <artifactId>data-api</artifactId>
+            <artifactId>base-all</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- 微信公众号: 包括订阅号和服务号 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-mp-spring-boot-starter</artifactId>
+            <version>3.6.0</version>
         </dependency>
 
     </dependencies>

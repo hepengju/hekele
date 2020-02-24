@@ -24,26 +24,26 @@ public class GeneratorMeta {
     @ApiModelProperty(value = "全类名", hidden = true)
     private String className;
 
-    @ApiModelProperty(value = "名称", example = "chineseName")
-    private String name;
-
-    @ApiModelProperty(value = "描述", example = "中文姓名")
-    private String desc;
-
     @ApiModelProperty(value = "分类", example = "string")
     private String type;
+
+    @ApiModelProperty(value = "名称: 取指定的生成器", example = "chineseName")
+    private String name;
 
     @ApiModelProperty("样例")
     private List<String> sampleData;
 
     /**
      * columnKey: iview的Table组件, 或其他前端的数据表格组件的key, 用于组装返回数据
-     * columnName: 下载Excel表头名称或Insert语句的列名
      */
-    @ApiModelProperty(value = "columnKey", example = "col0001")
+    @ApiModelProperty(value = "列唯一键: iview的Table组件的Columns中的key, 前端生成, 默认为空", example = "col0001")
     private String columnKey;
 
-    @ApiModelProperty(value = "列名称", example = "姓名")
+    @ApiModelProperty(value = "列中文标题: iview的Table组件的Columns中的Name, 用于前端显示和Excel文件的标题, 默认为后端生成器的中文名称"
+            , example = "出生日期")
+    private String columnTitle;
+
+    @ApiModelProperty(value = "列英文代码: 用于生成Insert语句的列名称, 默认为后端生成器的英文名称(同name)", example = "birth")
     private String columnName;
     //-----------------------------------------------------------
     @ApiModelProperty(value = "最小值", example = "60")

@@ -90,7 +90,8 @@ public interface Generator<T>{
 		meta.setName(StringUtils.uncapitalize(this.getClass().getSimpleName().replace("Generator","")));
 
 		ApiModel apiModel = this.getClass().getAnnotation(ApiModel.class);
-		meta.setDesc(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));
+		meta.setColumnTitle(apiModel == null ? "未知" : apiModel.value().replace("生成器",""));
+		meta.setColumnName(meta.getName());
 
 		String packageName = this.getClass().getPackage().getName();
 		if (packageName.endsWith(GeneratorType.DATE.name().toLowerCase())) {

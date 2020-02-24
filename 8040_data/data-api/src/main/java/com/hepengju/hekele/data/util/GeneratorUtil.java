@@ -131,49 +131,37 @@ public class GeneratorUtil {
         }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * 下载测试数据
-     */
-    public static void downloadDataList(Class<?> clazz, int count, String fileFormat) {
-        // Excel下载时
-        //List<? extends List<? extends Object>> dataList = "excel".equals(dataFormat)
-        //        ? GeneratorUtil.getDataList(clazz, count)
-        //        : GeneratorUtil.getDataStringList(clazz, count);
-
-        List<List<String>> dataStringList = GeneratorUtil.getDataStringList(clazz, count);
-        String tableName = GeneratorUtil.getTableName(clazz);
-        List<String> columnNameList = GeneratorUtil.getColumnNameList(clazz);
-        handleDataList(dataStringList, fileFormat, tableName, columnNameList);
-    }
-
     /**
      * 处理下载数据
      */
     @SneakyThrows
-    public static void handleDataList(List<? extends List<? extends Object>> dataList, String dataFormat, String tableName, List<String> columnNameList){
-        String fileName = tableName + "-" + Now.yyyyMMddHHmmss();
-        if ("sql".equals(dataFormat)) {
+    public static void handleDataList(List<? extends List<? extends Object>> dataList
+            , String fileFormat
+            , String fileName, String tableName
+            , List<String> columnTitleList, List<String> columnNameList){
+
+        fileName = fileName + "-" + Now.yyyyMMddHHmmss();
+        if ("sql".equals(fileFormat)) {
             String result = PrintUtil.printInsert(tableName, columnNameList, dataList, true);
             WebUtil.handleFileDownload(fileName + ".sql", result.getBytes(StandardCharsets.UTF_8));
             return;
         }
 
-        if ("csv".equals(dataFormat)) {
+        if ("csv".equals(fileFormat)) {
             String result = PrintUtil.printCSV(dataList);
             WebUtil.handleFileDownload(fileName + ".csv", result.getBytes(StandardCharsets.UTF_8));
             return;
         }
 
-        if ("tsv".equals(dataFormat)) {
+        if ("tsv".equals(fileFormat)) {
             String result = PrintUtil.printTSV(dataList);
             WebUtil.handleFileDownload(fileName + ".tsv", result.getBytes(StandardCharsets.UTF_8));
             return;
         }
 
-        if ("excel".equals(dataFormat)) {
+        if ("excel".equals(fileFormat)) {
             WebUtil.handleFileDownload(fileName + ".xlsx");
-            ExcelUtil.exportFromList(columnNameList, dataList, WebUtil.getHttpServletResponse().getOutputStream());
+            ExcelUtil.exportFromList(columnTitleList, dataList, WebUtil.getHttpServletResponse().getOutputStream());
             return;
         }
 

@@ -13,13 +13,16 @@ public class GeneratorParam {
     @ApiModelProperty("生成器元数据数组-必传")
     private List<GeneratorMeta> metaList;
 
-    @ApiModelProperty("样例数量-可选")
+    @ApiModelProperty(value = "样例数量-可选", example = "10")
     private int sampleSize = 10;
 
-    @ApiModelProperty("文件格式-可选")
+    @ApiModelProperty(value = "文件格式-可选", example = "excel")
     private String fileFormat = "csv";
 
-    @ApiModelProperty("表名称-可选")
+    @ApiModelProperty(value = "文件名称-可选", example = "用户表")
+    private String fileName = "样例数据";
+
+    @ApiModelProperty(value = "表名称-可选", example = "z010_user")
     private String tableName = "data";
 
 }

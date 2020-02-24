@@ -32,7 +32,7 @@ public class GeneratorService{
         List<GeneratorMeta> metaList = genList.stream().map(Generator::toGeneratorMeta).collect(toList());
         for (GeneratorMeta meta : metaList) {
             metaMap.put(meta.getName(), meta);  // chineseName
-            metaMap.put(meta.getDesc(), meta);  // 中文姓名
+            metaMap.put(meta.getColumnTitle(), meta);  // 中文姓名
         }
     }
 
@@ -107,10 +107,12 @@ public class GeneratorService{
      */
     public void downTable(GeneratorParam param) {
         List<GeneratorMeta> metaList = paramToMetaList(param);
+        List<String> columnTitleList = metaList.stream().map(GeneratorMeta::getColumnTitle).collect(toList());
         List<String> columnNameList = metaList.stream().map(GeneratorMeta::getColumnName).collect(toList());
         List<Generator> genList = metaList.stream().map(GeneratorMeta::toGenerator).collect(toList());
         List<List<String>> dataList = GeneratorUtil.getDataStringList(genList, param.getSampleSize());
-        GeneratorUtil.handleDataList(dataList, param.getFileFormat(), param.getTableName(), columnNameList);
+        GeneratorUtil.handleDataList(dataList, param.getFileFormat(), param.getFileName(), param.getTableName()
+                , columnTitleList, columnNameList);
     }
 
 

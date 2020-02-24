@@ -15,11 +15,13 @@
 
     <!-- 依赖管理 -->
     <dependencies>
+
         <dependency>
             <groupId>com.hepengju.hekele</groupId>
             <artifactId>data-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+
     </dependencies>
 
     <!-- 构建管理 -->

@@ -12,7 +12,7 @@ class PrintUtilTest {
     void printInsert() {
         String tableName = GeneratorUtil.getTableName(Person.class);
         List<String> columnNameList = GeneratorUtil.getColumnNameList(Person.class);
-        List<List<Object>> dataList = GeneratorUtil.getDataList(Person.class, 8);
+        List<List<String>> dataList = GeneratorUtil.getDataStringList(Person.class, 8);
 
         String result01 = PrintUtil.printInsert(tableName, columnNameList, dataList, false);
         String result02 = PrintUtil.printInsert(tableName, columnNameList, dataList, true);

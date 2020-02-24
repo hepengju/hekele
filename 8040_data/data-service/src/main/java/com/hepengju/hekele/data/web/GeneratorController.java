@@ -1,15 +1,22 @@
 package com.hepengju.hekele.data.web;
 
 import com.hepengju.hekele.base.core.JsonR;
-import com.hepengju.hekele.data.meta.MetaGenerator;
+import com.hepengju.hekele.data.client.DataFeignClient;
+import com.hepengju.hekele.data.meta.GeneratorMeta;
+import com.hepengju.hekele.data.param.GeneratorParam;
 import com.hepengju.hekele.data.service.GeneratorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+/**
+ * @see DataFeignClient
+ */
 @Api(tags = "生成数据")
 @RestController
 @RequestMapping("/data/")
@@ -17,41 +24,36 @@ public class GeneratorController {
 
     @Autowired private GeneratorService genService;
 
-    @ApiOperation("获取生成器列表")
-    @GetMapping("getGenList")
-    public JsonR getGenList(){ return JsonR.ok().addData(genService.getGenList());}
-
-    @ApiOperation("获取生成器分类列表")
+    @ApiOperation("获取生成器")
     @GetMapping("getGenMap")
-    public JsonR getGenMap(){ return JsonR.ok().addData(genService.getGenMap()); }
-
-    @ApiOperation("刷新所有的样例数据")
-    @PostMapping("refreshSampleData")
-    public JsonR refreshSampleData() {
-        genService.refreshSampleData();
+    public JsonR<Map<String, List<GeneratorMeta>>> getGenMap(){
         return JsonR.ok().addData(genService.getGenMap());
     }
 
-    @ApiOperation("获取定制化的样例数据")
-    @PostMapping("getSampleData")
-    public JsonR getSampleData(@Valid MetaGenerator metaGenerator, @RequestParam(defaultValue = "10") int sampleSize) {
-        return JsonR.ok().addData(genService.getSampleDataByMeta(metaGenerator, sampleSize));
+    @ApiOperation("刷新表格")
+    @PostMapping("refreshTable")
+    public JsonR<List<Map<String,String>>> refreshTable(@RequestBody GeneratorParam param) {
+        return JsonR.ok().addData(genService.refreshTable(param));
     }
 
-    @ApiOperation("获取定制化的样例数据表格")
-    @PostMapping("getSampleDataTable")
-    public JsonR getSampleDataTable(@RequestParam String metaGeneratorJsonArr, @RequestParam(defaultValue = "10") int sampleSize) {
-        return JsonR.ok().addData(genService.getSampleDataTableByMeta(metaGeneratorJsonArr, sampleSize));
+    @ApiOperation("下载表格")
+    @PostMapping("downTable")
+    public void downTable(@RequestBody GeneratorParam param) {
+        genService.downTable(param);
     }
 
-    @ApiOperation("下载定制化的样例数据表格")
-    @PostMapping("downloadSampleDataTable")
-    public void downloadSampleDataTable(@RequestParam String metaGeneratorJsonArr
-            , @RequestParam(defaultValue = "10") int sampleSize
-            , @RequestParam(defaultValue = "csv") String dataFormat
-            , @RequestParam(defaultValue = "data") String tableName
-            , @RequestParam(defaultValue = "columnNames") String columnNames) {
-        genService.downloadSampleDataTable(metaGeneratorJsonArr, sampleSize, dataFormat, tableName, columnNames);
+    // -------------------- 微信接口 --------------------
+    @ApiOperation("获取数据")
+    @GetMapping("getData")
+    public JsonR<List<String>> getData(@RequestParam String name, @RequestParam(defaultValue = "5") int sampleSize) {
+        return JsonR.ok().addData(genService.getData(name, sampleSize));
     }
+
+    @ApiOperation("获取可用生成器名称")
+    @GetMapping("getGenNameList")
+    public JsonR<Set<String>> getGenNameList() {
+        return JsonR.ok().addData(genService.getMetaMap().keySet());
+    }
+
 
 }

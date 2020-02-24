@@ -3,11 +3,11 @@ package com.hepengju.hekele.demo.web;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hepengju.hekele.base.core.JsonR;
 import com.hepengju.hekele.base.util.PrintUtil;
-import com.hepengju.hekele.data.client.DataClient;
+import com.hepengju.hekele.data.client.DataFeignClient;
 import com.hepengju.hekele.data.util.GeneratorUtil;
 import com.hepengju.hekele.demo.bo.Person;
-import com.hepengju.hekele.demo.dto.PersonDTO;
 import com.hepengju.hekele.demo.service.PersonService;
+import com.hepengju.hekele.demo.vo.PersonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -28,19 +28,19 @@ import java.util.List;
 public class PersonController {
 
     @Autowired private PersonService personService;
-    @Autowired private DataClient dataClient;
+    @Autowired private DataFeignClient dataFeignClient;
 
     //----------------------增删改查-------------------------------
     @ApiOperation("查询所有")
     @GetMapping("list")
-    public JsonR<Person> list(Long pageNum, Long pageSize, PersonDTO personDTO) {
+    public JsonR<Person> list(Long pageNum, Long pageSize, PersonVO personVO) {
         // 用户账号和名称模糊查询，生日开始和结束日期限制查询； 如果再复杂一些，请自行编写SQL语句实现
         LambdaQueryWrapper<Person> wrapper = new LambdaQueryWrapper<Person>()
-                .ge(personDTO.getBirthStart() != null, Person::getBirth, personDTO.getBirthStart())
-                .le(personDTO.getBirthEnd() != null, Person::getBirth, personDTO.getBirthEnd());
-        wrapper.and(w -> w.like(StringUtils.isNotBlank(personDTO.getUserCodeOrName()), Person::getUserCode, personDTO.getUserCodeOrName())
+                .ge(personVO.getBirthStart() != null, Person::getBirth, personVO.getBirthStart())
+                .le(personVO.getBirthEnd() != null, Person::getBirth, personVO.getBirthEnd());
+        wrapper.and(w -> w.like(StringUtils.isNotBlank(personVO.getUserCodeOrName()), Person::getUserCode, personVO.getUserCodeOrName())
                           .or()
-                          .like(StringUtils.isNotBlank(personDTO.getUserCodeOrName()), Person::getUserName, personDTO.getUserCodeOrName()));
+                          .like(StringUtils.isNotBlank(personVO.getUserCodeOrName()), Person::getUserName, personVO.getUserCodeOrName()));
         return personService.listR(pageNum, pageSize, wrapper);
     }
 
@@ -67,17 +67,16 @@ public class PersonController {
     }
 
     //------------------------------------------------------------
-    @ApiOperation("Feign远程调用DataClient的getGenList")
-    @GetMapping("getGenList")
-    public JsonR getGenList(){
-        return dataClient.getGenList();
+    @ApiOperation("Feign远程调用DataClient的getGenMap")
+    @GetMapping("getGenMap")
+    public JsonR getGenMap(){
+        return dataFeignClient.getGenMap();
     }
     //------------------------------------------------------------
     @ApiOperation("获取测试数据")
     @GetMapping("getMockData")
-    public JsonR getMockData(@RequestParam(defaultValue = "10") Integer count,
-                     @RequestParam(defaultValue = "csv") String dataFormat){
-        List<List<Object>> dataList = GeneratorUtil.getDataList(Person.class, count);
+    public JsonR getMockData(@RequestParam(defaultValue = "10") Integer count){
+        List<List<String>> dataList = GeneratorUtil.getDataStringList(Person.class, count);
         String result = PrintUtil.printCSV(dataList);
         return JsonR.ok().addData(result);
     }
@@ -85,7 +84,7 @@ public class PersonController {
     @ApiOperation("下载测试数据")
     @GetMapping("downloadMockData")
     public void downloadMockData(@RequestParam(defaultValue = "10") Integer count,
-                             @RequestParam(defaultValue = "csv") String dataFormat){
-        GeneratorUtil.downloadDataList(Person.class, count, dataFormat);
+                             @RequestParam(defaultValue = "csv") String fileFormat){
+        GeneratorUtil.downloadDataList(Person.class, count, fileFormat);
     }
 }

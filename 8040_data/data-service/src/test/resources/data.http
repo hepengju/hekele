@@ -1,29 +1,55 @@
-### 获取生成器列表
-GET {{host}}/getGenList
-
-### 获取生成器分类列表
+### 获取生成器
 GET {{host}}/getGenMap
 
-### 刷新所有的样例数据
-POST {{host}}/refreshSampleData
+### 获取数据
+GET {{host}}/getData?name=chineseName&sampleSize=3
 
-### 获取定制化的样例数据
-POST {{host}}/getSampleData
-Content-Type: application/x-www-form-urlencoded
+### 刷新表格
+POST {{host}}/refreshTable
+Content-Type: application/json
 
-className=com.hepengju.hekele.data.generator.string.CodeGenerator&code=A,B,C,D,E&sampleSize=5
-### className=com.hepengju.hekele.data.generator.number.IntegerGenerator&min=0&max=100&sampleSize=5
+{
+  "metaList": [
+    {
+      "name": "integer",
+      "min": 60,
+      "max": 100,
+      "columnKey": "ck0001"
+    },
+    {
+      "name": "code",
+      "code": "A,B,C,D,E",
+      "columnKey": "ck0002"
+    }
+  ],
+  "sampleSize": 3
+}
 
-### 获取定制化的样例数据表格
-POST {{host}}/getSampleDataTable
-Content-Type: application/x-www-form-urlencoded
 
-metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5
+### 下载表格
+POST {{host}}/downTable
+Content-Type: application/json
 
-### 下载定制化的样例数据表格
-POST {{host}}/getSampleDataTable
-Content-Type: application/x-www-form-urlencoded
+{
+  "metaList": [
+    {
+      "name": "integer",
+      "min": 60,
+      "max": 100,
+      "columnKey": "ck0001"
+    },
+    {
+      "name": "code",
+      "code": "A,B,C,D,E",
+      "columnKey": "ck0002"
+    }
+  ],
+  "sampleSize": 3,
+  "fileFormat": "tsv",
+  "tableName": "down-data-now"
+}
 
-metaGeneratorJsonArr=[{className:"com.hepengju.hekele.data.generator.number.IntegerGenerator",min:0,max:100},{className:"com.hepengju.hekele.data.generator.string.CodeGenerator",code:"A,B,C,D,E"}]&sampleSize=5&format=excel
+### 获取可用生成器名称
+GET {{host}}/getGenNameList
 
 ###

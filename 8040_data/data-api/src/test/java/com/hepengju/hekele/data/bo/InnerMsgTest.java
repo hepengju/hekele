@@ -10,7 +10,7 @@ public class InnerMsgTest {
 
     @Test void testGeneratorData(){
         String tableName = GeneratorUtil.getTableName(InnerMsg.class);
-        List<String> columnNameList = GeneratorUtil.getColumnNameList(InnerMsg.class);
+        List<String> columnNameList = GeneratorUtil.getColumnTitleList(InnerMsg.class);
         List<List<String>> dataList = GeneratorUtil.getDataStringList(InnerMsg.class, 99);
         String printInsert = PrintUtil.printInsert(tableName, columnNameList, dataList, false);
         System.out.println(printInsert);

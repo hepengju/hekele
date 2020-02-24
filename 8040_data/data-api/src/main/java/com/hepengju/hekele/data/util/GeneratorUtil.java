@@ -37,11 +37,24 @@ public class GeneratorUtil {
     /**
      * 获取列名称列表
      */
+    public static List<String> getColumnTitleList(Class<?> boCLass) {
+        return getColumnList(boCLass, true);
+    }
+
     public static List<String> getColumnNameList(Class<?> boCLass) {
+        return getColumnList(boCLass, false);
+    }
+
+    /**
+     * 获取列名称列表
+     */
+    public static List<String> getColumnList(Class<?> boCLass, boolean isTitle) {
         List<String> columnNameList = new ArrayList<>();
         Field[] fields = boCLass.getDeclaredFields();
         for (Field field : fields) {
             String columnName = StringUtil.camelToUnderline(field.getName());
+            if (!isTitle) columnNameList.add(columnName.toUpperCase());;
+
             TableField tableField = field.getAnnotation(TableField.class);
             if(tableField != null && StringUtils.isNotBlank(tableField.value())) columnName = tableField.value();
             columnNameList.add(columnName.toUpperCase());
@@ -131,6 +144,21 @@ public class GeneratorUtil {
         }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /**
+     * 下载测试数据
+     */
+    public static void downloadDataList(Class<?> clazz, int count, String fileFormat) {
+        // Excel下载时
+        //List<? extends List<? extends Object>> dataList = "excel".equals(dataFormat)
+        //        ? GeneratorUtil.getDataList(clazz, count)
+        //        : GeneratorUtil.getDataStringList(clazz, count);
+        String tableName = GeneratorUtil.getTableName(clazz);
+        handleDataList(getDataStringList(clazz, count)
+                , fileFormat
+                , tableName, tableName
+                , getColumnTitleList(clazz), getColumnNameList(clazz));
+    }
+
     /**
      * 处理下载数据
      */

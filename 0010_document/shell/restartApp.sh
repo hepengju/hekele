@@ -34,7 +34,7 @@ if [[ -n $pid ]]; then
 fi
 
 # 启动应用
-nohup java  -jar -Xms256M -Xmx512M $jarName --eureka.instance.ip-address=101.132.97.183 >> /dev/null 2>&1 &
+nohup java -jar -Xms256M -Xmx512M $jarName --eureka.instance.ip-address=101.132.97.183 >> /dev/null 2>&1 &
 echo "正在启动应用..."
 
 # jenkins启动的时候不查看日志(简单判断, 第二个参数不为空则是jenkins启动的)

@@ -67,7 +67,7 @@ public class JsonR<T> {
     // 静态"返回成功"和"返回错误"方法, 服务内部调用判断是否成功的方法 (由于微服务的内部调用, 需要json的反序列化, 所以不能私有化构造函数)
     public static JsonR ok()                { return new JsonR().setErrCode(HeConst.ErrorCode.SUCCESS).setErrMsg("")      ; }
     public static JsonR err(String message) { return new JsonR().setErrCode(HeConst.ErrorCode.UNKNOWN_ERROR).setErrMsg(message) ; }
-    public static boolean isOk(JsonR result){ return null != result && "0".equals(result.getErrCode()); }
+    public static boolean isOk(JsonR result){ return null != result && 0 == result.getErrCode(); }
 
     // 手动编写, 保持泛型; 使用添加数据后, 再使用添加枚举值代码更加合理一些
     public T        getData(){ return (T) data; }

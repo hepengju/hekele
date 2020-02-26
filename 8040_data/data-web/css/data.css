@@ -9,10 +9,10 @@ body,html{
 }
 /*  title  */
 .title{
-    /*height: 30%;*/
-    height: 263px;
+    width: 100%;
+    height: 282px;
     margin-bottom: 5px;
-    //background-color: #f7f7f7;
+    background-color: #f7f7f7;
     text-align: center;
     overflow: auto;
 }
@@ -22,39 +22,73 @@ body,html{
     clear: both;
 }
 .title_inner{
-    padding: 5px 0 5px 25%;
+    padding: 5px 0 5px 31%;
+}
+.title_config{
+    width: 31%;
+    float: left;
+    padding-top: 10px;
 }
 .title_inner:after{
     content: '';
     display: block;
     clear: both;
 }
+.ivu-col{
+    margin-right: 10px;
+}
 .title_div{
     float: left;
-    width: 15%;
-    margin-right: 5px;
+    width: 135px;
+    margin-right: 10px;
 }
 .title_div_li{
-    line-height: 24px;
-    cursor: pointer;
-    background-color: #e3e5e8;
-    margin-bottom: 5px;
-    border-radius: 10px;
- }
-.title_div_li_custom{
+    margin:0 5px 5px 0;
+    border-radius: 5px;
     float: left;
     width: 100px;
+ }
+.ivu-card-body{
+    padding: 10px 16px 16px 16px;
+}
+h4{
+    margin-bottom: 3px;
+}
+.title_btn_li{
+    list-style: none;
+    height: 37px;
+    float: left;
+}
+.title_btn_ul:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.title_div_li_custom{
+    background-color: #fff2e8;
+    /*width: 31%;*/
+}
+.title_div_li_string{
+    background-color: #e1f0fe;
+    /*width: 47%;*/
+}
+.title_div_li_date{
+    background-color: #f9f0ff;
+    /*width: 100%;*/
+}
+.title_character{
+    width: 245px;
+    /*width: 22%;*/
 }
 .title_custom{
-    width: 200px;
+    width: 350px;
+    /*width: 32%;*/
 }
-.title_config{
-    width: 20%;
-    float: left;
-    padding-top: 10px;
+.ivu-radio-group{
+    width: 90px;
 }
 .title_config_button{
-    padding-top: 10px;
+    padding-top: 15px;
 }
 .ivu-form-item{
     margin-bottom: 5px;
@@ -63,7 +97,7 @@ body,html{
     margin-right: 50%;
 }
 .title_config_input{
-    padding-right: 50%;
+    /*padding-right: 50%;*/
 }
 /*  button  */
 .button{
@@ -96,6 +130,10 @@ body,html{
 }
 .ivu-table-wrapper{
     height: calc(100% - 340px);
+}
+.ivu-table .demo-table-info-column{
+    background-color:#f0f5ff;
+    color: #000000;
 }
 
 /*  prompt  */

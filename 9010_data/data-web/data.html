@@ -7,7 +7,7 @@
     <script type="text/javascript" src="./js/vue.min.js"></script>
     <script type="text/javascript" src="./js/iview.min.js"></script>
     <script type="text/javascript" src="./js/axios.min.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript" src="./js/indexNew.js"></script>
     <link rel="stylesheet" type="text/css" href="css/data.css">
 
 </head>
@@ -20,78 +20,78 @@
                 <Row>
                     <i-col :span="10">
                         <Form-item label="最小值" prop="min">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
                                 <i-input class="title_config_input" :disabled="disabled" v-model="configForm.min" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.min}}</p>
-                                </div>
-                            </Tooltip>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.min}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                     <i-col :span="10">
                         <Form-item label="最大值" prop="max">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
                                 <i-input class="title_config_input" :disabled="disabled" v-model="configForm.max" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.max}}</p>
-                                </div>
-                            </Tooltip>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.max}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                 </Row>
                 <Row>
                     <i-col :span="10">
-                        <Form-item label="自定义列名" prop="columnName">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
-                                <i-input class="title_config_input" :disabled="disabled" v-model="configForm.columnName" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.columnName}}</p>
-                                </div>
-                            </Tooltip>
+                        <Form-item label="自定义列名" prop="columnTitle">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
+                                <i-input class="title_config_input" :disabled="disabled" v-model="configForm.columnTitle" clearable></i-input>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.columnTitle}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                     <i-col :span="10">
                         <Form-item label="Format格式" prop="format">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
                                 <i-input class="title_config_input" :disabled="disabled" v-model="configForm.format" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.format}}</p>
-                                </div>
-                            </Tooltip>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.format}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                 </Row>
                 <Row>
                     <i-col :span="10">
                         <Form-item label="prefix前缀" prop="prefix">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
                                 <i-input class="title_config_input" :disabled="disabled" v-model="configForm.prefix" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.prefix}}</p>
-                                </div>
-                            </Tooltip>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.prefix}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                     <i-col :span="10">
                         <Form-item label="suffix后缀" prop="suffix">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
                                 <i-input class="title_config_input" :disabled="disabled" v-model="configForm.suffix" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.suffix}}</p>
-                                </div>
-                            </Tooltip>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.suffix}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                 </Row>
                 <Row>
                     <i-col :span="10">
                         <Form-item label="枚举值" prop="code">
-                            <Tooltip  placement="bottom" theme="light" max-width="200">
+<!--                            <Tooltip  placement="bottom" theme="light" max-width="200">-->
                                 <i-input class="title_config_input" :disabled="disabled" v-model="configForm.code" clearable></i-input>
-                                <div slot="content" style="white-space: normal; word-break:break-all">
-                                    <p>{{configForm.code}}</p>
-                                </div>
-                            </Tooltip>
+<!--                                <div slot="content" style="white-space: normal; word-break:break-all">-->
+<!--                                    <p>{{configForm.code}}</p>-->
+<!--                                </div>-->
+<!--                            </Tooltip>-->
                         </Form-item>
                     </i-col>
                     <i-col :span="12">
@@ -110,32 +110,16 @@
             </div>
         </div>
         <div class="title_inner">
-<!--            <Card ref="title_card" class="title_div" v-for="(item , index) in dataList">-->
-<!--                <h4>{{}}</h4>-->
-<!--                <ul>-->
-<!--                    <li class="title_btn_li"  v-for="(item1 , index1) in item">-->
-<!--                        <Tooltip placement="right" theme="light" max-width="300">-->
-<!--                            <i-button class="title_div_li title_div_li_number"  @click="genClick">-->
-<!--                                {{item1.desc}}-->
-<!--                            </i-button>-->
-<!--                            <div slot="content">-->
-<!--                                <p>{{item1.sampleData}}</p>-->
-<!--                            </div>-->
-<!--                        </Tooltip>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </Card>-->
-
             <Card class="title_div title_date" :bordered="false">
                 <h4>数字日期生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.date_number">
-                        <Tooltip placement="right" theme="light" max-width="300">
+                        <Tooltip placement="left-start" theme="light" max-width="300">
                             <i-button class="title_div_li title_div_li_date"  @click="genClick">
-                                {{item.desc}}
+                                {{item.columnTitle}}
                             </i-button>
                             <div slot="content" style="white-space: normal; word-break:break-all">
-                                <p>{{item.sampleData}}</p>
+                                <p>{{item.sampleData.toString()}}</p>
                             </div>
                         </Tooltip>
                     </li>
@@ -145,12 +129,12 @@
                 <h4>字符生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.string">
-                        <Tooltip placement="right" theme="light" max-width="300">
+                        <Tooltip placement="left-start" theme="light" max-width="300">
                             <i-button class="title_div_li title_div_li_string"  @click="genClick">
-                                {{item.desc}}
+                                {{item.columnTitle}}
                             </i-button>
                             <div slot="content" style="white-space: normal; word-break:break-all">
-                                <p>{{item.sampleData}}</p>
+                                <p>{{item.sampleData.toString()}}</p>
                             </div>
                         </Tooltip>
                     </li>
@@ -160,12 +144,12 @@
                 <h4>定制生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.custom">
-                        <Tooltip placement="right" theme="light" max-width="300">
+                        <Tooltip placement="left-start" theme="light" max-width="300">
                             <i-button class="title_div_li title_div_li_custom"  @click="genClick">
-                                {{item.desc}}
+                                {{item.columnTitle}}
                             </i-button>
                             <div slot="content" style="white-space: normal; word-break:break-all">
-                                <p>{{item.sampleData}}</p>
+                                <p>{{item.sampleData.toString()}}</p>
                             </div>
                         </Tooltip>
                     </li>
@@ -193,7 +177,7 @@
         <span>请选择生成器生成所需数据...</span>
     </div>
     <div class="content" v-else>
-        <i-table :columns="columns" :data="data" size="small" ref="table" draggable @on-drag-drop="drag"></i-table>
+        <i-table :columns="columns" :data="data" size="small" ref="data_table" tooltip-theme="light" draggable @on-drag-drop="drag"></i-table>
     </div>
 </div>
 </body>

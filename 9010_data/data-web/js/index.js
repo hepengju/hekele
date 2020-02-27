@@ -131,6 +131,7 @@ window.onload = function() {
                 }
                 this.selectColumn.push(item.column);
                 this.currentIndex = item.index;
+                console.log(item);
             },
 
             // 保存配置
@@ -175,6 +176,7 @@ window.onload = function() {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
                     })
+                console.log(this.selectColumn);
             },
             // 还原配置
             restore() {

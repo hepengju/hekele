@@ -79,7 +79,7 @@
                 <h4>数字日期生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.date_number">
-                        <i-button class="title_div_li title_div_li_date"  @click="genClick">
+                        <i-button class="title_div_li title_div_li_date"  @click="genClick"  @mouseover.native="mouseFn(item)">
                             {{item.columnTitle}}
                         </i-button>
                     </li>
@@ -89,7 +89,7 @@
                 <h4>字符生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.string">
-                        <i-button class="title_div_li title_div_li_string"  @click="genClick">
+                        <i-button class="title_div_li title_div_li_string"  @click="genClick" @mouseover.native="mouseFn(item)">
                             {{item.columnTitle}}
                         </i-button>
                     </li>
@@ -99,7 +99,7 @@
                 <h4>定制生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.custom">
-                        <i-button class="title_div_li title_div_li_custom"  @click="genClick">
+                        <i-button class="title_div_li title_div_li_custom"  @click="genClick"  @mouseover.native="mouseFn(item)">
                             {{item.columnTitle}}
                         </i-button>
                     </li>
@@ -107,8 +107,10 @@
             </Card>
         </div>
         <div class="tooltip">
-            <span>样例数据</span>
-<!--            <span v-text="dataTooltip"></span>-->
+            <h4>样例数据</h4>
+            <div class="demo_tooltip">
+                <p v-text="dataTooltip"></p>
+            </div>
         </div>
     </div>
     <div class="button">

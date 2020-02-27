@@ -101,6 +101,10 @@ window.onload = function() {
                 }
             },
 
+            mouseFn(item){
+                this.dataTooltip = item.sampleData;
+            },
+
             refresh() {
                 this.getCurrentColumns(this.columns);
                 console.log(this.columns);

@@ -27,7 +27,7 @@ body,html{
     /*padding: 5px 0 5px 31%;*/
 }
 .title_config{
-    width: 31%;
+    width: 30%;
     float: left;
     padding-top: 10px;
 }
@@ -104,6 +104,10 @@ h4{
 .tooltip{
     float: left;
     width: 240px;
+    height: 95%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*background-color: #ccc0be33;*/
 }
 
 

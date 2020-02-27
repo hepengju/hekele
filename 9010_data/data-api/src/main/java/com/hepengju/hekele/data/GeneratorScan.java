@@ -30,7 +30,6 @@ public class GeneratorScan {
 
         // 2. 转换为List进行排序
         List<BeanDefinition> genBeanList = genBeanSet.stream().collect(Collectors.toList());
-        AnnotationAwareOrderComparator.sort(genBeanList);
 
         int count = 0;
         try {
@@ -45,6 +44,8 @@ public class GeneratorScan {
         }
 
         log.info("auto find generator count: {}", count);
+
+        AnnotationAwareOrderComparator.sort(genList);
         return genList;
     }
 }

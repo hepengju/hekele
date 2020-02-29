@@ -101,14 +101,20 @@ h4{
 .tooltip{
     float: left;
     width: 240px;
-    height: 95%;
+    height: 97%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    /*background-color: #ccc0be33;*/
+    /*text-overflow: ellipsis;*/
 }
-
+.tooltip_ul{
+    width: 95%;
+}
+.tooltip_li{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+}
 .ivu-table-small td{
-    height: 34px;
+    height: 33px;
 }
 
 
@@ -130,7 +136,7 @@ h4{
     float: right;
 }
 .download_span{
-    margin-right: 5px;
+    margin: 0 5px;
 }
 
 

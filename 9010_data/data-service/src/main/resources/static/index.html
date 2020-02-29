@@ -21,50 +21,50 @@
                 <Row>
                     <i-col :span="10">
                         <Form-item label="最小值" prop="min">
-                            <i-input class="title_config_input" v-model="configForm.min" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.min" clearable :disabled="configForm.min == null"></i-input>
                         </Form-item>
                     </i-col>
                     <i-col :span="10">
                         <Form-item label="最大值" prop="max">
-                            <i-input class="title_config_input" v-model="configForm.max" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.max" clearable :disabled="configForm.max == null"></i-input>
                         </Form-item>
                     </i-col>
                 </Row>
                 <Row>
                     <i-col :span="10">
                         <Form-item label="自定义列名" prop="columnTitle">
-                            <i-input class="title_config_input" v-model="configForm.columnTitle" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.columnTitle" clearable :disabled="configForm.columnTitle == null"></i-input>
                         </Form-item>
                     </i-col>
                     <i-col :span="10">
                         <Form-item label="格式" prop="format">
-                            <i-input class="title_config_input" v-model="configForm.format" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.format" clearable :disabled="configForm.format == null"></i-input>
                         </Form-item>
                     </i-col>
                 </Row>
                 <Row>
                     <i-col :span="10">
                         <Form-item label="前缀" prop="prefix">
-                            <i-input class="title_config_input" v-model="configForm.prefix" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.prefix" clearable :disabled="configForm.prefix == null"></i-input>
                         </Form-item>
                     </i-col>
                     <i-col :span="10">
                         <Form-item label="后缀" prop="suffix">
-                            <i-input class="title_config_input" v-model="configForm.suffix" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.suffix" clearable :disabled="configForm.suffix == null"></i-input>
                         </Form-item>
                     </i-col>
                 </Row>
                 <Row>
                     <i-col :span="10">
                         <Form-item label="枚举值" prop="code">
-                            <i-input class="title_config_input" v-model="configForm.code" clearable></i-input>
+                            <i-input class="title_config_input" v-model="configForm.code" clearable :disabled="configForm.code == null"></i-input>
                         </Form-item>
                     </i-col>
                     <i-col :span="12">
                         <Form-item label="枚举值多选" prop="codeMulti">
                             <Radio-group v-model="configForm.codeMulti" >
-                                <Radio label="Y">是</Radio>
-                                <Radio label="N">否</Radio>
+                                <Radio label="Y" :disabled="configForm.codeMulti == null">是</Radio>
+                                <Radio label="N" :disabled="configForm.codeMulti == null">否</Radio>
                             </Radio-group>
                         </Form-item>
                     </i-col>
@@ -77,7 +77,7 @@
         </div>
         <div class="title_inner">
             <Card class="title_div title_date" :bordered="false">
-                <h4>数字日期生成器</h4>
+                <h4>日期数字生成器</h4>
                 <ul class="title_btn_ul">
                     <li class="title_btn_li" v-for="(item , index) in dataList.date_number">
                         <i-button class="title_div_li title_div_li_date"  @click="genClick"  @mouseover.native="mouseFn(item)">
@@ -110,7 +110,9 @@
         <div class="tooltip">
             <h4>样例数据</h4>
             <div class="demo_tooltip">
-                <p v-text="dataTooltip"></p>
+                <ul class="tooltip_ul">
+                    <li class="tooltip_li" v-for="(item,index) in dataTooltip">{{item.toString()}}</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -127,7 +129,11 @@
         </Dropdown>
         <section class="download_input">
             <span class="download_span">下载行数</span>
-            <i-input v-model="downloadNumber" style="width: 100px"></i-input>
+            <input-Number v-model="downloadNumber" style="width: 100px" :max="10000" :min="1"></input-Number>
+            <span class="download_span">文件名称</span>
+            <i-input v-model="fileName" style="width: 100px"></i-input>
+            <span class="download_span">表名称</span>
+            <i-input v-model="tableName" style="width: 100px"></i-input>
         </section>
     </div>
     <div class="prompt" v-if="showTable">

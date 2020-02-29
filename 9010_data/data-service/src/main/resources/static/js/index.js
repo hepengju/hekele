@@ -36,7 +36,10 @@ window.onload = function() {
 
         // 出现错误的处理
         if (response.headers['content-type'] == 'application/json' && response.data.errCode != 0) {
+            console.log(this)
+
             alert(response.data.errMsg)
+
         }
 
         return response
@@ -64,24 +67,24 @@ window.onload = function() {
                     'excel'
                 ],
                 configForm:{
-                    columnTitle:null,
-                    min: null,
-                    max: null,
-                    code: null,
-                    format: null,
+                    columnTitle:'',
+                    min: '',
+                    max: '',
+                    code: '',
+                    format: '',
                     codeMulti: 'Y',
-                    prefix:null,
-                    suffix:null,
+                    prefix:'',
+                    suffix:'',
                 },
                 downloadNumber:1000,
+                fileName:'用户表',   // 文件名
+                tableName:'z010_user',  //表名
                 columns: [],
                 data: [],
                 dataTmp:[],
                 dataList:[],
-                isDelete:false,
                 selectColumn:[], //选中的列
                 metaList: [],  //  json数组
-                // repeatName: '', // 重复的name
                 currentIndex:'', //当前的下标
                 count:1 , //   key+count 列的唯一键
             }
@@ -101,12 +104,15 @@ window.onload = function() {
                 }
             },
 
+            show() {
+                console.log(12345);
+            },
             mouseFn(item){
-                this.dataTooltip = item.sampleData;
+                this.dataTooltip = item.sampleData
             },
 
             refresh() {
-                this.getCurrentColumns(this.columns);
+                this.getCurrentColumns(this.columns, 'refresh');
                 console.log(this.columns);
                 let params = {'metaList': this.metaList};
                 params = JSON.stringify(params);
@@ -124,6 +130,8 @@ window.onload = function() {
 
             // 显示配置
             showConfig(item) {
+                console.log(this)
+                this.selectColumn = [];
                 this.$set(item.column,['className'],'demo-table-info-column');
                 for (let key in this.configForm){
                     this.configForm[key] = item.column[key];
@@ -131,11 +139,13 @@ window.onload = function() {
                 }
                 this.selectColumn.push(item.column);
                 this.currentIndex = item.index;
+                console.log(this.configForm);
                 console.log(item);
             },
 
             // 保存配置
             save() {
+                console.log(this.selectColumn);
                 if (this.columns.length == 0) {
                     this.$Message.warning({
                         content:'暂无生成器可保存，请选择所需生成器！'
@@ -177,6 +187,7 @@ window.onload = function() {
                         }
                     })
                 console.log(this.selectColumn);
+                this.$set(this.selectColumn[0],['className'],'demo-table-info-column');
             },
             // 还原配置
             restore() {
@@ -200,32 +211,28 @@ window.onload = function() {
                                 return h('div',[
                                     h('span',{
                                         style:{
-                                            cursor:'pointer'
+                                            cursor:'pointer',
                                         },
                                         on: {
                                             click: ()=>{
                                                 this.showConfig(params)
                                             },
-                                            mouseover:()=>{
-                                                this.isDelete = true
-                                            },
                                         }
                                     }, params.column.title),
-                                    this.isDelete == true?
-                                        (h('icon',{
-                                            props: {
-                                                type: 'ios-close',
-                                                size: '18',
+                                    h('icon',{
+                                        props: {
+                                            type: 'ios-close',
+                                            size: '18',
+                                        },
+                                        style:{
+                                            cursor:'pointer'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.deleteCol(params)
                                             },
-                                            style:{
-                                                cursor:'pointer'
-                                            },
-                                            on: {
-                                                click: () => {
-                                                    this.deleteCol(params)
-                                                },
-                                            }
-                                        })) : ''
+                                        }
+                                    })
                                 ])
                             },
                             min: item.min,
@@ -243,12 +250,12 @@ window.onload = function() {
                         });
                     }
                 });
+
             },
 
             // 删除列
             deleteCol(params) {
                 this.columns.splice(params.index,1);
-                this.isDelete = false;
                 this.count = 0;
                 if (this.columns.length == 0){
                     this.showTable = true
@@ -271,7 +278,6 @@ window.onload = function() {
                         this.showTable = true;
                     },
                     onCancel: ()=>{
-                        this.isDelete = false;
                     }
                 });
             },
@@ -310,46 +316,62 @@ window.onload = function() {
             },
 
             // 获取当前表格列信息
-            getCurrentColumns(val) {
-                // for (let i = 0; i <val.length-1; i++) {
-                //     if (val[i].key == val[i+1].key) {
-                //         console.log(val[i].key);
-                //     }
-                // }
-                // return
-                this.count++;
-                this.metaList = [];
-                console.log(val);
-                val.forEach(item => {
-                    item.key = item.key + this.count;
-                    this.metaList.push({
-                        name: item.name,
-                        min: item.min,
-                        max: item.max,
-                        code: item.code,
-                        codeMulti: item.codeMulti,
-                        format:item.format,
-                        prefix:item.prefix,
-                        suffix:item.suffix,
-                        columnKey: item.key,
-                        columnName:item.name,
-                        columnTitle:item.title,
-                        type:item.type,
+            getCurrentColumns(val, event) {
+                if (event == 'downLoad') {
+                    this.metaList = [];
+                    val.forEach(item => {
+                        this.metaList.push({
+                            name: item.name,
+                            min: item.min,
+                            max: item.max,
+                            code: item.code,
+                            codeMulti: item.codeMulti,
+                            format:item.format,
+                            prefix:item.prefix,
+                            suffix:item.suffix,
+                            columnKey: item.key,
+                            columnName:item.name,
+                            columnTitle:item.title,
+                            type:item.type,
+                        });
                     });
-                });
+                } else {
+                    this.count++;
+                    this.metaList = [];
+                    val.forEach(item => {
+                        item.key = item.key + this.count;
+                        this.metaList.push({
+                            name: item.name,
+                            min: item.min,
+                            max: item.max,
+                            code: item.code,
+                            codeMulti: item.codeMulti,
+                            format:item.format,
+                            prefix:item.prefix,
+                            suffix:item.suffix,
+                            columnKey: item.key,
+                            columnName:item.name,
+                            columnTitle:item.title,
+                            type:item.type,
+                        });
+                    });
+                }
             },
 
             // 下载表格
             downloadFile(val) {
-                this.getCurrentColumns(this.columns);
+                this.getCurrentColumns(this.columns, 'downLoad');
                 let params = {'fileFormat':val,
                     'sampleSize':this.downloadNumber,
                     'metaList':this.metaList,
-                    'tableName':'z010_user',
-                    'fileName': '用户表'};
+                    'tableName':this.tableName,
+                    'fileName': this.fileName};
                 params = JSON.stringify(params);
                 axios.post('downTable',params, {
                     responseType: 'blob'
+                }).then((res)=>{
+                    console.log(this.columns);
+                    console.log(this.data);
                 })
             },
 

@@ -1,7 +1,6 @@
 window.onload = function() {
     // 配置项目地址及响应拦截器
-    //axios.defaults.baseURL = 'http://ali.hepengju.com:8040/data/';
-    axios.defaults.baseURL = '/data/';
+    axios.defaults.baseURL = 'http://ali.hepengju.com:9010/data/';
     axios.defaults.headers.post['Content-Type'] = 'application/json';
 
     axios.interceptors.response.use(function(response) {

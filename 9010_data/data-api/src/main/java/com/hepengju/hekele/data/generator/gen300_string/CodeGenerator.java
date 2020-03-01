@@ -13,13 +13,13 @@ import java.util.List;
 @ApiModel("枚举值生成器") @Data @Order(302)
 public class CodeGenerator extends AbstractStringGenerator {
 
-	private String codeMulti = "N";
+	private boolean codeMulti;
 	private String code = "H,M,L";
 	private List<String> codeList;
 
 	@Override
 	public String generate() {
-		return "Y".equals(codeMulti) ? RandomUtil.randomNumComma(codeList, 0, codeList.size()) : RandomUtil.randomOne(codeList);
+		return codeMulti ? RandomUtil.randomNumComma(codeList, 0, codeList.size()) : RandomUtil.randomOne(codeList);
 	}
 
 	public void setCode(String code) {
@@ -35,7 +35,7 @@ public class CodeGenerator extends AbstractStringGenerator {
 		this.setCode(code);
 	}
 
-	public CodeGenerator(String code, String codeMulti) {
+	public CodeGenerator(String code, boolean codeMulti) {
 		this.setCode(code);
 		this.codeMulti = codeMulti;
 	}

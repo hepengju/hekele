@@ -56,7 +56,7 @@ public class GeneratorMeta {
     private String  code;
 
     @ApiModelProperty(value = "代码多选", example = "N")      // 20200210 代码值, 可以选择是否多选 (Y/N)  Boolean类型的前后端传输容易错误
-    private String  codeMulti;
+    private boolean codeMulti;
 
     @ApiModelProperty(value = "格式", example = "yyyyMMdd")  // 20200222 格式化日期和数字
     private String  format;

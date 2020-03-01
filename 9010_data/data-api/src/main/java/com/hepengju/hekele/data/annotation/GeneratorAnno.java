@@ -24,7 +24,7 @@ public @interface GeneratorAnno {
     String max()        default ""; // 最大值 (或最大长度)
     String code()       default ""; // 代码值: 逗号分隔
 
-    String codeMulti()  default "N"; // 20200210 代码值, 可以选择是否多选
+    boolean codeMulti() default false; // 20200210 代码值, 可以选择是否多选
     String format()     default "" ; // 20200222 格式化(针对日期和数字的格式化)
     String prefix()     default "" ; // 20200222 前缀
     String suffix()     default "" ; // 20200222 后缀

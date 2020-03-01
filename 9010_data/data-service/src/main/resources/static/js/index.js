@@ -152,7 +152,7 @@ window.onload = function() {
 
             refresh() {
                 this.getCurrentColumns(this.columns, 'refresh');
-                console.log(this.columns);
+                console.log(this.metaList);
                 let params = {'metaList': this.metaList};
                 params = JSON.stringify(params);
                 axios.post('refreshTable',params).then(res=>{
@@ -170,7 +170,6 @@ window.onload = function() {
             // 显示配置
             showConfig(item) {
                 this.currentColumn = item.column;
-                console.log(this.currentColumn);
                 this.selectColumn = [];
                 this.$set(item.column,['className'],'demo-table-info-column');
                 for (let key in this.configForm){
@@ -179,13 +178,10 @@ window.onload = function() {
                 }
                 this.selectColumn.push(item.column);
                 this.currentIndex = item.index;
-                console.log(this.configForm);
-                console.log(item);
             },
 
             // 保存配置
             save() {
-                console.log(this.selectColumn);
                 if (this.columns.length == 0) {
                     this.$Message.warning({
                         content:'暂无生成器可保存，请选择所需生成器！'
@@ -201,6 +197,8 @@ window.onload = function() {
                 this.count++;
                 this.columns[this.currentIndex].title = this.configForm.columnTitle;
                 this.columns[this.currentIndex].key =  this.columns[this.currentIndex].key + this.count;
+                let nameStr = this.columns[this.currentIndex].key.match(/[\u4e00-\u9fa5]{2,}/g).toString(); //用正则把文字匹配出来
+                this.columns[this.currentIndex].key = nameStr  + this.count;
                 this.selectColumn = [];
                 this.selectColumn.push(this.columns[this.currentIndex]);
                 let otherObj = {
@@ -375,7 +373,7 @@ window.onload = function() {
                     this.count++;
                     this.metaList = [];
                     val.forEach(item => {
-                        item.key = item.key + this.count;
+                        item.key = item.key.match(/[\u4e00-\u9fa5]{2,}/g).toString() + this.count;
                         this.metaList.push({
                             name: item.name,
                             min: item.min,

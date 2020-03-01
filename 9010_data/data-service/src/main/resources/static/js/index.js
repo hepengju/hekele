@@ -104,9 +104,43 @@ window.onload = function() {
                 }
             },
 
-            show() {
-                console.log(12345);
+            //蒙层指引
+            guide(){
+                introJs().refresh();
+                introJs().setOptions({
+                    prevLabel:"上一步",
+                    nextLabel:"下一步",
+                    skipLabel:"跳过",
+                    doneLabel:"结束",
+                    exitOnOverlayClick: false,// 是否允许点击空白处退出，默认true：允许
+                    showStepNumbers: true,// 是否显示说明的数据步骤  默认true:显示
+                    //对应的数组，顺序出现每一步引导提示
+                    steps: [
+                        {
+                            //第一步引导
+                            //这个属性类似于jquery的选择器， 可以通过jquery选择器的方式来选择你需要选中的对象进行指引
+                            element: '#title_inner',
+                            //这里是每个引导框具体的文字内容，中间可以编写HTML代码
+                            intro: '选择所需生成器',
+                            //这里可以规定引导框相对于选中对象出现的位置 top,bottom,left,right
+                            position: 'bottom',
+                        },
+                        {
+                            //第二步引导
+                            element: '#title_config',
+                            intro: '点击生成器表头可进行详细配置',
+                            position: 'bottom'
+                        },
+                        {
+                            //第二步引导
+                            element: '#download',
+                            intro: '设置下载行数、文件名、表名后，可进行下载',
+                            position: 'bottom'
+                        }
+                    ]
+                }).start()
             },
+
             mouseFn(item){
                 this.dataTooltip = item.sampleData
             },
@@ -391,7 +425,12 @@ window.onload = function() {
         },
         mounted: function () {
             this.makeData();
-            this.getData()
+            this.getData();
+            this.guide()
+
+        },
+        created(){
+
         }
     })
 };

@@ -120,6 +120,9 @@ h4{
 
 
 /*  button  */
+#download{
+    float: right;
+}
 .button{
     margin-bottom: 5px;
     height: 33px;

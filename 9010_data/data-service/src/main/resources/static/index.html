@@ -7,15 +7,16 @@
     <script type="text/javascript" src="./js/vue.min.js"></script>
     <script type="text/javascript" src="./js/iview.min.js"></script>
     <script type="text/javascript" src="./js/axios.min.js"></script>
-<!--    <script type="text/javascript" src="./js/intro.js"></script>-->
     <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript" src="./js/intro.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/introjs.min.css"  >
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
 </head>
 <body>
 <div id="app">
     <div class="title">
-        <div class="title_config">
+        <div id="title_config" class="title_config">
             <h4>详细配置区</h4>
             <i-form ref="configForm" :model="configForm" :label-width="100">
                 <Row>
@@ -75,7 +76,7 @@
                 <i-button type="dashed" @click="save">保存</i-button>
             </div>
         </div>
-        <div class="title_inner">
+        <div id="title_inner" class="title_inner">
             <Card class="title_div title_date" :bordered="false">
                 <h4>日期数字生成器</h4>
                 <ul class="title_btn_ul">
@@ -107,7 +108,7 @@
                 </ul>
             </Card>
         </div>
-        <div class="tooltip">
+        <div id="tooltip" class="tooltip">
             <h4>样例数据</h4>
             <div class="demo_tooltip">
                 <ul class="tooltip_ul">
@@ -118,23 +119,25 @@
     </div>
     <div class="button">
         <i-button class="button_item" v-for="(item, index) in btnList" :type="item.type" @click="btnClick">{{item.label}}</i-button>
-        <Dropdown @on-click="downloadFile">
-            <i-button type="success">
-                下载
-                <Icon type="ios-arrow-down"></Icon>
-            </i-button>
-            <DropdownMenu slot="list">
-                <Dropdown-item v-for="(item,index) in downloadMode" :name="item">{{item}}</Dropdown-item>
-            </DropdownMenu>
-        </Dropdown>
-        <section class="download_input">
-            <span class="download_span">下载行数</span>
-            <input-Number v-model="downloadNumber" style="width: 100px" :max="10000" :min="1"></input-Number>
-            <span class="download_span">文件名称</span>
-            <i-input v-model="fileName" style="width: 100px"></i-input>
-            <span class="download_span">表名称</span>
-            <i-input v-model="tableName" style="width: 100px"></i-input>
-        </section>
+        <div id="download">
+            <Dropdown @on-click="downloadFile">
+                <i-button type="success">
+                    下载
+                    <Icon type="ios-arrow-down"></Icon>
+                </i-button>
+                <DropdownMenu slot="list">
+                    <Dropdown-item v-for="(item,index) in downloadMode" :name="item">{{item}}</Dropdown-item>
+                </DropdownMenu>
+            </Dropdown>
+            <section class="download_input">
+                <span class="download_span">下载行数</span>
+                <input-Number v-model="downloadNumber" style="width: 100px" :max="10000" :min="1"></input-Number>
+                <span class="download_span">文件名称</span>
+                <i-input v-model="fileName" style="width: 100px"></i-input>
+                <span class="download_span">表名称</span>
+                <i-input v-model="tableName" style="width: 100px"></i-input>
+            </section>
+        </div>
     </div>
     <div class="prompt" v-if="showTable">
         <span>请选择生成器生成所需数据...</span>
@@ -142,10 +145,6 @@
     <div class="content" v-else>
         <i-table :columns="columns" :data="data" size="small" ref="data_table" tooltip-theme="light"></i-table>
     </div>
-<!--    <div><input class="btn" type="button" value="开始"></div>-->
-<!--    <div data-step="2" data-intro="第二步，你好！">你好，这是第二步。</div>-->
-<!--    <div data-step="1" data-intro="第一步，欢迎！">欢迎，这是第一步。</div>-->
-<!--    <div data-step="3" data-intro="第三步，很好！">很好，这是第三步。</div>-->
 </div>
 </body>
 </html>

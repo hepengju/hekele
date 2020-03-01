@@ -76,7 +76,7 @@ window.onload = function() {
                     max: '',
                     code: '',
                     format: '',
-                    codeMulti: 'Y',
+                    codeMulti: '',
                     prefix:'',
                     suffix:'',
                 },
@@ -88,6 +88,7 @@ window.onload = function() {
                 dataTmp:[],
                 dataList:[],
                 selectColumn:[], //选中的列
+                currentColumn:{}, // 当前列
                 metaList: [],  //  json数组
                 currentIndex:'', //当前的下标
                 count:1 , //   key+count 列的唯一键
@@ -144,13 +145,14 @@ window.onload = function() {
                 }).start()
             },
 
+            // 样例数据展示
             mouseFn(item){
                 this.dataTooltip = item.sampleData
             },
 
             refresh() {
                 this.getCurrentColumns(this.columns, 'refresh');
-                console.log(this.columns);
+                console.log(this.metaList);
                 let params = {'metaList': this.metaList};
                 params = JSON.stringify(params);
                 axios.post('refreshTable',params).then(res=>{
@@ -167,7 +169,7 @@ window.onload = function() {
 
             // 显示配置
             showConfig(item) {
-                console.log(this)
+                this.currentColumn = item.column;
                 this.selectColumn = [];
                 this.$set(item.column,['className'],'demo-table-info-column');
                 for (let key in this.configForm){
@@ -176,13 +178,10 @@ window.onload = function() {
                 }
                 this.selectColumn.push(item.column);
                 this.currentIndex = item.index;
-                console.log(this.configForm);
-                console.log(item);
             },
 
             // 保存配置
             save() {
-                console.log(this.selectColumn);
                 if (this.columns.length == 0) {
                     this.$Message.warning({
                         content:'暂无生成器可保存，请选择所需生成器！'
@@ -195,14 +194,11 @@ window.onload = function() {
                     });
                     return
                 }
-                for (let item in this.configForm){
-                    if (this.configForm[item] == null) {
-                        this.configForm[item] = ''
-                    }
-                }
                 this.count++;
                 this.columns[this.currentIndex].title = this.configForm.columnTitle;
                 this.columns[this.currentIndex].key =  this.columns[this.currentIndex].key + this.count;
+                let nameStr = this.columns[this.currentIndex].key.match(/[\u4e00-\u9fa5]{2,}/g).toString(); //用正则把文字匹配出来
+                this.columns[this.currentIndex].key = nameStr  + this.count;
                 this.selectColumn = [];
                 this.selectColumn.push(this.columns[this.currentIndex]);
                 let otherObj = {
@@ -222,16 +218,17 @@ window.onload = function() {
                         for (let i = 0; i < newData.length ; i++) {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
-                    })
-                console.log(this.selectColumn);
+                    });
                 this.$set(this.selectColumn[0],['className'],'demo-table-info-column');
             },
+
             // 还原配置
             restore() {
                 for (let item in this.configForm){
-                    this.configForm[item] = this.selectColumn[0][item]
+                    this.configForm[item] = this.currentColumn[item]
                 }
-                this.configForm.columnTitle = this.selectColumn[0].title
+                this.configForm.columnTitle = this.currentColumn.title;
+                this.columns[this.currentIndex].title = this.currentColumn.title
             },
 
             // 点击各个生成器生成样例数据
@@ -376,7 +373,7 @@ window.onload = function() {
                     this.count++;
                     this.metaList = [];
                     val.forEach(item => {
-                        item.key = item.key + this.count;
+                        item.key = item.key.match(/[\u4e00-\u9fa5]{2,}/g).toString() + this.count;
                         this.metaList.push({
                             name: item.name,
                             min: item.min,
@@ -397,6 +394,12 @@ window.onload = function() {
 
             // 下载表格
             downloadFile(val) {
+                if (this.columns.length == 0) {
+                    this.$Message.warning({
+                        content:'暂无数据可下载，请先选择所需生成器生成数据！'
+                    });
+                    return
+                }
                 this.getCurrentColumns(this.columns, 'downLoad');
                 let params = {'fileFormat':val,
                     'sampleSize':this.downloadNumber,
@@ -419,7 +422,6 @@ window.onload = function() {
                         this.dataList = res.data.data;
                         console.log(this.dataList);
                         this.packageData();
-                        this.guide();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -427,7 +429,7 @@ window.onload = function() {
             },
 
             showModal(val){
-                this.$Modal.confirm({
+                this.$Modal.warning({
                     title: `系统提示`,
                     content: val,
                 });
@@ -436,7 +438,7 @@ window.onload = function() {
         mounted: function () {
             this.makeData();
             this.getData();
-            window.showModal = this.showModal
+            window.showModal = this.showModal  //把VUE实例的方法赋给window
         },
     })
 };

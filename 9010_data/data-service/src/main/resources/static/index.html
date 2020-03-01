@@ -16,66 +16,6 @@
 <body>
 <div id="app">
     <div class="title">
-        <div id="title_config" class="title_config">
-            <h4>详细配置区</h4>
-            <i-form ref="configForm" :model="configForm" :label-width="100">
-                <Row>
-                    <i-col :span="10">
-                        <Form-item label="最小值" prop="min">
-                            <i-input class="title_config_input" v-model="configForm.min" clearable :disabled="configForm.min == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                    <i-col :span="10">
-                        <Form-item label="最大值" prop="max">
-                            <i-input class="title_config_input" v-model="configForm.max" clearable :disabled="configForm.max == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                </Row>
-                <Row>
-                    <i-col :span="10">
-                        <Form-item label="自定义列名" prop="columnTitle">
-                            <i-input class="title_config_input" v-model="configForm.columnTitle" clearable :disabled="configForm.columnTitle == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                    <i-col :span="10">
-                        <Form-item label="格式" prop="format">
-                            <i-input class="title_config_input" v-model="configForm.format" clearable :disabled="configForm.format == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                </Row>
-                <Row>
-                    <i-col :span="10">
-                        <Form-item label="前缀" prop="prefix">
-                            <i-input class="title_config_input" v-model="configForm.prefix" clearable :disabled="configForm.prefix == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                    <i-col :span="10">
-                        <Form-item label="后缀" prop="suffix">
-                            <i-input class="title_config_input" v-model="configForm.suffix" clearable :disabled="configForm.suffix == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                </Row>
-                <Row>
-                    <i-col :span="10">
-                        <Form-item label="枚举值" prop="code">
-                            <i-input class="title_config_input" v-model="configForm.code" clearable :disabled="configForm.code == null"></i-input>
-                        </Form-item>
-                    </i-col>
-                    <i-col :span="12">
-                        <Form-item label="枚举值多选" prop="codeMulti">
-                            <Radio-group v-model="configForm.codeMulti" >
-                                <Radio label="Y" :disabled="configForm.codeMulti == null">是</Radio>
-                                <Radio label="N" :disabled="configForm.codeMulti == null">否</Radio>
-                            </Radio-group>
-                        </Form-item>
-                    </i-col>
-                </Row>
-            </i-form>
-            <div class="title_config_button">
-                <i-button type="dashed" @click="restore" >还原</i-button>
-                <i-button type="dashed" @click="save">保存</i-button>
-            </div>
-        </div>
         <div id="title_inner" class="title_inner">
             <Card class="title_div title_date" :bordered="false">
                 <h4>日期数字生成器</h4>
@@ -116,9 +56,69 @@
                 </ul>
             </div>
         </div>
+        <div id="title_config" class="title_config">
+            <h4>详细配置区</h4>
+            <i-form ref="configForm" :model="configForm" :label-width="85">
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="最小值" prop="min">
+                            <i-input class="title_config_input" v-model="configForm.min" clearable :disabled="configForm.min == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="10">
+                        <Form-item label="最大值" prop="max">
+                            <i-input class="title_config_input" v-model="configForm.max" clearable :disabled="configForm.max == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="指定标题" prop="columnTitle">
+                            <i-input class="title_config_input" v-model="configForm.columnTitle" clearable :disabled="configForm.columnTitle == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="10">
+                        <Form-item label="格式" prop="format">
+                            <i-input class="title_config_input" v-model="configForm.format" clearable :disabled="configForm.format == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="前缀" prop="prefix">
+                            <i-input class="title_config_input" v-model="configForm.prefix" clearable :disabled="configForm.prefix == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="10">
+                        <Form-item label="后缀" prop="suffix">
+                            <i-input class="title_config_input" v-model="configForm.suffix" clearable :disabled="configForm.suffix == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="枚举值" prop="code">
+                            <i-input class="title_config_input" v-model="configForm.code" clearable :disabled="configForm.code == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="12">
+                        <Form-item label="枚举值多选" prop="codeMulti">
+                            <Checkbox v-model="configForm.codeMulti" :disabled="configForm.codeMulti == null">多选</Checkbox>
+                        </Form-item>
+                    </i-col>
+                </Row>
+            </i-form>
+            <div class="title_config_button">
+                <i-button type="dashed" @click="restore" >还原</i-button>
+                <i-button type="dashed" @click="save">保存</i-button>
+            </div>
+        </div>
     </div>
     <div class="button">
         <i-button class="button_item" v-for="(item, index) in btnList" :type="item.type" @click="btnClick">{{item.label}}</i-button>
+        <Tooltip content="操作步骤提示" placement="top" theme="light">
+            <i-button  icon="md-help" @click="guide"></i-button>
+        </Tooltip>
         <div id="download">
             <Dropdown @on-click="downloadFile">
                 <i-button type="success">

@@ -87,8 +87,9 @@ h4{
     width: 350px;
     /*width: 32%;*/
 }
-.ivu-radio-group{
-    width: 90px;
+
+.ivu-checkbox-wrapper{
+    margin-right: 59px;
 }
 .title_config_button{
     padding-top: 15px;
@@ -96,9 +97,7 @@ h4{
 .ivu-form-item{
     margin-bottom: 5px;
 }
-.ivu-radio-group{
-    margin-right: 50%;
-}
+
 
 .tooltip{
     float: left;

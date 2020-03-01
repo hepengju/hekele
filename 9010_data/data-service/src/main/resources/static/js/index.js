@@ -76,7 +76,7 @@ window.onload = function() {
                     max: '',
                     code: '',
                     format: '',
-                    codeMulti: 'Y',
+                    codeMulti: '',
                     prefix:'',
                     suffix:'',
                 },
@@ -88,6 +88,7 @@ window.onload = function() {
                 dataTmp:[],
                 dataList:[],
                 selectColumn:[], //选中的列
+                currentColumn:{}, // 当前列
                 metaList: [],  //  json数组
                 currentIndex:'', //当前的下标
                 count:1 , //   key+count 列的唯一键
@@ -144,6 +145,7 @@ window.onload = function() {
                 }).start()
             },
 
+            // 样例数据展示
             mouseFn(item){
                 this.dataTooltip = item.sampleData
             },
@@ -167,7 +169,8 @@ window.onload = function() {
 
             // 显示配置
             showConfig(item) {
-                console.log(this)
+                this.currentColumn = item.column;
+                console.log(this.currentColumn);
                 this.selectColumn = [];
                 this.$set(item.column,['className'],'demo-table-info-column');
                 for (let key in this.configForm){
@@ -195,11 +198,6 @@ window.onload = function() {
                     });
                     return
                 }
-                for (let item in this.configForm){
-                    if (this.configForm[item] == null) {
-                        this.configForm[item] = ''
-                    }
-                }
                 this.count++;
                 this.columns[this.currentIndex].title = this.configForm.columnTitle;
                 this.columns[this.currentIndex].key =  this.columns[this.currentIndex].key + this.count;
@@ -223,16 +221,16 @@ window.onload = function() {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
                     });
-                console.log(this.selectColumn);
                 this.$set(this.selectColumn[0],['className'],'demo-table-info-column');
             },
 
             // 还原配置
             restore() {
                 for (let item in this.configForm){
-                    this.configForm[item] = this.selectColumn[0][item]
+                    this.configForm[item] = this.currentColumn[item]
                 }
-                this.configForm.columnTitle = this.selectColumn[0].title
+                this.configForm.columnTitle = this.currentColumn.title;
+                this.columns[this.currentIndex].title = this.currentColumn.title
             },
 
             // 点击各个生成器生成样例数据
@@ -442,7 +440,7 @@ window.onload = function() {
         mounted: function () {
             this.makeData();
             this.getData();
-            window.showModal = this.showModal
+            window.showModal = this.showModal  //把VUE实例的方法赋给window
         },
     })
 };

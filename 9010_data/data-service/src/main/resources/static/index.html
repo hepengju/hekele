@@ -73,7 +73,7 @@
                 </Row>
                 <Row>
                     <i-col :span="10">
-                        <Form-item label="制定标题" prop="columnTitle">
+                        <Form-item label="指定标题" prop="columnTitle">
                             <i-input class="title_config_input" v-model="configForm.columnTitle" clearable :disabled="configForm.columnTitle == null"></i-input>
                         </Form-item>
                     </i-col>
@@ -103,10 +103,7 @@
                     </i-col>
                     <i-col :span="12">
                         <Form-item label="枚举值多选" prop="codeMulti">
-                            <Radio-group v-model="configForm.codeMulti" >
-                                <Radio label="Y" :disabled="configForm.codeMulti == null">是</Radio>
-                                <Radio label="N" :disabled="configForm.codeMulti == null">否</Radio>
-                            </Radio-group>
+                            <Checkbox v-model="configForm.codeMulti" :disabled="configForm.codeMulti == null">多选</Checkbox>
                         </Form-item>
                     </i-col>
                 </Row>

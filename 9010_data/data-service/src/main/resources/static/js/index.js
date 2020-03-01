@@ -1,3 +1,4 @@
+// import test from './alert'
 window.onload = function() {
     // 配置项目地址及响应拦截器
     axios.defaults.baseURL = 'http://ali.hepengju.com:9010/data/';
@@ -29,7 +30,8 @@ window.onload = function() {
                 fr.readAsText(errBlob);
                 fr.onload = function() {
                     let jsonR = JSON.parse(this.result);
-                    alert(jsonR.errMsg)
+                    showModal(jsonR.errMsg)
+                    // alert(jsonR.errMsg)
                 }
             }
         }
@@ -37,16 +39,18 @@ window.onload = function() {
         // 出现错误的处理
         if (response.headers['content-type'] == 'application/json' && response.data.errCode != 0) {
             console.log(this)
-
-            alert(response.data.errMsg)
+            showModal(response.data.errMsg);
+            // alert(response.data.errMsg)
 
         }
 
         return response
     }, function(error) {
-        alert("服务器连接失败");
+        showModal("服务器连接失败！")
+        // alert("服务器连接失败");
         return Promise.reject(error);
     });
+
 
     // VUE对象
     new Vue({
@@ -106,7 +110,6 @@ window.onload = function() {
 
             //蒙层指引
             guide(){
-                introJs().refresh();
                 introJs().setOptions({
                     prevLabel:"上一步",
                     nextLabel:"下一步",
@@ -416,21 +419,24 @@ window.onload = function() {
                         this.dataList = res.data.data;
                         console.log(this.dataList);
                         this.packageData();
-
+                        this.guide();
                     })
                     .catch(function (error) {
                         console.log(error);
                     })
+            },
+
+            showModal(val){
+                this.$Modal.confirm({
+                    title: `系统提示`,
+                    content: val,
+                });
             }
         },
         mounted: function () {
             this.makeData();
             this.getData();
-            this.guide()
-
+            window.showModal = this.showModal
         },
-        created(){
-
-        }
     })
 };

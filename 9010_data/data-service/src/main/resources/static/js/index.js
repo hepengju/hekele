@@ -43,7 +43,6 @@ window.onload = function() {
             // alert(response.data.errMsg)
 
         }
-
         return response
     }, function(error) {
         showModal("服务器连接失败！")
@@ -76,7 +75,7 @@ window.onload = function() {
                     max: '',
                     code: '',
                     format: '',
-                    codeMulti: '',
+                    codeMulti: false,
                     prefix:'',
                     suffix:'',
                 },
@@ -151,6 +150,7 @@ window.onload = function() {
             },
 
             refresh() {
+                console.log(this.columns);
                 this.getCurrentColumns(this.columns, 'refresh');
                 console.log(this.metaList);
                 let params = {'metaList': this.metaList};
@@ -163,7 +163,7 @@ window.onload = function() {
                             this.$set(this.data[j],newKey,newData[j][newKey])
                         }
                     }
-                    console.log(this.data);
+                    // console.log(this.data);
                 })
             },
 
@@ -195,6 +195,9 @@ window.onload = function() {
                     return
                 }
                 this.count++;
+                for (let key in this.configForm){
+                    this.columns[this.currentIndex][key] =this.configForm[key] ;
+                }
                 this.columns[this.currentIndex].title = this.configForm.columnTitle;
                 this.columns[this.currentIndex].key =  this.columns[this.currentIndex].key + this.count;
                 let nameStr = this.columns[this.currentIndex].key.match(/[\u4e00-\u9fa5]{2,}/g).toString(); //用正则把文字匹配出来
@@ -219,6 +222,7 @@ window.onload = function() {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
                     });
+                console.log(this.columns);
                 this.$set(this.selectColumn[0],['className'],'demo-table-info-column');
             },
 

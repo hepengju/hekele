@@ -62,10 +62,10 @@ public class GeneratorMeta {
     private String  format;
 
     @ApiModelProperty(value = "前缀", example = "ORDER-")    // 20200222 前缀
-    private String  prefix;
+    private String  prefix = "";
 
     @ApiModelProperty(value = "后缀", example = "S00")       // 20200222 后缀
-    private String  suffix;
+    private String  suffix = "";
     //-----------------------------------------------------------
 
     public Generator toGenerator(){

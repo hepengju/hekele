@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public abstract class AbstractGenerator<T> implements Generator<T> {
 
-    private String prefix; // 前缀
-    private String suffix; // 后缀
+    private String prefix = ""; // 前缀
+    private String suffix = ""; // 后缀
 
 }

@@ -222,10 +222,11 @@ window.onload = function() {
                         for (let i = 0; i < newData.length ; i++) {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
-                    })
+                    });
                 console.log(this.selectColumn);
                 this.$set(this.selectColumn[0],['className'],'demo-table-info-column');
             },
+
             // 还原配置
             restore() {
                 for (let item in this.configForm){
@@ -397,6 +398,12 @@ window.onload = function() {
 
             // 下载表格
             downloadFile(val) {
+                if (this.columns.length == 0) {
+                    this.$Message.warning({
+                        content:'暂无数据可下载，请先选择所需生成器生成数据！'
+                    });
+                    return
+                }
                 this.getCurrentColumns(this.columns, 'downLoad');
                 let params = {'fileFormat':val,
                     'sampleSize':this.downloadNumber,
@@ -419,7 +426,6 @@ window.onload = function() {
                         this.dataList = res.data.data;
                         console.log(this.dataList);
                         this.packageData();
-                        this.guide();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -427,7 +433,7 @@ window.onload = function() {
             },
 
             showModal(val){
-                this.$Modal.confirm({
+                this.$Modal.warning({
                     title: `系统提示`,
                     content: val,
                 });

@@ -24,9 +24,11 @@ body,html{
 }
 .title_inner{
     float: left;
+    width: 53%;
+    margin: 0 1%;
 }
 .title_config{
-    width: 30%;
+    width: 27%;
     float: left;
     padding-top: 10px;
 }
@@ -100,13 +102,13 @@ h4{
 
 .tooltip{
     float: left;
-    width: 240px;
+    width: 17%;
     height: 97%;
     overflow: hidden;
-    /*text-overflow: ellipsis;*/
 }
 .tooltip_ul{
     width: 95%;
+    text-align: left;
 }
 .tooltip_li{
     text-overflow: ellipsis;

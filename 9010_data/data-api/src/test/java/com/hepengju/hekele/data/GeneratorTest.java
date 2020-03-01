@@ -1,5 +1,6 @@
 package com.hepengju.hekele.data;
 
+import com.hepengju.hekele.data.constant.DataConst;
 import com.hepengju.hekele.data.generator.Generator;
 import com.hepengju.hekele.data.generator.gen100_date.DateGenerator;
 import com.hepengju.hekele.data.generator.gen100_date.DateTimeGenerator;
@@ -23,10 +24,11 @@ import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaAddr
 import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaCityGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaProvinceGenerator;
 import com.hepengju.hekele.data.meta.GeneratorMeta;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -111,6 +113,16 @@ public class GeneratorTest {
         testGenerator(new TelephoneGenerator());
     }
 
+    // 20200301 hepengju 生成的电话号码有负值, 原因是: 常量表中有不对的值 --> 修正完毕
+    @Test
+    public void testTelephone(){
+        Set<Integer> lengthSet = new HashSet<>();
+        for (String phone : DataConst.telePhoneArea) {
+            lengthSet.add(phone.length());
+        }
+        System.out.println(lengthSet);
+    }
+
     @Test
     public void testGen440_computer(){
         testGenerator(new EmailGenerator());
@@ -132,20 +144,20 @@ public class GeneratorTest {
 
     private void testGenerator(Generator gen) {
         System.err.println(gen.getClass());
-        System.out.println(gen.generate());
-        System.out.println(gen.generateString());
-        System.out.println();
-        System.out.println(gen.generateList(COUNT));
+//        System.out.println(gen.generate());
+//        System.out.println(gen.generateString());
+//        System.out.println();
+//        System.out.println(gen.generateList(COUNT));
         System.out.println(gen.generateStringList(COUNT));
 
 
-        GeneratorMeta generatorMeta = gen.toGeneratorMeta();
-        System.out.println(generatorMeta);
-        Generator newGen = generatorMeta.toGenerator();
-        System.out.println(newGen);
-        System.out.println();
-
-        System.err.println(StringUtils.repeat("*", 100));
+//        GeneratorMeta generatorMeta = gen.toGeneratorMeta();
+//        System.out.println(generatorMeta);
+//        Generator newGen = generatorMeta.toGenerator();
+//        System.out.println(newGen);
+//        System.out.println();
+//
+//        System.err.println(StringUtils.repeat("*", 100));
     }
 
     private void printList(List<? extends Object> objList) {

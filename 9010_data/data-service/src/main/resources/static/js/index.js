@@ -87,7 +87,7 @@ window.onload = function() {
                 dataTmp:[],
                 dataList:[],
                 selectColumn:[], //选中的列
-                currentColumn:{}, // 当前列
+                currentColumn:[], // 当前列
                 metaList: [],  //  json数组
                 currentIndex:'', //当前的下标
                 count:1 , //   key+count 列的唯一键
@@ -169,7 +169,8 @@ window.onload = function() {
 
             // 显示配置
             showConfig(item) {
-                this.currentColumn = item.column;
+                this.currentColumn = [];
+                this.currentColumn.push(item.column);
                 this.selectColumn = [];
                 this.$set(item.column,['className'],'demo-table-info-column');
                 for (let key in this.configForm){
@@ -199,16 +200,21 @@ window.onload = function() {
                     this.columns[this.currentIndex][key] =this.configForm[key] ;
                 }
                 this.columns[this.currentIndex].title = this.configForm.columnTitle;
-                this.columns[this.currentIndex].key =  this.columns[this.currentIndex].key + this.count;
+                // this.columns[this.currentIndex].key =  this.columns[this.currentIndex].key + this.count;
                 let nameStr = this.columns[this.currentIndex].key.match(/[\u4e00-\u9fa5]{2,}/g).toString(); //用正则把文字匹配出来
                 this.columns[this.currentIndex].key = nameStr  + this.count;
                 this.selectColumn = [];
                 this.selectColumn.push(this.columns[this.currentIndex]);
+                this.singleRestore(this.selectColumn[0])
+            },
+
+            // 刷新单列
+            singleRestore(val) {
                 let otherObj = {
-                    columnKey: this.selectColumn[0].key,
-                    columnName:this.selectColumn[0].name,
-                    name: this.selectColumn[0].name,
-                    type: this.selectColumn[0].type,
+                    columnKey: val.key,
+                    columnName:val.name,
+                    name: val.name,
+                    type: val.type,
                 };
                 let metaObj = Object.assign({},otherObj,this.configForm);
                 this.metaList.push(metaObj);
@@ -217,7 +223,7 @@ window.onload = function() {
                     .then(res => {
                         this.metaList = [];
                         let newData = res.data.data;
-                        let newkey =  this.selectColumn[0].key;
+                        let newkey =  val.key;
                         for (let i = 0; i < newData.length ; i++) {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
@@ -229,10 +235,13 @@ window.onload = function() {
             // 还原配置
             restore() {
                 for (let item in this.configForm){
-                    this.configForm[item] = this.currentColumn[item]
+                    this.configForm[item] = this.currentColumn[0][item]
                 }
-                this.configForm.columnTitle = this.currentColumn.title;
-                this.columns[this.currentIndex].title = this.currentColumn.title
+                this.configForm.columnTitle = this.currentColumn[0].title;
+                this.columns[this.currentIndex].title = this.currentColumn[0].title;
+                this.columns[this.currentIndex].key =  this.currentColumn[0].key ;
+                console.log(this.currentColumn);
+                this.singleRestore(this.currentColumn[0])
             },
 
             // 点击各个生成器生成样例数据

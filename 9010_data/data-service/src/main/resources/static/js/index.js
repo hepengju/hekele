@@ -234,6 +234,18 @@ window.onload = function() {
 
             // 还原配置
             restore() {
+                if (this.columns.length == 0) {
+                    this.$Message.warning({
+                        content:'暂无生成器可还原，请选择所需生成器！'
+                    });
+                    return
+                }
+                if (this.selectColumn.length == 0) {
+                    this.$Message.warning({
+                        content:'请选择需要还原的生成器！'
+                    });
+                    return
+                }
                 for (let item in this.configForm){
                     this.configForm[item] = this.currentColumn[0][item]
                 }

@@ -87,8 +87,10 @@ public class SpringMonitorTest {
         for (InstanceMonitor monitor : nonNullImList) {
             System.err.println(rightPad(monitor.getName(), 30)
                     + rightPad(monitor.getInstanceId(), 50)
+                    + leftPad(monitor.getThreadsLive().toString(),3)
+                    + " # "
                     + "" + (monitor.getJvmUsed() + " / " + monitor.getJvmSize())
-                    + " # " + leftPad(monitor.getThreadsLive().toString(),3));
+            );
         }
     }
 

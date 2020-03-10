@@ -18,8 +18,8 @@ public class BOUtil {
 
     public static <T> String getApiModelPropertyValue(Class<T> clazz, String fieldName) {
         try {
-            Field filed = clazz.getDeclaredField(fieldName);
-            ApiModelProperty apiModelProperty = filed.getAnnotation(ApiModelProperty.class);
+            Field field = clazz.getDeclaredField(fieldName);
+            ApiModelProperty apiModelProperty = field.getAnnotation(ApiModelProperty.class);
             return apiModelProperty.value();
         } catch (Exception e) {
             return "";

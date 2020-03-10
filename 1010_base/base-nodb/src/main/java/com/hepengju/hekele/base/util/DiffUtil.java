@@ -15,8 +15,7 @@ import java.util.List;
  *
  * <pre>
  *     1. 仅比较简单属性, 即String, Integer, Date等, 参见: org.springframework.beans.BeanUtils#isSimpleValueType(java.lang.Class)
- *     2. 仅比较
- *     3. 字段的中文描述, 采用Swagger的@ApiModelProperty
+ *     2. 字段的中文描述, 采用Swagger的@ApiModelProperty
  * </pre>
  *
  * @author hepengju
@@ -34,9 +33,9 @@ public class DiffUtil {
     static class DiffInfo {
         private String name;       // 字段名称
         private String desc;       // 字段描述
-        private String type;       // 差异类型: add, update, delete
-        private String oldValue;   // 旧的类型
-        private String newValue;   // 新的类型
+        private String type;       // 差异类型: A-新增, U-修改, D-删除
+        private String oldValue;   // 旧值
+        private String newValue;   // 新值
     }
 
     @ApiModel("字段信息")

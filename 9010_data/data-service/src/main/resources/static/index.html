@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>造数小程序</title>
+    <link rel="stylesheet" type="text/css" href="./css/iview.css">
+    <script type="text/javascript" src="./js/vue.min.js"></script>
+    <script type="text/javascript" src="./js/iview.min.js"></script>
+    <script type="text/javascript" src="./js/axios.min.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
+    <script type="text/javascript" src="./js/intro.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/introjs.min.css"  >
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+</head>
+<body>
+<div id="app">
+    <div class="title">
+        <div id="title_inner" class="title_inner">
+            <Card class="title_div title_date" :bordered="false">
+                <h4>日期数字生成器</h4>
+                <ul class="title_btn_ul">
+                    <li class="title_btn_li" v-for="(item , index) in dataList.date_number">
+                        <i-button class="title_div_li title_div_li_date"  @click="genClick"  @mouseover.native="mouseFn(item)">
+                            {{item.columnTitle}}
+                        </i-button>
+                    </li>
+                </ul>
+            </Card>
+            <Card class="title_div title_character" :bordered="false">
+                <h4>字符生成器</h4>
+                <ul class="title_btn_ul">
+                    <li class="title_btn_li" v-for="(item , index) in dataList.string">
+                        <i-button class="title_div_li title_div_li_string"  @click="genClick" @mouseover.native="mouseFn(item)">
+                            {{item.columnTitle}}
+                        </i-button>
+                    </li>
+                </ul>
+            </Card>
+            <Card class="title_div title_custom" :bordered="false">
+                <h4>定制生成器</h4>
+                <ul class="title_btn_ul">
+                    <li class="title_btn_li" v-for="(item , index) in dataList.custom">
+                        <i-button class="title_div_li title_div_li_custom"  @click="genClick"  @mouseover.native="mouseFn(item)">
+                            {{item.columnTitle}}
+                        </i-button>
+                    </li>
+                </ul>
+            </Card>
+        </div>
+        <div id="tooltip" class="tooltip">
+            <h4>样例数据</h4>
+            <div class="demo_tooltip">
+                <ul class="tooltip_ul">
+                    <li class="tooltip_li" v-for="(item,index) in dataTooltip">{{item.toString()}}</li>
+                </ul>
+            </div>
+        </div>
+        <div id="title_config" class="title_config">
+            <h4>详细配置区</h4>
+            <i-form ref="configForm" :model="configForm" :label-width="85">
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="最小值" prop="min">
+                            <i-input class="title_config_input" v-model="configForm.min" clearable :disabled="configForm.min == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="10">
+                        <Form-item label="最大值" prop="max">
+                            <i-input class="title_config_input" v-model="configForm.max" clearable :disabled="configForm.max == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="指定标题" prop="columnTitle">
+                            <i-input class="title_config_input" v-model="configForm.columnTitle" clearable :disabled="configForm.columnTitle == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="10">
+                        <Form-item label="格式" prop="format">
+                            <i-input class="title_config_input" v-model="configForm.format" clearable :disabled="configForm.format == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="前缀" prop="prefix">
+                            <i-input class="title_config_input" v-model="configForm.prefix" clearable :disabled="configForm.prefix == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="10">
+                        <Form-item label="后缀" prop="suffix">
+                            <i-input class="title_config_input" v-model="configForm.suffix" clearable :disabled="configForm.suffix == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                </Row>
+                <Row>
+                    <i-col :span="10">
+                        <Form-item label="枚举值" prop="code">
+                            <i-input class="title_config_input" v-model="configForm.code" clearable :disabled="configForm.code == null"></i-input>
+                        </Form-item>
+                    </i-col>
+                    <i-col :span="12">
+                        <Form-item label="枚举值多选" prop="codeMulti">
+                            <Checkbox v-model="configForm.codeMulti" :disabled="configForm.code == null">多选</Checkbox>
+                        </Form-item>
+                    </i-col>
+                </Row>
+            </i-form>
+            <div class="title_config_button">
+                <i-button type="dashed" @click="restore" >还原</i-button>
+                <i-button type="dashed" @click="save">保存</i-button>
+            </div>
+        </div>
+    </div>
+    <div class="button">
+        <i-button class="button_item" v-for="(item, index) in btnList" :type="item.type" @click="btnClick">{{item.label}}</i-button>
+        <Tooltip content="操作步骤提示" placement="top" theme="light">
+            <i-button  icon="md-help" @click="guide"></i-button>
+        </Tooltip>
+        <div id="download">
+            <Dropdown @on-click="downloadFile">
+                <i-button type="success">
+                    下载
+                    <Icon type="ios-arrow-down"></Icon>
+                </i-button>
+                <DropdownMenu slot="list">
+                    <Dropdown-item v-for="(item,index) in downloadMode" :name="item">{{item}}</Dropdown-item>
+                </DropdownMenu>
+            </Dropdown>
+            <section class="download_input">
+                <span class="download_span">下载行数</span>
+                <input-Number v-model="downloadNumber" style="width: 100px" :max="10000" :min="1"></input-Number>
+                <span class="download_span">文件名称</span>
+                <i-input v-model="fileName" style="width: 100px"></i-input>
+                <span class="download_span">表名称</span>
+                <i-input v-model="tableName" style="width: 100px"></i-input>
+            </section>
+        </div>
+    </div>
+    <div class="prompt" v-if="showTable">
+        <span>请选择生成器生成所需数据...</span>
+    </div>
+    <div class="content" v-else>
+        <i-table :columns="columns" :data="data" size="small" ref="data_table" tooltip-theme="light"></i-table>
+    </div>
+</div>
+</body>
+</html>

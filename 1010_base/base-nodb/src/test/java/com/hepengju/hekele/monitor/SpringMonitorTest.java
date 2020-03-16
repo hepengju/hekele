@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.apache.commons.lang3.StringUtils.rightPad;
 
 public class SpringMonitorTest {
@@ -84,7 +85,12 @@ public class SpringMonitorTest {
 
         // 按照合理的格式输出
         for (InstanceMonitor monitor : nonNullImList) {
-            System.err.println(rightPad(monitor.getName(), 30) + rightPad(monitor.getInstanceId(), 50) + (monitor.getJvmUsed() + " / " + monitor.getJvmSize()));
+            System.err.println(rightPad(monitor.getName(), 30)
+                    + rightPad(monitor.getInstanceId(), 50)
+                    + leftPad(monitor.getThreadsLive().toString(),3)
+                    + " # "
+                    + "" + (monitor.getJvmUsed() + " / " + monitor.getJvmSize())
+            );
         }
     }
 
@@ -125,8 +131,13 @@ public class SpringMonitorTest {
             ResponseEntity<String> entity2 = restTemplate.getForEntity("http://" + im.getInstanceId() + "/actuator/metrics/jvm.memory.committed", String.class);
             Long jvmSize = JSON.parseObject(entity2.getBody()).getJSONArray("measurements").getJSONObject(0).getLong("value");
 
+            ResponseEntity<String> entity3 = restTemplate.getForEntity("http://" + im.getInstanceId() + "/actuator/metrics/jvm.threads.live", String.class);
+            Integer threadsLive = JSON.parseObject(entity3.getBody()).getJSONArray("measurements").getJSONObject(0).getInteger("value");
+
             im.setJvmUsed(getFormatSize(jvmUsed));
             im.setJvmSize(getFormatSize(jvmSize));
+            im.setThreadsLive(threadsLive);
+
         } catch (Exception e) {
             System.err.println(im.instanceId + " 获取JVM内存失败, 原因是: " + e.getMessage());
         }
@@ -179,5 +190,8 @@ public class SpringMonitorTest {
         private String instanceId;
         private String jvmUsed;
         private String jvmSize;
+
+        // 20200309 追加活动线程数
+        private Integer threadsLive;
     }
 }

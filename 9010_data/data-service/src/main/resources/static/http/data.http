@@ -1,0 +1,56 @@
+### 获取生成器
+GET {{host}}/getGenMap
+
+### 获取数据
+GET {{host}}/getData?name=chineseName&sampleSize=3
+
+### 刷新表格
+POST {{host}}/refreshTable
+Content-Type: application/json
+
+{
+  "metaList": [
+    {
+      "name": "integer",
+      "min": 60,
+      "max": 100,
+      "columnKey": "ck0001"
+    },
+    {
+      "name": "code",
+      "code": "A,B,C,D,E",
+      "codeMulti": true,
+      "columnKey": "ck0002"
+    }
+  ],
+  "sampleSize": 3
+}
+
+
+### 下载表格
+POST {{host}}/downTable
+Content-Type: application/json
+
+{
+  "metaList": [
+    {
+      "name": "integer",
+      "min": 60,
+      "max": 100,
+      "columnKey": "ck0001"
+    },
+    {
+      "name": "code",
+      "code": "A,B,C,D,E",
+      "columnKey": "ck0002"
+    }
+  ],
+  "sampleSize": 3,
+  "fileFormat": "tsv",
+  "tableName": "down-data-now"
+}
+
+### 获取可用生成器名称
+GET {{host}}/getGenNameList
+
+###

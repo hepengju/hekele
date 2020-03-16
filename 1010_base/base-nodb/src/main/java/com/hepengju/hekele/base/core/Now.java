@@ -1,5 +1,6 @@
 package com.hepengju.hekele.base.core;
 
+import com.alibaba.fastjson.JSON;
 import com.hepengju.hekele.base.util.DateUtil;
 import lombok.Data;
 
@@ -12,8 +13,11 @@ import java.util.Date;
  */
 public class Now {
 
-    private static User user() {
-        User user = new User();
+    public static String NOW_USER_FEIGN = "NOW-USER-FEIGN";
+    public static String NOW_USER_ZUUL  = "NOW-USER-ZUUL";
+
+    public static NowUser user() {
+        NowUser user = new NowUser();
         user.setUserCode("admin");
         user.setUserName("管理员");
         return user;
@@ -30,9 +34,13 @@ public class Now {
     public static String yyyyMMdd() { return DateUtil.yyyyMMdd();}
 
     @Data
-    public static class User{
+    public static class NowUser{
         private String userId;
         private String userCode;
         private String userName;
+
+        public String toString(){
+            return JSON.toJSONString(this);
+        }
     }
 }

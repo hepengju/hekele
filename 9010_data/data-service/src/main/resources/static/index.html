@@ -125,7 +125,7 @@
                     下载<span v-if = "disabled">({{this.number}})</span>
                     <Icon type="ios-arrow-down"></Icon>
                 </i-button>
-                <DropdownMenu slot="list">
+                <DropdownMenu slot="list" v-if="!disabled">
                     <Dropdown-item v-for="(item,index) in downloadMode" :name="item">{{item}}</Dropdown-item>
                 </DropdownMenu>
             </Dropdown>

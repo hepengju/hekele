@@ -38,7 +38,6 @@ window.onload = function() {
 
         // 出现错误的处理
         if (response.headers['content-type'] == 'application/json' && response.data.errCode != 0) {
-            console.log(this)
             showModal(response.data.errMsg);
             // alert(response.data.errMsg)
 
@@ -91,6 +90,8 @@ window.onload = function() {
                 metaList: [],  //  json数组
                 currentIndex:'', //当前的下标
                 count:1 , //   key+count 列的唯一键
+                number:10, //下载倒计时
+                disabled:false,
             }
         },
         methods: {
@@ -150,9 +151,7 @@ window.onload = function() {
             },
 
             refresh() {
-                console.log(this.columns);
                 this.getCurrentColumns(this.columns, 'refresh');
-                console.log(this.metaList);
                 let params = {'metaList': this.metaList};
                 params = JSON.stringify(params);
                 axios.post('refreshTable',params).then(res=>{
@@ -163,7 +162,6 @@ window.onload = function() {
                             this.$set(this.data[j],newKey,newData[j][newKey])
                         }
                     }
-                    // console.log(this.data);
                 })
             },
 
@@ -228,7 +226,6 @@ window.onload = function() {
                             this.$set(this.data[i],newkey,newData[i][newkey])
                         }
                     });
-                console.log(this.columns);
                 this.$set(this.selectColumn[0],['className'],'demo-table-info-column');
             },
 
@@ -252,7 +249,6 @@ window.onload = function() {
                 this.configForm.columnTitle = this.currentColumn[0].title;
                 this.columns[this.currentIndex].title = this.currentColumn[0].title;
                 this.columns[this.currentIndex].key =  this.currentColumn[0].key ;
-                console.log(this.currentColumn);
                 this.singleRestore(this.currentColumn[0])
             },
 
@@ -371,7 +367,6 @@ window.onload = function() {
                     }
                 }
                 this.data = JSON.parse(JSON.stringify(this.dataTmp));
-                console.log(this.data);
             },
 
             // 获取当前表格列信息
@@ -419,12 +414,14 @@ window.onload = function() {
 
             // 下载表格
             downloadFile(val) {
+                this.number = 10;
                 if (this.columns.length == 0) {
                     this.$Message.warning({
                         content:'暂无数据可下载，请先选择所需生成器生成数据！'
                     });
                     return
                 }
+                this.disabled = true;
                 this.getCurrentColumns(this.columns, 'downLoad');
                 let params = {'fileFormat':val,
                     'sampleSize':this.downloadNumber,
@@ -435,9 +432,14 @@ window.onload = function() {
                 axios.post('downTable',params, {
                     responseType: 'blob'
                 }).then((res)=>{
-                    console.log(this.columns);
-                    console.log(this.data);
                 })
+                let interval = setInterval( () => {
+                   this.number--;
+                   if (this.number == 0) {
+                       this.disabled = false;
+                       clearInterval(interval)
+                   }
+                },1000)
             },
 
             //获取所有数据
@@ -445,7 +447,6 @@ window.onload = function() {
                 axios.get('getGenMap')
                     .then(res => {
                         this.dataList = res.data.data;
-                        console.log(this.dataList);
                         this.packageData();
                     })
                     .catch(function (error) {

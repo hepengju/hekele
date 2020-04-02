@@ -121,8 +121,8 @@
         </Tooltip>
         <div id="download">
             <Dropdown @on-click="downloadFile">
-                <i-button type="success">
-                    下载
+                <i-button type="success" :disabled = "disabled">
+                    下载<span v-if = "disabled">({{this.number}})</span>
                     <Icon type="ios-arrow-down"></Icon>
                 </i-button>
                 <DropdownMenu slot="list">

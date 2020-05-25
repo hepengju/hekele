@@ -18,7 +18,7 @@ import java.util.*;
  *      百度百科: 为避免与数字的1、0、9混淆，英文字母“I”、“O”、“Q”不使用，第10位生产型年不使用“I”、“O”、“Q”、“U”、“Z”、“0”。
  * </pre>
  */
-@Data @ApiModel("车架号生成器") @Order(452)
+@Data @ApiModel("车架号") @Order(452)
 public class CarFrameNumberGenerator extends AbstractStringGenerator {
 
     // 映射 和 加权

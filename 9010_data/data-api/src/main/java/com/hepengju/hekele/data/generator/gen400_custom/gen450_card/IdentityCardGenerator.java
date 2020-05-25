@@ -30,8 +30,8 @@ import java.util.Date;
  *      （2）计算模 Y = mod(S, 11)
  *      （3）通过模得到对应的校验码 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8 7 6 5 4 3 2
  */
-@Data @ApiModel("身份证号生成器") @Order(451)
-public class IdCardGenerator extends AbstractStringGenerator {
+@Data @ApiModel("身份证号") @Order(451)
+public class IdentityCardGenerator extends AbstractStringGenerator {
 
 	private String min = "1900-01-01";
 	private String max = "2100-12-31";
@@ -66,7 +66,7 @@ public class IdCardGenerator extends AbstractStringGenerator {
 		return strVerifyCode;
 	}
 
-	public IdCardGenerator() {
+	public IdentityCardGenerator() {
 		this.setMin(this.min);
 		this.setMax(this.max);
 	}

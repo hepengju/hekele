@@ -1,13 +1,12 @@
 package com.hepengju.hekele.data.generator.gen400_custom.gen450_card;
 
+import com.hepengju.hekele.base.util.RandomUtil;
 import com.hepengju.hekele.data.generator.AbstractStringGenerator;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.annotation.Order;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 车架号生成器
@@ -15,22 +14,37 @@ import java.util.Map;
  * <pre>
  *     参考: 于克磊提供的python脚本的生成器
  *      8位随机 + 校验位 + 8位随机
+ *
+ *      百度百科: 为避免与数字的1、0、9混淆，英文字母“I”、“O”、“Q”不使用，第10位生产型年不使用“I”、“O”、“Q”、“U”、“Z”、“0”。
  * </pre>
  */
 @Data @ApiModel("车架号生成器") @Order(452)
 public class CarFrameNumberGenerator extends AbstractStringGenerator {
 
     // 映射 和 加权
-    public static Map<String, Integer> carFrameNumIntMap = new HashMap<>();
-    public static int[] carFrameWeight = {8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2};
+    private static Map<String, Integer> carFrameNumIntMap = new HashMap<>();
+    private static int[] carFrameWeight = {8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2};
+
+    private static List<String> noUseList01 = Arrays.asList("I", "O", "Q"); // carFrameNumIntMap中直接去掉了
+    private static List<String> noUseList02 = Arrays.asList("I", "O", "Q", "U", "Z", "0");
 
     @Override
     public String generate() {
-        String carFrameNumber = RandomStringUtils.randomAlphanumeric(17).toUpperCase();
+        // String carFrameNumber = RandomStringUtils.randomAlphanumeric(17).toUpperCase();
+        Set<String> keySet = carFrameNumIntMap.keySet();
+        String carFrameNumber = RandomUtil.randomNum(keySet.toArray(new String[keySet.size()]), 17);
+        keySet.removeAll(noUseList02);
+
+        // 去掉不使用的
+        char[] chars = carFrameNumber.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (noUseList02.contains(String.valueOf(chars[i]))) {
+                chars[i] = RandomUtil.randomNum(keySet.toArray(new String[keySet.size()]), 1).toCharArray()[0];
+            }
+        }
 
         // 计算校验位
         int weightTotal = 0;
-        char[] chars = carFrameNumber.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             int intMatch = carFrameNumIntMap.get(String.valueOf(chars[i]));
             int intWeight = carFrameWeight[i];
@@ -48,6 +62,7 @@ public class CarFrameNumberGenerator extends AbstractStringGenerator {
     }
 
     static {
+
         carFrameNumIntMap.put("A", 1);
         carFrameNumIntMap.put("B", 2);
         carFrameNumIntMap.put("C", 3);
@@ -56,15 +71,15 @@ public class CarFrameNumberGenerator extends AbstractStringGenerator {
         carFrameNumIntMap.put("F", 6);
         carFrameNumIntMap.put("G", 7);
         carFrameNumIntMap.put("H", 8);
-        carFrameNumIntMap.put("I", 0);
+        //carFrameNumIntMap.put("I", 0);
         carFrameNumIntMap.put("J", 1);
         carFrameNumIntMap.put("K", 2);
         carFrameNumIntMap.put("L", 3);
         carFrameNumIntMap.put("M", 4);
         carFrameNumIntMap.put("N", 5);
-        carFrameNumIntMap.put("O", 0);
+        //carFrameNumIntMap.put("O", 0);
         carFrameNumIntMap.put("P", 7);
-        carFrameNumIntMap.put("Q", 8);
+        //carFrameNumIntMap.put("Q", 0);
         carFrameNumIntMap.put("R", 9);
         carFrameNumIntMap.put("S", 2);
         carFrameNumIntMap.put("T", 3);

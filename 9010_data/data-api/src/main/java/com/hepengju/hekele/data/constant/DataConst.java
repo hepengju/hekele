@@ -1,5 +1,8 @@
 package com.hepengju.hekele.data.constant;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 常量
  * 
@@ -59,4 +62,5 @@ public class DataConst {
 
 	//特殊字符: ~`!@#$%^&*()_-+=\|]}[{'";:?/<>,.
 	public static String[] sepecialChar = {"~","`","!","@","#","$","%","^","&","*","(",")","_","-","+","=","\\","|","]","}","[","{","'","\"",";",":","?","/","<",">",",","."};
+
 }

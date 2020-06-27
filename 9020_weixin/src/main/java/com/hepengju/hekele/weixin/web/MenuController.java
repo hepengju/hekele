@@ -29,7 +29,7 @@ public class MenuController {
         WxMenuButton btn1 = clickMenu("基本", "gen01");
         btn1.getSubButtons().add(clickMenu("姓名","chineseName"));
         btn1.getSubButtons().add(clickMenu("手机号","mobile"));
-        btn1.getSubButtons().add(clickMenu("身份证号","idCard"));
+        btn1.getSubButtons().add(clickMenu("身份证号","identityCard"));
         btn1.getSubButtons().add(clickMenu("公司名称","companyName"));
         btn1.getSubButtons().add(clickMenu("地址","chinaAddress"));
 

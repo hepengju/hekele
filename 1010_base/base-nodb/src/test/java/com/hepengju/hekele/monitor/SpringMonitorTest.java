@@ -52,7 +52,7 @@ public class SpringMonitorTest {
     @Test
     public void printDocker(){
         List<String> lineList = new ArrayList<>();
-        SSHUtil.execCommand(host02,22,"root","!QAZ2wsx", "docker stats --no-stream --format \"table {{.Name}}\\t{{.CPUPerc}}\\t{{.MemUsage}}\"", lineList::add);
+        SSHUtil.execCommand(host02,22,"root","CT!QAZ2wsx", "docker stats --no-stream --format \"table {{.Name}}\\t{{.CPUPerc}}\\t{{.MemUsage}}\"", lineList::add);
         lineList.remove(0); // 去掉标题行
         for (String line : lineList) {
             List<String> eleList = Arrays.stream(line.split(" ")).filter(StringUtils::isNoneBlank).collect(Collectors.toList());
@@ -97,7 +97,7 @@ public class SpringMonitorTest {
     @Test
     public LinuxMonitor getLinuxMonitor(String host){
         List<String> lineList = new ArrayList<>();
-        SSHUtil.execCommand(host,22,"root","!QAZ2wsx", "df -h;free -h", lineList::add);
+        SSHUtil.execCommand(host,22,"root","CT!QAZ2wsx", "df -h;free -h", lineList::add);
 
         String diskRemain = Arrays.stream(lineList.get(1).split(" "))
                 .filter(StringUtils::isNoneBlank).collect(Collectors.toList()).get(3); // 第二行为挂载目录为/的容量大小

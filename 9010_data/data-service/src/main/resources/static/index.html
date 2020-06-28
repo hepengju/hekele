@@ -7,11 +7,20 @@
     <script type="text/javascript" src="./js/vue.min.js"></script>
     <script type="text/javascript" src="./js/iview.min.js"></script>
     <script type="text/javascript" src="./js/axios.min.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
     <script type="text/javascript" src="./js/intro.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/introjs.min.css"  >
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/introjs.min.css"  >
 
+    <!-- 20200502 hepengju index.js及css不使用缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- <script type="text/javascript" src="./js/index.js"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
+    <script type="text/javascript">
+        document.write("<script type='text/javascript' src='./js/index.js?_="+Math.random()+"'><\/script>");
+        document.write("<link rel='stylesheet' type='text/css' href='./css/index.css?_="+Math.random()+"'>");
+    </script>
 </head>
 <body>
 <div id="app">

@@ -19,7 +19,8 @@ import com.hepengju.hekele.data.generator.gen400_custom.gen430_phone.TelephoneGe
 import com.hepengju.hekele.data.generator.gen400_custom.gen440_computer.EmailGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen440_computer.IPv4Generator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen440_computer.UUIDGenerator;
-import com.hepengju.hekele.data.generator.gen400_custom.gen450_card.IdCardGenerator;
+import com.hepengju.hekele.data.generator.gen400_custom.gen450_card.CarFrameNumberGenerator;
+import com.hepengju.hekele.data.generator.gen400_custom.gen450_card.IdentityCardGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaAddressGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaCityGenerator;
 import com.hepengju.hekele.data.generator.gen400_custom.gen460_address.ChinaProvinceGenerator;
@@ -40,6 +41,13 @@ import java.util.Set;
 public class GeneratorTest {
 
     int COUNT = 5;
+
+    @Test
+    public void testCarFrameNumberGenerator() {
+        CarFrameNumberGenerator generator = new CarFrameNumberGenerator();
+        List<String> genList = generator.generateList(10);
+        genList.forEach(System.out::println);
+    }
 
     @Test
     public void testFormatPrefixSuffix(){
@@ -132,7 +140,7 @@ public class GeneratorTest {
 
     @Test
     public void testGen450_card(){
-        testGenerator(new IdCardGenerator());
+        testGenerator(new IdentityCardGenerator());
     }
 
     @Test

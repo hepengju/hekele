@@ -171,7 +171,7 @@
         <dependency>
             <groupId>com.github.junrar</groupId>
             <artifactId>junrar</artifactId>
-            <version>4.0.0</version>
+            <version>7.4.1</version>
         </dependency>
 
         <!-- 在解压7z文件时提示缺少本依赖的class文件,因此加入 -->

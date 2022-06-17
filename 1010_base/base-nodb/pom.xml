@@ -123,7 +123,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.62</version>
+            <version>1.2.83</version>
         </dependency>
 
         <!-- 20180918 何鹏举 升级到最新的4.0.0 -->
